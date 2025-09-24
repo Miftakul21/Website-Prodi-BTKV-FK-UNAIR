@@ -1,0 +1,147 @@
+/* news section */
+.news-section,
+.news-detail-section {
+    padding: 50px 0;
+}
+
+.news-section .title-section {
+    font-size: 42px !important;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.news-section .description-section {
+    font-size: 20px !important;
+    font-weight: 400;
+    color: #555;
+    text-align: justify;
+    margin-bottom: 20px;
+}
+
+/* detail section */
+.news-detail-section .container-informasi {
+    width: 250px;
+    margin-bottom: 10px;
+}
+
+.news-detail-section .container-informasi div {
+    font-size: 12px;
+    color: #555;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+.news-detail-section .title-news {
+    font-weight: 600;
+}
+
+.news-detail-section .category {
+    display: inline-block;
+    padding: 2px 22px;
+    background: transparent;
+    color: #0d6efd;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #0d6efd;
+    border-radius: 50px;
+}
+
+.btn-capsule {
+    border-radius: 50px;
+    padding: 2px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    /* font-size: 0.9rem; */
+    font-size: 12px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.btn-capsule:hover {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.news-detail-section .container-thubmnail-image {
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.content-news {
+    width: 80%;
+    margin: 20px auto;
+    font-size: 16px;
+    color: #555;
+    text-align: justify;
+    line-height: 1.8;
+}
+
+.content-news img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+}
+
+.pagination-news-detail {
+    width: 100%;
+}
+
+.pagination-news-detail .date-news-pagination {
+    font-size: 12px;
+    font-weight: 500;
+    color: #555;
+}
+
+.pagination-news-detail .title-news-pagination {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.card-hover {
+    width: 20rem;
+}
+
+.card-hover:hover {
+    background: #0d6efd;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.card-hover:hover .date-news-pagination {
+    color: #fff !important;
+}
+
+/* ==================== Responsive Tablet ==================== */
+@media (max-width: 991px) {
+    .title-news {
+        font-size: 28px;
+    }
+
+    .card-hover {
+        width: 14rem;
+    }
+
+    .pagination-news-detail .date-news-pagination {
+        font-size: 10px;
+    }
+
+    .pagination-news-detail .title-news-pagination {
+        font-size: 18px;
+        font-weight: 500;
+    }
+}
+
+/* ==================== Mobile (max 576px) ==================== */
+@media (max-width: 576px) {
+    .content-news {
+        width: 90%;
+    }
+
+    .card-hover {
+        width: 100%;
+        height: auto;
+    }
+}
