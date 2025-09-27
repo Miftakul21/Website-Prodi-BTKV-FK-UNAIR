@@ -70,6 +70,12 @@ class User extends Authenticatable
         ];
     }
 
+    // relasi tabel berita
+    public function berita()
+    {
+        return $this->hasMany(Berita::class, 'user_id', 'id_user');
+    }
+
     protected function phoneNumber(): Attribute
     {
         return Attribute::make(

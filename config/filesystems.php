@@ -29,6 +29,12 @@ return [
     */
 
     'disks' => [
+        // folder root upload/thumbnails (berita)
+        'root' => [
+            'driver' => 'local',
+            'root' => base_path(),
+            'visibility' => 'private',
+        ],
 
         'local' => [
             'driver' => 'local',
@@ -41,7 +47,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

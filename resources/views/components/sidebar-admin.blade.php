@@ -47,7 +47,7 @@
 
                 <li
                     class="sidebar-item {{Request::is('dashboard') ? 'active' : '' }}">
-                    <a href="index.html" class='sidebar-link'>
+                    <a href="{{ route('dashboard') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
@@ -63,7 +63,7 @@
 
                 <li
                     class="sidebar-item {{Request::is('berita-admin') ? 'active' : '' }}">
-                    <a href="index.html" class='sidebar-link'>
+                    <a href="{{ route('berita-admin') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Berita</span>
                     </a>
@@ -91,6 +91,21 @@
                         <i class="bi bi-grid-fill"></i>
                         <span>Media</span>
                     </a>
+                </li>
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-trash"></i>
+                        <span>Data Terhapus</span>
+                    </a>
+
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="/berita-terhapus" class="submenu-link">
+                                Berita
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li

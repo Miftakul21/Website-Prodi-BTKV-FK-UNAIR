@@ -21,4 +21,9 @@ class BeritaController extends Controller
     {
         return view('berita.berita-admin-index');
     }
+
+    public function deleteBeritaAll()
+    {
+        return view('berita.berita-admin-sampah');
+    }
 }

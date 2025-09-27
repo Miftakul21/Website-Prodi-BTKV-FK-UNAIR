@@ -1,7 +1,7 @@
 @extends('layouts.layouts-admin')
 @section('content')
 
-@livewire('user-crud');
+@livewire('user-crud')
 
 @push('js')
 <script>

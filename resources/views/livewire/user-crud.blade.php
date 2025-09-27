@@ -41,7 +41,7 @@
                                         <td>{{$data->role}}</td>
                                         <td></td>
                                         <td>
-                                            <button onclick="confirmDelete('{{ $data->id_user }}')" class="btn btn-sm btn-danger" title="delete"><i class="bi bi-trash"></i></button>
+                                            <button onclick="confirmDelete('{{$data->id_user}}')" class="btn btn-sm btn-danger" title="delete"><i class="bi bi-trash"></i></button>
                                             <button wire:click="edit('{{$data->id_user}}')" class="btn btn-sm btn-warning text-white" title="edit"><i class="bi bi-pencil"></i></button>
                                             <!-- Nanti ya ditambahkan hak permission -->
                                             <button class="btn btn-sm btn-info"><i class="bi bi-shield-plus text-white fw-bold" title="add permission"></i></button>
