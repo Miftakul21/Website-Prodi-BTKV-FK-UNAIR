@@ -57,6 +57,10 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <div class="mt-3">
+                                {{ $pengajars->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>

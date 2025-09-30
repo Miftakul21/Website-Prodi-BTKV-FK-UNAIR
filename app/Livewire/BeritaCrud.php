@@ -6,16 +6,18 @@ use App\Models\Berita;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use Purifier;
 
 class BeritaCrud extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
-    public $beritas;
+    protected $paginationTheme = 'bootstrap';
     public $id_berita,
         $judul,
         $tgl_berita,
@@ -31,7 +33,8 @@ class BeritaCrud extends Component
 
     public function render()
     {
-        $this->beritas = Cache::remember('beritas_all', 100, function () {
+        $page = $this->getPage();
+        $beritas = Cache::remember("beritas_page_{$page}", 100, function () {
             return Berita::with('user:id_user,name')
                 ->select(
                     'id_berita',
@@ -43,10 +46,21 @@ class BeritaCrud extends Component
                     'konten_berita'
                 )
                 ->latest()
-                ->get();
+                ->paginate(10);
         });
 
-        return view('livewire.berita-crud');
+        return view('livewire.berita-crud', [
+            'beritas' => $beritas
+        ]);
+    }
+
+    protected function clearBeritaCache()
+    {
+        $total = Berita::count();
+        $lastPage = ceil($total / 10);
+        foreach (range(1, $lastPage) as $i) {
+            Cache::forget("beritas_page_{$i}");
+        }
     }
 
     public function create()
@@ -82,6 +96,8 @@ class BeritaCrud extends Component
 
     public function store()
     {
+        DB::beginTransaction();
+
         try {
             $this->validate([
                 'judul' => 'required|string|max:255',
@@ -91,31 +107,42 @@ class BeritaCrud extends Component
                 'thumbnail_image' => 'required|mimes:jpg,jpeg,png|max:5120'
             ]);
 
-            $filename = Str::random(20) . '.' . $this->thumbnail_image->getClientOriginalExtension();
-            $path = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
-
-            Berita::create([
+            $berita = Berita::create([
                 // Nanti ya diganti
                 'user_id' => 'd5994e2f-5c37-4364-9266-7031f65bc094',
                 'judul' => Purifier::clean($this->judul, 'custom'),
                 'tgl_berita' => Purifier::clean($this->tgl_berita, 'custom'),
                 'kategori' => Purifier::clean($this->kategori, 'custom'),
-                'thumbnail_image' => 'storage/' . $path,
+                'thumbnail_image' => null,
                 'konten_berita' => Purifier::clean($this->konten_berita, 'custom'),
                 'viewers' => 0,
             ]);
 
-            Cache::forget('beritas_all');
+            if ($this->thumbnail_image) {
+                DB::afterCommit(function () use ($berita) {
+                    $filename = Str::random(20) . '.' . $this->thumbnail_image->getClientOriginalExtension();
+                    $path = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
+
+                    $berita->update(['thumbnail_image' => $path]);
+                });
+            }
+
+            DB::commit();
+            $this->clearBeritaCache();
             $this->closeModal();
             $this->dispatch('beritaSaved', 'Berhasil ditambahkan!');
         } catch (\Throwable $e) {
-            Log::error('Berita store error: ' . $e->getMessage());
+            DB::rollBack();
+            Log::error('Berita store error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
             $this->dispatch('beritaError', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
     public function update()
     {
+        DB::beginTransaction();
         try {
             $this->validate([
                 'judul' => 'required|string|max:255',
@@ -126,38 +153,34 @@ class BeritaCrud extends Component
             ]);
 
             $berita = Berita::findOrFail($this->id_berita);
-            $oldPath = $berita->thumbnail_image;
-            $newPath = $oldPath;
-
-            // debug cek apakah file ada
-            if ($this->thumbnail_image) {
-                // hapus file lama
-                $oldFullPath = storage_path('app/public/' . str_replace('storage/', '', $oldPath));
-                if ($oldPath && file_exists($oldFullPath)) {
-                    @unlink($oldFullPath);
-                    \Log::info("[Update] File lama dihapus: $oldFullPath");
-                }
-
-                // simpan file baru
-                $filename = Str::random(20) . '.' . $this->thumbnail_image->getClientOriginalExtension();
-                $stored   = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
-                $newPath  = 'storage/' . $stored;
-            } else {
-                \Log::info('[Update] Tidak ada file baru, pakai thumbnail lama.');
-            }
-
             $berita->update([
                 'judul' => Purifier::clean($this->judul, 'custom'),
                 'tgl_berita' => Purifier::clean($this->tgl_berita, 'custom'),
                 'kategori' => Purifier::clean($this->kategori, 'custom'),
-                'thumbnail_image' => $newPath,
                 'konten_berita' => Purifier::clean($this->konten_berita, 'custom'),
             ]);
 
-            Cache::forget('beritas_all');
+            if ($this->thumbnail_image) {
+                $oldPath = $berita->thumbnail_image;
+
+                DB::afterCommit(function () use ($berita, $oldPath) {
+                    // delete file lama jika ada
+                    if ($oldPath && Storeage::disk('public')->exists(str_replace('storage/', '', $oldPath))) {
+                        Storage::disk('public')->delete(str_replace('storage/', '', $oldPath));
+                    }
+
+                    $filename = Str::random(20) . '.' . $this->thumbnail_image->getClientOriginalExtension();
+                    $path = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
+                    $berita->update(['thumbnail_image' => $path]);
+                });
+            }
+
+            DB::commit();
+            $this->clearBeritaCache();
             $this->closeModal();
             $this->dispatch('beritaSaved', 'Berhasil diperbarui!');
         } catch (\Throwable $e) {
+            DB::rollBack();
             \Log::error('Berita update error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
             ]);

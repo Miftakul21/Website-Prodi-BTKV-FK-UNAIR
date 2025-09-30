@@ -11,13 +11,14 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use Purifier;
 
 class PengajarCrud extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
-    public $pengajars;
+    protected $paginationTheme = 'bootstrap';
     public $id_pengajar,
         $name,
         $posisi,
@@ -36,12 +37,24 @@ class PengajarCrud extends Component
 
     public function render()
     {
-        $this->pengajars = Cache::remember('pengajars_all', 100, function () {
+        $page = $this->getPage();
+        $pengajars = Cache::remember("pengajars_page_{$page}", 100, function () {
             return Pengajar::select('id_pengajar', 'name', 'posisi', 'pendidikan', 'foto')
                 ->latest()
-                ->get();
+                ->paginate(10);
         });
-        return view('livewire.pengajar-crud');
+        return view('livewire.pengajar-crud', [
+            'pengajars' => $pengajars
+        ]);
+    }
+
+    protected function clearPengajarCache()
+    {
+        $total = Pengajar::count();
+        $lastPage = ceil($total / 3);
+        foreach (range(1, $lastPage) as $i) {
+            Cache::forget("pengajars_page_{$i}");
+        }
     }
 
     public function create()
@@ -112,8 +125,7 @@ class PengajarCrud extends Component
             }
 
             DB::commit();
-
-            Cache::forget('pengajars_all');
+            $this->clearPengajarCache();
             $this->closeModal();
             $this->dispatch('pengajarSaved', 'Berhasil ditambahkan!');
         } catch (\Throwable $e) {
@@ -170,11 +182,11 @@ class PengajarCrud extends Component
             }
 
             DB::commit();
-
-            Cache::forget('pengajars_all');
+            $this->clearPengajarCache();
             $this->closeModal();
             $this->dispatch('pengajarSaved', 'Berhasil diperbarui!');
         } catch (\Throwable $e) {
+            DB::rollBack();
             \Log::error('Pengajar update error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
@@ -192,7 +204,8 @@ class PengajarCrud extends Component
             }
 
             $pengajar->delete();
-            Cache::forget('pengajars_all');
+            // Cache::forget('pengajars_all');
+            $this->clearPengajarCache();
             $this->dispatch('pengajarDeleted');
         } catch (\Throwable $e) {
             Log::error('Pengajar delete error: ' . $e->getMessage());
