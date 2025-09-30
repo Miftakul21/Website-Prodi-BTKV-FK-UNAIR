@@ -20,7 +20,15 @@ class UserCrud extends Component
     public function render()
     {
         $this->users = Cache::remember('users_all', 180, function () {
-            return User::select('id_user', 'name', 'email', 'nomor_telepon', 'role', 'permission', 'password')->get();
+            return User::select(
+                'id_user',
+                'name',
+                'email',
+                'nomor_telepon',
+                'role',
+                'permission',
+                'password'
+            )->get();
         });
         return view('livewire.user-crud');
     }
@@ -47,7 +55,9 @@ class UserCrud extends Component
             'email' => $this->email,
             'nomor_telepon' => $this->phone_number,
             'role' => $this->role,
-            'password' => $this->password ? Hash::make($this->password) : User::find($this->id_user)->password
+            'password' => $this->password ?
+                env('SALT_PASSWORD') . Hash::make($this->password) . env('SALT_PASSWORD') :
+                User::find($this->id_user)->password
         ]);
 
         Cache::forget('users_all');

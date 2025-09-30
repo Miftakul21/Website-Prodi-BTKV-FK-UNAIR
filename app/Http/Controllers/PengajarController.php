@@ -16,4 +16,9 @@ class PengajarController extends Controller
     {
         return view('pengajar.profile');
     }
+
+    public function pengajarAdminIndex()
+    {
+        return view('pengajar.pengajar-admin-index');
+    }
 }

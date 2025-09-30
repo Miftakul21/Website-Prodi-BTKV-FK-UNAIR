@@ -40,7 +40,7 @@
                                             <td>{{$data->judul}}</td>
                                             <td>
                                                 @if($data->thumbnail_image)
-                                                <img src="{{ asset($data->thumbnail_image) }}" alt="thubmnail_image" style="width: 50px; height: 50px;">
+                                                <img src="{{asset('storage/'.$data->thumbnail_image)}}" alt="thubmnail_image" style="width: 50px; height: 50px;">
                                                 @endif
                                             </td>
                                             <td>{{$data->tgl_berita}}</td>
@@ -67,7 +67,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal -->
     @if($isOpen)
     <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
@@ -76,10 +75,10 @@
                 <form wire:submit.prevent="{{ $id_berita ? 'update' : 'store' }}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
-                        <h4 class="modal-title">{{ $id_berita ? 'Edit' : 'Tambah' }}</h4>
+                        <h4 class="modal-title">{{ $id_berita ? 'Edit Data' : 'Add Data' }}</h4>
                         <button type="button" class="btn-close" wire:click="closeModal"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
                         <label class="fw-bold">Judul Berita</label>
                         <input type="text" class="form-control" placeholder="Judul Berita" wire:model="judul">
 
@@ -94,9 +93,7 @@
 
                         <div wire:ignore class="mt-2">
                             <label class="fw-bold mt-2">Konten Berita</label>
-                            <textarea class="form-control" id="konten_berita" style="height: 500px;">
-                            {!! $konten_berita !!}
-                        </textarea>
+                            <textarea class="form-control" id="konten_berita" style="height: 500px;">{!! $konten_berita !!}</textarea>
                         </div>
 
                         <label class="fw-bold mt-2">Image Thumbnail</label>
@@ -162,8 +159,12 @@
                                 'bold', 'italic', 'underline', 'link',
                                 '|', 'bulletedList', 'numberedList',
                                 '|', 'blockQuote', 'insertTable',
+                                '|', 'imageUpload',
                                 '|', 'undo', 'redo'
-                            ]
+                            ],
+                            ckfinder: {
+                                uploadUrl: "{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}"
+                            }
                         })
                         .then(editor => {
                             editorInstance = editor;
@@ -179,6 +180,18 @@
                             Livewire.on('loadKonten', konten => {
                                 editor.setData(konten || '');
                             });
+
+                            // listen error upload
+                            editor.plugins.get('FileRepository').on('uploadComplete', (evt, data) => {
+                                if (data.error) {
+                                    Swal.fire({
+                                        title: 'Upload gagal',
+                                        text: data.error,
+                                        icon: 'error',
+                                        confirmButtonText: 'Ok'
+                                    })
+                                }
+                            })
                         })
                         .catch(error => console.error(error));
                 }, 100); // delay 100ms

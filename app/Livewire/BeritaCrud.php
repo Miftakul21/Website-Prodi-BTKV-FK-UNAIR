@@ -16,7 +16,12 @@ class BeritaCrud extends Component
     use WithFileUploads;
 
     public $beritas;
-    public $id_berita, $judul, $tgl_berita, $kategori = 'Berita', $konten_berita, $thumbnail_image;
+    public $id_berita,
+        $judul,
+        $tgl_berita,
+        $kategori = 'Berita',
+        $konten_berita,
+        $thumbnail_image;
     public $isOpen = false;
 
     protected $listeners = [
@@ -28,7 +33,15 @@ class BeritaCrud extends Component
     {
         $this->beritas = Cache::remember('beritas_all', 100, function () {
             return Berita::with('user:id_user,name')
-                ->select('id_berita', 'user_id', 'judul', 'tgl_berita', 'kategori', 'thumbnail_image', 'konten_berita')
+                ->select(
+                    'id_berita',
+                    'user_id',
+                    'judul',
+                    'tgl_berita',
+                    'kategori',
+                    'thumbnail_image',
+                    'konten_berita'
+                )
                 ->latest()
                 ->get();
         });
@@ -54,7 +67,6 @@ class BeritaCrud extends Component
         $this->konten_berita = $berita->konten_berita;
 
         // reset file input setiap kali modal dibuka
-        // $this->reset('thumbnail_image');
         $this->thumbnail_image = null;
 
         $this->isOpen = true;
@@ -83,10 +95,11 @@ class BeritaCrud extends Component
             $path = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
 
             Berita::create([
+                // Nanti ya diganti
                 'user_id' => 'd5994e2f-5c37-4364-9266-7031f65bc094',
-                'judul' => $this->judul,
-                'tgl_berita' => $this->tgl_berita,
-                'kategori' => $this->kategori,
+                'judul' => Purifier::clean($this->judul, 'custom'),
+                'tgl_berita' => Purifier::clean($this->tgl_berita, 'custom'),
+                'kategori' => Purifier::clean($this->kategori, 'custom'),
                 'thumbnail_image' => 'storage/' . $path,
                 'konten_berita' => Purifier::clean($this->konten_berita, 'custom'),
                 'viewers' => 0,
@@ -105,47 +118,40 @@ class BeritaCrud extends Component
     {
         try {
             $this->validate([
-                'judul'           => 'required|string|max:255',
-                'tgl_berita'      => 'required|date',
-                'kategori'        => 'required|string|max:50',
-                'konten_berita'   => 'required|string',
+                'judul' => 'required|string|max:255',
+                'tgl_berita' => 'required|date',
+                'kategori' => 'required|string|max:50',
+                'konten_berita' => 'required|string',
                 'thumbnail_image' => 'nullable|mimes:jpg,jpeg,png|max:5120',
             ]);
 
-            // Ambil data lama
             $berita = Berita::findOrFail($this->id_berita);
-
             $oldPath = $berita->thumbnail_image;
             $newPath = $oldPath;
 
-            // Debug cek apakah file masuk
+            // debug cek apakah file ada
             if ($this->thumbnail_image) {
-                \Log::info('[Update] File baru terdeteksi: ' . $this->thumbnail_image->getClientOriginalName());
-
-                // Hapus file lama kalau ada
+                // hapus file lama
                 $oldFullPath = storage_path('app/public/' . str_replace('storage/', '', $oldPath));
                 if ($oldPath && file_exists($oldFullPath)) {
                     @unlink($oldFullPath);
                     \Log::info("[Update] File lama dihapus: $oldFullPath");
                 }
 
-                // Simpan file baru
+                // simpan file baru
                 $filename = Str::random(20) . '.' . $this->thumbnail_image->getClientOriginalExtension();
                 $stored   = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
                 $newPath  = 'storage/' . $stored;
-
-                \Log::info("[Update] File baru disimpan: $newPath");
             } else {
                 \Log::info('[Update] Tidak ada file baru, pakai thumbnail lama.');
             }
 
-            // Update data ke DB
             $berita->update([
-                'judul'           => $this->judul,
-                'tgl_berita'      => $this->tgl_berita,
-                'kategori'        => $this->kategori,
+                'judul' => Purifier::clean($this->judul, 'custom'),
+                'tgl_berita' => Purifier::clean($this->tgl_berita, 'custom'),
+                'kategori' => Purifier::clean($this->kategori, 'custom'),
                 'thumbnail_image' => $newPath,
-                'konten_berita'   => Purifier::clean($this->konten_berita, 'custom'),
+                'konten_berita' => Purifier::clean($this->konten_berita, 'custom'),
             ]);
 
             Cache::forget('beritas_all');
