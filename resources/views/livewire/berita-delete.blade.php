@@ -2,7 +2,6 @@
     <div class="page-heading">
         <h3>Data Berita Terhapus</h3>
     </div>
-
     <div class="page-content">
         <div class="row">
             <div class="col-12">
@@ -23,7 +22,6 @@
                                 :disabled="!@this.selectedBeritas.length">
                                 Hapus
                             </button>
-
                         </div>
                     </div>
 
@@ -55,7 +53,7 @@
                                         <td>{{ $data->judul }}</td>
                                         <td>
                                             @if($data->thumbnail_image)
-                                            <img src="{{ asset($data->thumbnail_image) }}"
+                                            <img src="{{ asset('storage/'.$data->thumbnail_image) }}"
                                                 alt="thumbnail"
                                                 style="width: 50px; height: 50px;">
                                             @endif
@@ -72,13 +70,9 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <div class="mt-2">
                             {{ $beritas->links() }}
                         </div>
-
-                        {{-- Debug sementara --}}
-                        {{-- <pre>{{ json_encode($selectedBeritas) }}</pre> --}}
                     </div>
                 </div>
             </div>

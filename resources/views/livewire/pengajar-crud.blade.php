@@ -46,7 +46,7 @@
                                                 <button onClick="confirmDelete('{{$data->id_pengajar}}')" class="btn btn-sm btn-danger" title="delete"><i class="bi bi-trash"></i></button>
                                                 <button wire:click="edit('{{$data->id_pengajar}}')" class="btn btn-sm btn-warning" title="edit"><i class="bi bi-pencil"></i></button>
                                                 <!-- Nanti ya -->
-                                                <a href="" class="btn btn-sm btn-info" title="preview"><i class="bi bi-eye"></i></a>
+                                                <a href="" class="btn btn-sm btn-info text-white" title="preview"><i class="bi bi-eye"></i></a>
                                             </td>
                                         </tr>
                                         @empty
@@ -57,7 +57,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                             <div class="mt-3">
                                 {{ $pengajars->links() }}
                             </div>

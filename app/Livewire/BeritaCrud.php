@@ -3,7 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Berita;
-use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -66,6 +67,7 @@ class BeritaCrud extends Component
     public function create()
     {
         $this->resetFields();
+        $this->tgl_berita = now()->format('Y-m-d');
         $this->thumbnail_image = null;
         $this->isOpen = true;
         $this->dispatch('initEditor');
@@ -165,7 +167,7 @@ class BeritaCrud extends Component
 
                 DB::afterCommit(function () use ($berita, $oldPath) {
                     // delete file lama jika ada
-                    if ($oldPath && Storeage::disk('public')->exists(str_replace('storage/', '', $oldPath))) {
+                    if ($oldPath && Storage::disk('public')->exists(str_replace('storage/', '', $oldPath))) {
                         Storage::disk('public')->delete(str_replace('storage/', '', $oldPath));
                     }
 
@@ -192,13 +194,8 @@ class BeritaCrud extends Component
     {
         try {
             $berita = Berita::findOrFail($id);
-
-            if ($berita->thumbnail_image && file_exists(public_path($berita->thumbnail_image))) {
-                @unlink(public_path($berita->thumbnail_image));
-            }
-
             $berita->delete();
-            Cache::forget('beritas_all');
+            $this->clearBeritaCache();
             $this->dispatch('beritaDeleted');
         } catch (\Throwable $e) {
             Log::error('Berita delete error: ' . $e->getMessage());

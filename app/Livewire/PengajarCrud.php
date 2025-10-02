@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Pengajar;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -88,7 +87,6 @@ class PengajarCrud extends Component
     public function store()
     {
         DB::beginTransaction();
-
         try {
             $this->validate([
                 'name' => 'required|string',
@@ -198,13 +196,7 @@ class PengajarCrud extends Component
     {
         try {
             $pengajar = Pengajar::findOrFail($id);
-
-            if ($pengajar->foto && file_exists(public_path($pengajar->foto))) {
-                @unlink(public_path($pengajar->foto));
-            }
-
             $pengajar->delete();
-            // Cache::forget('pengajars_all');
             $this->clearPengajarCache();
             $this->dispatch('pengajarDeleted');
         } catch (\Throwable $e) {

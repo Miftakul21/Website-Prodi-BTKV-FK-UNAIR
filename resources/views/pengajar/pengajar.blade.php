@@ -1,12 +1,9 @@
 @extends('layouts.layouts-users')
-
 @push('css')
 <!-- link css pengajar  -->
 <link rel="stylesheet" href="{{ asset('css/pengajar.css') }}">
 @endpush
-
 @section('content')
-
 <!-- pengajar -->
 <section class="pengajar-section">
     <div class="container">
@@ -230,5 +227,4 @@
         </div>
 </section>
 <!-- end section pengajar -->
-
 @endsection

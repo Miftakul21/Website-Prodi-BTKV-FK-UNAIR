@@ -104,17 +104,25 @@
                                 Berita
                             </a>
                         </li>
+                        <li class="submenu-item">
+                            <a href="/pengajar-terhapus" class="submenu-link">
+                                Pengajar
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
-                <li
-                    class="sidebar-item">
-                    <a href="index.html" class='sidebar-link text-danger'>
+                <li class="sidebar-item">
+                    <a href="{{ route('logout') }}" class="sidebar-link text-danger"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="bi bi-box-arrow-left text-danger"></i>
                         <span>Logout</span>
                     </a>
                 </li>
 
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </ul>
         </div>
     </div>

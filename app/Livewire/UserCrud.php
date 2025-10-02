@@ -56,7 +56,7 @@ class UserCrud extends Component
             'nomor_telepon' => $this->phone_number,
             'role' => $this->role,
             'password' => $this->password ?
-                env('SALT_PASSWORD') . Hash::make($this->password) . env('SALT_PASSWORD') :
+                Hash::make(env('SALT_PASSWORD') . $this->password  . env('SALT_PASSWORD')) :
                 User::find($this->id_user)->password
         ]);
 

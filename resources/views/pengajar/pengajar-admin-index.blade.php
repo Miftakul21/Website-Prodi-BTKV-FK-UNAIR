@@ -1,8 +1,6 @@
 @extends('layouts.layouts-admin')
 @section('content')
-
 @livewire('pengajar-crud')
-
 @push('js')
 <script>
     function confirmDelete(id) {

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Berita;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -58,10 +59,22 @@ class BeritaDelete extends Component
     public function deleteSelected()
     {
         if (!empty($this->selectedBeritas)) {
+            $beritas = Berita::withTrashed()
+                ->whereIn('id_berita', $this->selectedBeritas)
+                ->get();
+
+            foreach ($beritas as $data) {
+                if ($data->thumbnail_image && Storage::disk('public')->exists($data->thumbnail_image)) {
+                    Storage::disk('public')->delete($data->thumbnail_image);
+                }
+            }
+
             Berita::withTrashed()
                 ->whereIn('id_berita', $this->selectedBeritas)
                 ->forceDelete();
+
             $this->reset(['selectedBeritas', 'selectAll']);
+            $this->dispatch('beritaDeleted');
         }
     }
 }

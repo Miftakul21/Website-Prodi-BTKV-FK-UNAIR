@@ -21,4 +21,9 @@ class PengajarController extends Controller
     {
         return view('pengajar.pengajar-admin-index');
     }
+
+    public function deletePengajarAll()
+    {
+        return view('pengajar.pengajar-admin-sampah');
+    }
 }
