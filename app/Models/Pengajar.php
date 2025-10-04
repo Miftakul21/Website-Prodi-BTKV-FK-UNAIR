@@ -29,6 +29,11 @@ class Pengajar extends Model
         'foto',
     ];
 
+    protected $casts = [
+        'publikasi_penelitian' => 'array',
+        'prestasi_dan_penghargaan' => 'array',
+    ];
+
     protected static function boot()
     {
         parent::boot();

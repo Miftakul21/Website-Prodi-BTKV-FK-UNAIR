@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Pengajar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -25,8 +26,21 @@ class BerandaController extends Controller
                 ->get(4);
         });
 
+        $pengajar = Cache::remember('pengajars', '100', function () {
+            return Pengajar::select(
+                'id_pengajar as pengajar_id',
+                'name as pengajar_name',
+                'posisi as pengajar_posistion',
+                'pendidikan as pengajar_pendidikan',
+                'foto as pengajar_image'
+            )
+                ->latest()
+                ->paginate(4);
+        });
+
         return view('beranda', [
-            'berita' => $berita
+            'berita' => $berita,
+            'pengajar' => $pengajar
         ]);
     }
 }

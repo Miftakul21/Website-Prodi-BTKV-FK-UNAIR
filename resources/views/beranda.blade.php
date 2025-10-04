@@ -220,89 +220,44 @@
                             <p class="text-muted">MD, PhD - Harvard Medical School</p>
 
                             <!-- Publikasi Karya Tulis Ilmiah  & Penghargaan -->
-                            <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
+                            <!-- <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
                                 <i class="bi bi-journal-text"></i> 150+ Karya tulis ilmiah<br>
                                 <i class="bi bi-award"></i> 2 Penghargaan Spesialis
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                 </a>
             </div>
+
+            @forelse($pengajar as $data)
             <div class="col-md-3 col-12">
-                <a href="/profile/pengajar">
+                <a href="/profile/pengajar/{{$data->pengajar_id}}">
                     <div class="card shadow-sm border-0 mb-3" style="min-height: 480px;">
                         <!-- Foto Dokter -->
                         <div class="container-image-pengajar">
-                            <img src="{{ asset('img/doctor-2.jpeg') }}" class="card-img-top" alt="Profile Image">
+                            <img src="{{ asset('storage/'. $data->pengajar_image) }}" class="card-img-top" alt="Profile Image">
                         </div>
                         <div class="card-body shadow-sm">
                             <!-- Nama & Jabatan -->
-                            <h5 class="card-title mb-0 text-dark">dr. Linda Permata Sari, Sp.BTKV, Subsp.VE</h5>
-                            <p class="text-primary fw-semibold mb-2 text-primary">Kepala Program Studi</p>
-
+                            <h5 class="card-title mb-0 text-dark">{{$data->pengajar_name}}</h5>
+                            <p class="text-primary fw-semibold mb-2 text-primary">{{$data->pengajar_posistion}}</p>
                             <!-- Pendidikan -->
                             <p class="mb-1 text-dark"><strong>Pendidikan</strong></p>
-                            <p class="text-muted">MD, PhD - Harvard Medical School</p>
-
+                            <p class="text-muted">{{$data->pengajar_pendidikan}}</p>
                             <!-- Publikasi Karya Tulis Ilmiah  & Penghargaan -->
-                            <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
+                            <!-- <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
                                 <i class="bi bi-journal-text"></i> 150+ Karya tulis ilmiah<br>
                                 <i class="bi bi-award"></i> 2 Penghargaan Spesialis
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-md-3 col-12">
-                <a href="/profile/pengajar">
-                    <div class="card shadow-sm border-0 mb-3" style="min-height: 480px;">
-                        <!-- Foto Dokter -->
-                        <div class="container-image-pengajar">
-                            <img src="{{ asset('img/doctor-3.jpeg') }}" class="card-img-top" alt="Profile Image">
-                        </div>
-                        <div class="card-body shadow-sm">
-                            <!-- Nama & Jabatan -->
-                            <h5 class="card-title mb-0 text-dark">dr. Miyamura Satoshi, Sp.BTKV, Subsp.VE</h5>
-                            <p class="text-primary fw-semibold mb-2 text-primary">Kepala Program Studi</p>
+            @empty
+            <h4 class="text-center">Tidak ada berita terbaru</h4>
+            @endforelse
 
-                            <!-- Pendidikan -->
-                            <p class="mb-1 text-dark"><strong>Pendidikan</strong></p>
-                            <p class="text-muted">MD, PhD - Harvard Medical School</p>
 
-                            <!-- Publikasi Karya Tulis Ilmiah  & Penghargaan -->
-                            <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
-                                <i class="bi bi-journal-text"></i> 150+ Karya tulis ilmiah<br>
-                                <i class="bi bi-award"></i> 2 Penghargaan Spesialis
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 col-12">
-                <a href="/profile/pengajar">
-                    <div class="card shadow-sm border-0 mb-3" style="min-height: 480px;">
-                        <!-- Foto Dokter -->
-                        <div class="container-image-pengajar">
-                            <img src="{{ asset('img/doctor-4.jpeg') }}" class="card-img-top" alt="Profile Image">
-                        </div>
-                        <div class="card-body shadow-sm">
-                            <!-- Nama & Jabatan -->
-                            <h5 class="card-title mb-0 text-dark">dr. Jesika Karoline, Sp.BTKV, Subsp.VE</h5>
-                            <p class="text-primary fw-semibold mb-2 text-primary">Kepala Program Studi</p>
-
-                            <!-- Pendidikan -->
-                            <p class="mb-1 text-dark"><strong>Pendidikan</strong></p>
-                            <p class="text-muted">MD, PhD - Harvard Medical School</p>
-
-                            <!-- Publikasi Karya Tulis Ilmiah  & Penghargaan -->
-                            <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
-                                <i class="bi bi-journal-text"></i> 150+ Karya tulis ilmiah<br>
-                                <i class="bi bi-award"></i> 2 Penghargaan Spesialis
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            </div>
         </div>
 
         <div class="d-flex justify-content-center align-items-center my-3">

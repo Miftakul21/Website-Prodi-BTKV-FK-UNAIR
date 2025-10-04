@@ -81,10 +81,8 @@ class BeritaCrud extends Component
         $this->tgl_berita = $berita->tgl_berita;
         $this->kategori = $berita->kategori;
         $this->konten_berita = $berita->konten_berita;
-
         // reset file input setiap kali modal dibuka
         $this->thumbnail_image = null;
-
         $this->isOpen = true;
         $this->dispatch('initEditor');
         $this->dispatch('loadKonten', $this->konten_berita);

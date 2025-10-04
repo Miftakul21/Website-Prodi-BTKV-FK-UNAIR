@@ -44,7 +44,7 @@
                                             <td>{{$data->posisi}}</td>
                                             <td>
                                                 <button onClick="confirmDelete('{{$data->id_pengajar}}')" class="btn btn-sm btn-danger" title="delete"><i class="bi bi-trash"></i></button>
-                                                <button wire:click="edit('{{$data->id_pengajar}}')" class="btn btn-sm btn-warning" title="edit"><i class="bi bi-pencil"></i></button>
+                                                <button wire:click="edit('{{$data->id_pengajar}}')" class="btn btn-sm btn-warning text-white" title="edit"><i class="bi bi-pencil"></i></button>
                                                 <!-- Nanti ya -->
                                                 <a href="" class="btn btn-sm btn-info text-white" title="preview"><i class="bi bi-eye"></i></a>
                                             </td>
@@ -91,8 +91,38 @@
                         <textarea class="form-control" placeholder="Pakar Penelitian" wire:model="pakar_penelitian" style="height: 300px">{!!$pakar_penelitian!!}</textarea>
                         <label class="fw-bold mt-2">Kepentingan Klinis</label>
                         <textarea class="form-control" placeholder="Kepentingan Klinis" wire:model="kepentingan_klinis" style="height: 300px">{!!$kepentingan_klinis!!}</textarea>
+                        <!-- publikasi penelitian -->
                         <label class="fw-bold mt-2">Publikasi Penelitian</label>
-                        <textarea class="form-control" placeholder="Publikasi Penelitian" wire:model="publikasi_penelitian" style="height: 300px">{!!$kepentingan_klinis!!}</textarea>
+                        @foreach($publikasi_penelitian as $index => $pub)
+                        <div class="row mb-2">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Judul Penelitan" wire:model.live="publikasi_penelitian.{{$index}}.judul">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Jurnal, Tahun" wire:model.live="publikasi_penelitian.{{$index}}.jurnal">
+                            </div>
+                            <div class="col-1">
+                                @if(count($publikasi_penelitian) > 1)
+                                <button type="button" class="btn btn-danger btn-sm" wire:click="removePublikasi({{$index}})">X</button>
+                                @endif
+                            </div>
+                        </div>
+                        @endforeach
+                        <!-- <textarea class="form-control" placeholder="Publikasi Penelitian" wire:model="publikasi_penelitian" style="height: 300px">{!!$kepentingan_klinis!!}</textarea> -->
+                        <!-- prestasi dan penghargaan -->
+                        <label class="fw-bold mt-2">Prestasi dan Penghargaan</label>
+                        @foreach($prestasi_dan_penghargaan as $index => $pre)
+                        <div class="row mb-2">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Prestasi dan Penghargaan" wire:model.live="prestasi_dan_penghargaan.{{$index}}.prestasi">
+                            </div>
+                            <div class="col-1">
+                                @if(count($prestasi_dan_penghargaan) > 1)
+                                <button type="button" class="btn btn-danger btn-sm" wire:click="removePrestasiDanPenghargaan({{$index}})">X</button>
+                                @endif
+                            </div>
+                        </div>
+                        @endforeach
                         <label class="fw-bold mt-2">Foto</label>
                         <input type="file" class="form-control" wire:model="foto">
                         <!-- indikator upload -->

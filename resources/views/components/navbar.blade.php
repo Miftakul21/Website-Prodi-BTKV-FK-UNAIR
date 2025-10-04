@@ -2,7 +2,7 @@
  <!-- navbar -->
  <nav class="navbar navbar-expand-lg bg-primary">
      <div class="container">
-         <a class="navbar-brand" href="#">
+         <a class="navbar-brand" href="/">
              <img src="{{ asset('img/lg-prodi.png') }}" alt="logo-prodi" class="image-logo">
          </a>
          <!-- Hanya tampil di mobile (<= lg) -->
@@ -10,7 +10,6 @@
              aria-controls="offcanvasNavbar">
              <span class="navbar-toggler-icon"></span>
          </button>
-
          <!-- Offcanvas hanya untuk mobile -->
          <div class="offcanvas bg-dark offcanvas-end d-lg-none" tabindex="-1" id="offcanvasNavbar"
              aria-labelledby="offcanvasNavbarLabel">

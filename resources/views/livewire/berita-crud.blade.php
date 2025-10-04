@@ -34,7 +34,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($berita as $data)
+                                        @forelse($beritas as $data)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$data->judul}}</td>

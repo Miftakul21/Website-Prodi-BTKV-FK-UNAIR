@@ -13,7 +13,7 @@ Route::get('/', [BerandaController::class, 'index']);
 Route::get('/berita', [BeritaController::class, 'index']);
 Route::get('/detail-berita', [BeritaController::class, 'detailBerita']);
 Route::get('/daftar-pengajar', [PengajarController::class, 'index']);
-Route::get('/profile/pengajar/', [PengajarController::class, 'detailPengajar']);
+Route::get('/profile/pengajar/{id}', [PengajarController::class, 'detailPengajar']);
 
 // Halaman login (GET) — beri nama 'login' supaya middleware bisa redirect ke sini
 Route::get('/login-btkv-fk-unair', [AuthController::class, 'index'])->name('login');

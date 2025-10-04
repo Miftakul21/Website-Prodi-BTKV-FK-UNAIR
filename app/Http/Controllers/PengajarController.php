@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pengajar;
 use Illuminate\Http\Request;
 
 class PengajarController extends Controller
@@ -11,10 +12,20 @@ class PengajarController extends Controller
         return view('pengajar.pengajar');
     }
 
-    // detail pengajar NANTI YA DIISI!!!
-    public function detailPengajar(Request $request)
+    public function detailPengajar($id)
     {
-        return view('pengajar.profile');
+        $pengajar = Pengajar::findOrFail($id);
+        $data = [
+            'pengajar_name' => $pengajar->name,
+            'pengajar_position' => $pengajar->posisi,
+            'pengajar_pendidikan' => $pengajar->pendidikan,
+            'pengajar_image' => $pengajar->foto,
+            'pengajar_biography' => $pengajar->biografi,
+            'pengajar_bidang_penelitian' => $pengajar->pakar_penelitian,
+            'pengajar_publikasi_penelitian' => $pengajar->publikasi_penelitian ?? [],
+            'pengajar_prestasi_dan_penghargaan' => $pengajar->prestasi_dan_penghargaan ?? []
+        ];
+        return view('pengajar.profile', $data);
     }
 
     public function pengajarAdminIndex()
