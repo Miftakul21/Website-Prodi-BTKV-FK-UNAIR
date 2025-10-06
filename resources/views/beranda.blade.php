@@ -108,30 +108,10 @@
         <div class="d-flex justify-content-center align-items-center">
             <p class="description-section">Berita terbaru seputar kegiatan dan informasi kami</p>
         </div>
-
         <div class="row g-4">
-            <!-- Card 1 -->
-            <!-- <div class="col-12 col-md-6 col-lg-3">
-                <a href="">
-                    <div class="card h-100 shadow-sm border-0">
-                        <div class="overflow-hidden">
-                            <img src="{{ asset('img/hero-banner1.jpg') }}" class="card-img-top img-zoom" alt="Berita 1">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between text-muted small mb-2">
-                                <span><i class="bi bi-calendar"></i> Mar 10</span>
-                                <span><i class="bi bi-clock"></i> 3 min read</span>
-                                <span><i class="bi bi-eye"></i> 1.5k</span>
-                            </div>
-                            <h5 class="card-title fw-bold text-dark">International CTVS Conference 2024: Innovation in Surgery</h5>
-                            <p class="card-text text-dark">Join world-renowned surgeons and researchers for three days of cutting-edge presentations, live surgical demonstrations, and networking opportunities.</p>
-                        </div>
-                    </div>
-                </a>
-            </div> -->
             @forelse($berita as $data)
             <div class="col-12 col-md-6 col-lg-3">
-                <a href="">
+                <a href="/detail-berita/{{$data->berita_slug}}">
                     <div class="card h-100 shadow-sm border-0">
                         <div class="overflow-hidden">
                             <img src="{{ asset('storage/'.$data->berita_thumbnail) }}" class="card-img-top img-zoom" alt="Berita 1">
@@ -139,11 +119,10 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between text-muted small mb-2">
                                 <span><i class="bi bi-calendar"></i> {{\Carbon\Carbon::parse($data->berita_date)->format('M d')}}</span>
-                                <span><i class="bi bi-clock"></i> 3 min read</span>
                                 <span><i class="bi bi-eye"></i> {{$data->views_count}}</span>
                             </div>
-                            <h5 class="card-title fw-bold text-dark">{{$data->berita_title}}</h5>
-                            <p class="card-text text-dark">Join world-renowned surgeons and researchers for three days of cutting-edge presentations, live surgical demonstrations, and networking opportunities.</p>
+                            <h5 class="card-title fw-bold text-dark">{{Str::limit($data->berita_title, 90)}}</h5>
+                            <p class="card-text text-dark">{{Str::limit(strip_tags($data->berita_content), 200)}}</p>
                         </div>
                     </div>
                 </a>

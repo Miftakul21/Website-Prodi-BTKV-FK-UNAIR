@@ -16,11 +16,12 @@ class BerandaController extends Controller
                 ->select(
                     'id_berita as berita_id',
                     'judul as berita_title',
-                    'tgL_berita as berita_date',
+                    'tgl_berita as berita_date',
                     'kategori as berita_category',
                     'thumbnail_image as berita_thumbnail',
                     'konten_berita as berita_content',
                     'viewers as views_count',
+                    'slug as berita_slug'
                 )
                 ->latest()
                 ->get(4);

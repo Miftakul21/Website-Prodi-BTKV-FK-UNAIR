@@ -1,12 +1,4 @@
 <div>
-    <header class="mb-3">
-        <a href="#" class="burger-btn d-block d-xl-none">
-            <i class="bi bi-justify fs-3"></i>
-        </a>
-    </header>
-    <div class="page-heading">
-        <h3>Berita</h3>
-    </div>
     <div class="page-content">
         <div class="row">
             <div class="col-12">
@@ -19,8 +11,8 @@
                         </button>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <div class="table table-hover">
+                        <div>
+                            <div class="table table-responsive-sm">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -43,14 +35,35 @@
                                                 <img src="{{asset('storage/'.$data->thumbnail_image)}}" alt="thubmnail_image" style="width: 50px; height: 50px;">
                                                 @endif
                                             </td>
-                                            <td>{{$data->tgl_berita}}</td>
-                                            <td>{!!$data->konten_berita!!}</td>
+                                            <td>{{\Carbon\Carbon::parse($data->tgl_berita)->format('M, d Y')}}</td>
+                                            <td>{{Str::limit(strip_tags($data->konten_berita), 200)}}</td>
                                             <td>{{$data->user?->name}}</td>
                                             <td>
-                                                <button onclick="confirmDelete('{{$data->id_berita}}')" class=" btn btn-sm btn-danger" title="delete"><i class="bi bi-trash"></i></button>
-                                                <button wire:click="edit('{{$data->id_berita}}')" class="btn btn-sm btn-warning text-white" title="edit"><i class="bi bi-pencil"></i></button>
-                                                <!-- Nanti ya -->
-                                                <a href="#" class="btn btn-sm btn-info text-white" title="preview"><i class="bi bi-eye"></i>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-secondary"
+                                                        type="button"
+                                                        data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <button class="dropdown-item" wire:click="edit('{{$data->id_berita}}')">
+                                                                <i class="bi bi-pencil text-warning"></i> Edit
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button class="dropdown-item" onclick="confirmDelete('{{$data->id_berita}}')">
+                                                                <i class="bi bi-trash text-danger"></i> Delete
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" class="dropdown-item">
+                                                                <i class="bi bi-eye text-info"></i> Preview
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </td>
                                         </tr>
                                         @empty

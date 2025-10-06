@@ -1,12 +1,4 @@
 <div>
-    <header class="mb-3">
-        <a href="#" class="butger-btn d-block d-xl-none">
-            <i class="bi bi-justify fs-3"></i>
-        </a>
-    </header>
-    <div class="page-heading">
-        <h3>Pengajar</h3>
-    </div>
     <div class="page-content">
         <div class="row">
             <div class="col-12">
@@ -19,47 +11,66 @@
                         </button>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <div class="table table-hover">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama</th>
-                                            <th>Image</th>
-                                            <th>Jabatan Prodi</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse($pengajars as $data)
-                                        <tr>
-                                            <td>{{$loop->iteration}}</td>
-                                            <td>{{$data->name}}</td>
-                                            <td>
-                                                @if($data->foto)
-                                                <img src="{{asset('storage/'.$data->foto)}}" alt="foto" style="width: 50px; height: 50px;">
-                                                @endif
-                                            </td>
-                                            <td>{{$data->posisi}}</td>
-                                            <td>
-                                                <button onClick="confirmDelete('{{$data->id_pengajar}}')" class="btn btn-sm btn-danger" title="delete"><i class="bi bi-trash"></i></button>
-                                                <button wire:click="edit('{{$data->id_pengajar}}')" class="btn btn-sm btn-warning text-white" title="edit"><i class="bi bi-pencil"></i></button>
-                                                <!-- Nanti ya -->
-                                                <a href="" class="btn btn-sm btn-info text-white" title="preview"><i class="bi bi-eye"></i></a>
-                                            </td>
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center">Data Not Found</td>
-                                        </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="mt-3">
-                                {{ $pengajars->links() }}
-                            </div>
+                        <div class="table table-responsive-sm">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Image</th>
+                                        <th>Jabatan Prodi</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($pengajars as $data)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$data->name}}</td>
+                                        <td>
+                                            @if($data->foto)
+                                            <img src="{{asset('storage/'.$data->foto)}}" alt="foto" style="width: 50px; height: 50px;">
+                                            @endif
+                                        </td>
+                                        <td>{{$data->posisi}}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-secondary"
+                                                    type="button"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <button class="dropdown-item" wire:click="edit('{{$data->id_pengajar}}')">
+                                                            <i class="bi bi-pencil text-warning"></i> Edit
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item" wire:click="confirmDelete('{{$data->id_pengajar}}')">
+                                                            <i class="bi bi-trash text-danger"></i> Delete
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="dropdown-item">
+                                                            <i class="bi bi-eye text-info"></i> Preview
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center">Data Not Found</td>
+                                    </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-3">
+                            {{ $pengajars->links() }}
                         </div>
                     </div>
                 </div>

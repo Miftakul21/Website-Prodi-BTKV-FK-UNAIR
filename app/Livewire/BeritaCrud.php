@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Berita;
 
+use Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -41,10 +42,10 @@ class BeritaCrud extends Component
                     'id_berita',
                     'user_id',
                     'judul',
+                    'konten_berita',
                     'tgl_berita',
                     'kategori',
                     'thumbnail_image',
-                    'konten_berita'
                 )
                 ->latest()
                 ->paginate(10);
@@ -108,8 +109,7 @@ class BeritaCrud extends Component
             ]);
 
             $berita = Berita::create([
-                // Nanti ya diganti
-                'user_id' => 'd5994e2f-5c37-4364-9266-7031f65bc094',
+                'user_id' => Auth::user()->id_user,
                 'judul' => Purifier::clean($this->judul, 'custom'),
                 'tgl_berita' => Purifier::clean($this->tgl_berita, 'custom'),
                 'kategori' => Purifier::clean($this->kategori, 'custom'),
@@ -144,6 +144,7 @@ class BeritaCrud extends Component
     {
         DB::beginTransaction();
         try {
+            // Nanti dikasih slug ya
             $this->validate([
                 'judul' => 'required|string|max:255',
                 'tgl_berita' => 'required|date',
@@ -154,6 +155,7 @@ class BeritaCrud extends Component
 
             $berita = Berita::findOrFail($this->id_berita);
             $berita->update([
+                'user_id' => Auth::user()->id_user,
                 'judul' => Purifier::clean($this->judul, 'custom'),
                 'tgl_berita' => Purifier::clean($this->tgl_berita, 'custom'),
                 'kategori' => Purifier::clean($this->kategori, 'custom'),

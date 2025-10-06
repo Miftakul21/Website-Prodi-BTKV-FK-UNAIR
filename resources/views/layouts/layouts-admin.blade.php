@@ -22,7 +22,6 @@
 
 
     @livewireStyles
-
     @stack('css')
 </head>
 

@@ -17,6 +17,7 @@
     <!-- link css custom components -->
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
     @stack('css')
+    @livewireStyles
 </head>
 
 <body>
@@ -31,19 +32,19 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="container-media-social d-flex align-items-center gap-2">
-                    <a href="#" class="text-white"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-white"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" class="text-white"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="text-white"><i class="bi bi-youtube"></i></a>
+                    <!-- <a href="#" class="text-white"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white"><i class="bi bi-twitter-x"></i></a> -->
+                    <a href="https://www.instagram.com/btkv.fkua?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="text-white"><i class="bi bi-instagram"></i></a>
+                    <a href="https://www.youtube.com/@btkvfkua917" class="text-white"><i class="bi bi-youtube"></i></a>
                 </div>
                 <div class="container-media-contact d-flex justify-between align-items-center gap-3">
                     <div class="email">
                         <i class="bi bi-envelope"></i>
-                        <span>infoprodi.sby@gmail.com</span>
+                        <span> prodibtkvsby@gmail.com</span>
                     </div>
                     <div class="phone">
                         <i class="bi bi-telephone-fill"></i>
-                        <span>+62 812-3456-7890</span>
+                        <span>031-5501324</span>
                     </div>
                 </div>
             </div>
@@ -53,6 +54,8 @@
     @include('components.navbar')
 
     @yield('content')
+
+    @livewireScripts
 
     @include('components.footer')
 

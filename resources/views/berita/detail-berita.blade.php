@@ -16,18 +16,17 @@
                         <div class="container-informasi">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <div><i class="bi bi-person"></i> Administrator</div>
-                                    <div><i class="bi bi-calendar"></i> September, 12 2025</div>
+                                    <div><i class="bi bi-person"></i> {{$berita_editor }}</div>
+                                    <div><i class="bi bi-calendar"></i> {{\Carbon\Carbon::parse($berita_date)->format('M, d Y')}}</div>
                                 </div>
                                 <div>
-                                    <div><i class="bi bi-clock"></i> 5 menit</div>
-                                    <div><i class="bi bi-eye"></i> 20 dilihat</div>
+                                    <div><i class="bi bi-eye"></i> {{$views_count}} dibaca</div>
                                 </div>
                             </div>
                         </div>
-                        <h1 class="title-news">Breakthrough Research in Heart Valve Regeneration Published</h1>
+                        <h1 class="title-news">{{$berita_title}}</h1>
                         <div class="d-flex justify-content-between align-items-center gap-2" style="width: 160px;">
-                            <span class="category">Berita</span>
+                            <span class="category">{{$berita_category}}</span>
                             <!-- Share Button Horizontal -->
                             <div class="dropdown d-inline-block">
                                 <button class="btn btn-capsule btn-outline-primary btn-sm dropdown-toggle no-caret" type="button" id="shareDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -40,11 +39,11 @@
                                             <i class="bi bi-facebook"></i>
                                         </a>
                                         <!-- Twitter / X -->
-                                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($article->title ?? '') }}" target="_blank" class="btn btn-outline-info btn-sm text-info" title="Twitter">
+                                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($berita_title ?? '') }}" target="_blank" class="btn btn-outline-info btn-sm text-info" title="Twitter">
                                             <i class="bi bi-twitter"></i>
                                         </a>
                                         <!-- WhatsApp -->
-                                        <a href="https://wa.me/?text={{ urlencode(($article->title ?? '') . ' ' . request()->fullUrl()) }}" target="_blank" class="btn btn-outline-success btn-sm text-success" title="WhatsApp">
+                                        <a href="https://wa.me/?text={{ urlencode(($berita_title ?? '') . ' ' . request()->fullUrl()) }}" target="_blank" class="btn btn-outline-success btn-sm text-success" title="WhatsApp">
                                             <i class="bi bi-whatsapp"></i>
                                         </a>
                                         <!-- Instagram -->
@@ -60,18 +59,14 @@
                     <!-- thubmnail -->
                     <div class="col-md-6 order-2 col-12 mt-md-none mt-xl-none">
                         <div class="container-thubmnail-image">
-                            <img src="{{ asset('img/hero-banner1.jpg') }}" alt="gambar-berita" class="image-news img-fluid">
+                            <img src="{{ asset('storage/'.$berita_thumbnail) }}" alt="gambar-berita" class="image-news img-fluid">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="content-news col-12">
-            <b>Where does it come from?</b>
-            <br>
-            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-            <img src="{{ asset('img/hero-banner1.jpg') }}" alt="">
-            The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+            {!! $berita_content !!}
         </div>
     </div>
 </section>
@@ -83,30 +78,17 @@
             <span class="text-muted text-center fw-bold" style="font-size: 12px;">Berita Lainnya</span>
         </div>
         <div class="d-flex flex-column flex-md-row justify-content-center flex-wrap gap-1">
+            @forelse($berita_lainnya as $berita)
             <div class="card card-hover">
                 <div class="card-body p-3">
-                    <h6 class="date-news-pagination">September, 22 2025</h6>
+                    <h6 class="date-news-pagination">{{\Carbon\Carbon::parse($berita->berita_date)->format('M, d Y')}} September, 22 2025</h6>
                     <h3 class="title-news-pagination">
-                        Breakthrough Research in Heart Valve Regeneration Published
+                        {{Str::limit($berita->berita_title), 90}}
                     </h3>
                 </div>
             </div>
-            <div class="card card-hover">
-                <div class="card-body p-3">
-                    <h6 class="date-news-pagination">September, 22 2025</h6>
-                    <h3 class="title-news-pagination">
-                        Breakthrough Research in Heart Valve Regeneration Published
-                    </h3>
-                </div>
-            </div>
-            <div class="card card-hover">
-                <div class="card-body p-3">
-                    <h6 class="date-news-pagination">September, 22 2025</h6>
-                    <h3 class="title-news-pagination">
-                        Breakthrough Research in Heart Valve Regeneration Published
-                    </h3>
-                </div>
-            </div>
+            @empty
+            @endforelse
         </div>
     </div>
 </section>
