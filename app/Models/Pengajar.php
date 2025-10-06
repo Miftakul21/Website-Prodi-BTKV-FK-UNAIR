@@ -41,6 +41,29 @@ class Pengajar extends Model
             if (empty($model->{$model->getKeyName()})) {
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
+
+            if (empty($model->slug)) {
+                $model->slug = static::generateUniqueSlug($model->name);
+            }
         });
+
+        static::updating(function ($model) {
+            if (empty($model->slug) || $model->isDirty('name')) {
+                $model->slug = static::generateUniqueSlug($model->name);
+            }
+        });
+    }
+
+    protected static function generateUniqueSlug($name)
+    {
+        $baseSlug = Str::slug($name);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (static::where('slug', $slug)->exists()) {
+            $slug = "${baseSlug}-{$counter}";
+            $counter++;
+        }
+        return $slug;
     }
 }

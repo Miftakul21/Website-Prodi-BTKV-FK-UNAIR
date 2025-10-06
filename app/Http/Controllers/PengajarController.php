@@ -12,9 +12,10 @@ class PengajarController extends Controller
         return view('pengajar.pengajar');
     }
 
-    public function detailPengajar($id)
+    public function detailPengajar($slug)
     {
-        $pengajar = Pengajar::findOrFail($id);
+        $pengajar = Pengajar::where('slug', $slug)->firstOrFail();
+
         $data = [
             'pengajar_name' => $pengajar->name,
             'pengajar_position' => $pengajar->posisi,

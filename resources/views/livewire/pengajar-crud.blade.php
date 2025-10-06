@@ -48,12 +48,12 @@
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button class="dropdown-item" wire:click="confirmDelete('{{$data->id_pengajar}}')">
+                                                        <button class="dropdown-item" onclick="confirmDelete('{{$data->id_pengajar}}')">
                                                             <i class="bi bi-trash text-danger"></i> Delete
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <a href="#" class="dropdown-item">
+                                                        <a href="/detail-pengajar/{{$data->slug}}" class="dropdown-item">
                                                             <i class="bi bi-eye text-info"></i> Preview
                                                         </a>
                                                     </li>

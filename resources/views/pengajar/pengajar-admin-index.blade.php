@@ -37,7 +37,7 @@
                 title: 'Berhasil',
                 text: 'Data berhasil dihapus.',
                 icon: 'success',
-                timer: 'success',
+                timer: 2000,
                 showConfirmButton: false
             })
         });

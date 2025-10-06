@@ -45,6 +45,7 @@ class BeritaCrud extends Component
                     'konten_berita',
                     'tgl_berita',
                     'kategori',
+                    'slug',
                     'thumbnail_image',
                 )
                 ->latest()

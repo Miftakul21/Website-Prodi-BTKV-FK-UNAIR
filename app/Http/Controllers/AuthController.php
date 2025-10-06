@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
 
-use function PHPSTORM_META\map;
-
 class AuthController extends Controller
 {
     public function index()
@@ -66,6 +64,13 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $userId = $user->id_user;
+            \Cache::forget('user-is-online-' . $userId);
+            \Cache::put('user-last-seen-' . $userId, now(), now()->addDays(7));
+        }
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

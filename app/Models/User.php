@@ -57,11 +57,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -82,5 +77,16 @@ class User extends Authenticatable
             get: fn($value) => Crypt::decryptString($value),
             set: fn($value) => Crypt::encryptString($value),
         );
+    }
+
+    // helper
+    public function isOnline()
+    {
+        return \Cache::has('user-is-online-' . $this->id_user);
+    }
+
+    public function lastSeen()
+    {
+        return \Cache::get('user-last-seen-' . $this->id_user);
     }
 }

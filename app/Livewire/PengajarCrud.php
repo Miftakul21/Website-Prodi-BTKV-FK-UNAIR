@@ -84,7 +84,8 @@ class PengajarCrud extends Component
                 'name',
                 'posisi',
                 'pendidikan',
-                'foto'
+                'foto',
+                'slug',
             )
                 ->latest()
                 ->paginate(10);

@@ -33,7 +33,8 @@ class BerandaController extends Controller
                 'name as pengajar_name',
                 'posisi as pengajar_posistion',
                 'pendidikan as pengajar_pendidikan',
-                'foto as pengajar_image'
+                'foto as pengajar_image',
+                'slug as pengajar_slug'
             )
                 ->latest()
                 ->paginate(4);

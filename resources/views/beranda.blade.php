@@ -133,7 +133,7 @@
         </div>
         @if($berita->isNotEmpty())
         <div class="d-flex justify-content-center align-items-center">
-            <a href="" class="btn btn-primary my-5 text-priamry"><i class="bi bi-newspaper"></i> Berita Lainnya</a>
+            <a href="/berita" class="btn btn-primary my-5 text-priamry"><i class="bi bi-newspaper"></i> Berita Lainnya</a>
         </div>
         @endif
     </div>
@@ -183,7 +183,7 @@
         <!-- list pengajar -->
         <div class="row py-3">
             <div class="col-md-3 col-12">
-                <a href="/profile/pengajar">
+                <a href="">
                     <div class="card shadow-sm border-0 mb-3" style="min-height: 480px;">
                         <!-- Foto Dokter -->
                         <div class="container-image-pengajar">
@@ -207,10 +207,9 @@
                     </div>
                 </a>
             </div>
-
             @forelse($pengajar as $data)
             <div class="col-md-3 col-12">
-                <a href="/profile/pengajar/{{$data->pengajar_id}}">
+                <a href="/detail-pengajar/{{$data->pengajar_slug}}">
                     <div class="card shadow-sm border-0 mb-3" style="min-height: 480px;">
                         <!-- Foto Dokter -->
                         <div class="container-image-pengajar">
@@ -235,10 +234,7 @@
             @empty
             <h4 class="text-center">Tidak ada berita terbaru</h4>
             @endforelse
-
-
         </div>
-
         <div class="d-flex justify-content-center align-items-center my-3">
             <a href="/daftar-pengajar" class="btn btn-primary text-priamry"><i class="bi bi-person-workspace me-2"></i>Pengajar Lainnya</a>
         </div>

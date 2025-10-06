@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'auth.login' => AuthMiddleware::class,
+            'user.online' => \App\Http\Middleware\UpdateActivityUser::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

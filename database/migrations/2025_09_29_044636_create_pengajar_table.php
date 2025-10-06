@@ -22,6 +22,7 @@ return new class extends Migration
             $table->longText('publikasi_penelitian')->nullable();
             $table->longText('prestasi_dan_penghargaan')->nullable();
             $table->string('foto')->nullable();
+            $table->longText('slug')->nullable()->unique();
             $table->softDeletes();
             $table->timestamps();
         });

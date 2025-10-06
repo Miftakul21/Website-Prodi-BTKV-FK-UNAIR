@@ -23,7 +23,7 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody wire:poll.keep-alive.10s>
                                     @forelse($users as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
@@ -31,7 +31,15 @@
                                         <td>{{$data->email}}</td>
                                         <td>{{$data->nomor_telepon}}</td>
                                         <td>{{$data->role}}</td>
-                                        <td></td>
+                                        <td>
+                                            @if($data->isOnline())
+                                            <span class="badge bg-success rounded-circle p-2"></span>
+                                            <small class="text-success ms-1 fw-bold"><span style="font-size: 20px;">&#8226;</span> Online</small>
+                                            @else
+                                            <span class="badge bg-secondary rounded-circle p-2"></span>
+                                            <small class="text-muted ms-1 fw-bold"><span style="font-size: 20px;">&#8226;</span> Offline - {{$data->lastSeen()}}</small>
+                                            @endif
+                                        </td>
                                         <td>
                                             <button onclick="confirmDelete('{{$data->id_user}}')" class="btn btn-sm btn-danger" title="delete"><i class="bi bi-trash"></i></button>
                                             <button wire:click="edit('{{$data->id_user}}')" class="btn btn-sm btn-warning text-white" title="edit"><i class="bi bi-pencil"></i></button>

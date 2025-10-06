@@ -58,7 +58,7 @@
                                                             </button>
                                                         </li>
                                                         <li>
-                                                            <a href="#" class="dropdown-item">
+                                                            <a href="/detail-berita/{{$data->slug}}" class="dropdown-item">
                                                                 <i class="bi bi-eye text-info"></i> Preview
                                                             </a>
                                                         </li>
