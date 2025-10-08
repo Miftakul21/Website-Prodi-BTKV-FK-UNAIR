@@ -23,9 +23,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Protected routes
 Route::middleware(['auth.login', 'user.online'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/anggota', [UserController::class, 'index'])->name('anggota');
-    Route::get('/berita-admin', [BeritaController::class, 'beritaAdminIndex'])->name('berita-admin');
-    Route::get('/pengajar-admin', [PengajarController::class, 'pengajarAdminIndex'])->name('pengajar-admin');
+    Route::get('/anggota', [UserController::class, 'index'])->name('anggota')->middleware('permission:anggota');
+    Route::get('/berita-admin', [BeritaController::class, 'beritaAdminIndex'])->name('berita-admin')->middleware('permission:berita');
+    Route::get('/pengajar-admin', [PengajarController::class, 'pengajarAdminIndex'])->name('pengajar-admin')->middleware('permission:pengajar');
     Route::get('/berita-terhapus', [BeritaController::class, 'deleteBeritaAll']);
     Route::get('/pengajar-terhapus', [PengajarController::class, 'deletePengajarAll']);
 

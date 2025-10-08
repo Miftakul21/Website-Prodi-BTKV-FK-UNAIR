@@ -211,7 +211,7 @@
             @endforelse
         </div>
         <div class="d-flex justify-content-center align-items-center my-3">
-            <a href="/daftar-pengajar" class="btn btn-primary text-priamry"><i class="bi bi-person-workspace me-2"></i>Pengajar Lainnya</a>
+            <a href="/pengajar" class="btn btn-primary text-priamry"><i class="bi bi-person-workspace me-2"></i>Pengajar Lainnya</a>
         </div>
 </section>
 <!-- end section pengajar -->
