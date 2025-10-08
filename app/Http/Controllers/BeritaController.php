@@ -6,6 +6,8 @@ use App\Models\Berita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Artesaos\SEOTools\Facades\SEOTools;
+use Illuminate\Support\Str;
 
 class BeritaController extends Controller
 {
@@ -44,6 +46,36 @@ class BeritaController extends Controller
             'berita_editor' => $berita->user->name ?? '',
             'berita_lainnya' => $berita_lainnya,
         ];
+
+        // SEO setup
+        SEOTools::setTitle($berita->judul);
+        SEOTools::setDescription(Str::limit(strip_tags($berita->konten_berita), 160));
+        SEOTools::opengraph()->setUrl(url()->current());
+        SEOTools::opengraph()->addImage(asset('storege/' . $berita->thumbnail_image));
+        SEOTools::setCanonical(url()->current());
+
+        // Whatsapp, Instagram, Facebook, Linkedin
+        SEOTools::opengraph()->setType('article');
+        SEOTools::opengraph()->addProperty('locale', 'id_ID');
+        SEOTools::opengraph()->addProperty('article:published_time', $berita->tgl_berita);
+        SEOTools::opengraph()->addProperty('article:author', $berita->user->name ?? 'Adminiistrator');
+        SEOTools::metatags()->addMeta('robots', 'index, follow');
+
+        // Twitter card
+        SEOTools::twitter()->setTitle($berita->judul);
+        SEOTools::twitter()->setDescription(Str::limit(strip_tags($berita->konten_berita), 160));
+        SEOTools::twitter()->setImage(asset('storage/' . $berita->thumbnail_image));
+
+        // JSON-LD
+        SEOTools::jsonLd()->setType('Article');
+        SEOTools::jsonLd()->setTitle($berita->judul);
+        SEOTools::jsonLd()->setDescription(Str::limit(strip_tags($berita->konten_berita), 160));
+        SEOTools::jsonLd()->setUrl(url()->current());
+        SEOTools::jsonLd()->addImage(asset('storage/' . $berita->thumbnail_image));
+        SEOTools::jsonLd()->addValue('author', $berita->user->name ?? 'Administrator');
+        SEOTools::jsonLd()->addValue('datePublished', $berita->tgl_berita);
+
+
         return view('berita.detail-berita', $data);
     }
 

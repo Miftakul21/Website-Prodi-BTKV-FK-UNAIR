@@ -1,6 +1,8 @@
 @extends('layouts.layouts-users')
+@section('title', $pengajar_name)
 @push('css')
 <!-- link css profile  -->
+{!! SEO::generate() !!}
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 @endpush
 @section('content')

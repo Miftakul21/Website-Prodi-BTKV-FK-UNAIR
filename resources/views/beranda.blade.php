@@ -2,6 +2,7 @@
 
 @push('css')
 <!-- link css beranda  -->
+{!! SEO::generate() !!}
 <link rel="stylesheet" href="{{ asset('css/beranda.css') }}">
 @endpush
 
@@ -69,32 +70,6 @@
                 <img src="{{ asset('img/hero-banner1.jpg') }}" alt="gedung-prodi" class="img-fluid rounded">
             </div>
         </div>
-        <!-- <div class="row my-5">
-            <div class="col-md-4 col-12">
-                <div class="card card-prodi-info mb-3">
-                    <div class="card-body">
-                        <h3>5</h3>
-                        <span>Tahun</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-12">
-                <div class="card card-prodi-info mb-3">
-                    <div class="card-body">
-                        <h3>500+</h3>
-                        <span>Kasus / Tahun</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-12">
-                <div class="card card-prodi-info mb-3">
-                    <div class="card-body">
-                        <h3>500+</h3>
-                        <span>Kasus / Tahun</span>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 </section>
 <!-- end prodi section -->

@@ -1,6 +1,8 @@
 @extends('layouts.layouts-users')
+@section('title', $berita_title)
 @push('css')
 <!-- link css -->
+{!! SEO::generate() !!}
 <link rel="stylesheet" href="{{ asset('css/berita.css') }}">
 @endpush
 

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [BerandaController::class, 'index']);
 Route::get('/berita', [BeritaController::class, 'index']);
 Route::get('/detail-berita/{slug}', [BeritaController::class, 'detailBerita']);
-Route::get('/daftar-pengajar', [PengajarController::class, 'index']);
+Route::get('/pengajar', [PengajarController::class, 'index']);
 Route::get('/detail-pengajar/{slug}', [PengajarController::class, 'detailPengajar']);
 
 // Halaman login (GET) — beri nama 'login' supaya middleware bisa redirect ke sini

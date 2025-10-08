@@ -35,7 +35,6 @@
         </button>
 </div>
 @endif
-
 <style>
     .spin {
         display: inline-block;

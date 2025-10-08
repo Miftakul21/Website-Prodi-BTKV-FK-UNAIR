@@ -71,7 +71,6 @@ class Berita extends Model
             $slug = "{$baseSlug}-{$counter}";
             $counter++;
         }
-
         return $slug;
     }
 

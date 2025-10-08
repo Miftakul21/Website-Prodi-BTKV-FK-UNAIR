@@ -16,6 +16,7 @@
 
     <!-- link css custom components -->
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
+
     @stack('css')
     @livewireStyles
 </head>

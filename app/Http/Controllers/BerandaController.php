@@ -6,6 +6,7 @@ use App\Models\Berita;
 use App\Models\Pengajar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Artesaos\SEOTools\Facades\SEOTools;
 
 class BerandaController extends Controller
 {
@@ -39,6 +40,42 @@ class BerandaController extends Controller
                 ->latest()
                 ->paginate(4);
         });
+
+        SEOTools::setTitle('Spesalis Bedah Toraks, Kardiak, Vaskular - FK Universitas Airlangga');
+        SEOTools::setDescription(
+            'Program Studi Dokter Spesialis Bedah Toraks, Kardiak, dan Vaskular 
+            (BTKV) Fakultas Kedokteran Universitas Airlangga Surabaya merupakan 
+            program pendidikan dokter spesialis yang berdiri pada tahun 2007. 
+            Program Studi BTKV FK UNAIR telah terakreditasi "A" oleh LAM-PTKes berdasarkan Surat Keputusan 
+            Nomor: 001/LAM-PTKes/Akr/VI/2021, berlaku sejak tanggal 30 Juni 2021 sampai dengan 30 Juni 2026.'
+        );
+        SEOTools::setCanonical(url('/'));
+
+        // Facebook, Whatsapp, Linkedin, Instagram
+        SEOTools::opengraph()->setUrl(url('/'));
+        SEOTools::opengraph()->addProperty('type', 'website');
+        SEOTools::opengraph()->addImage(asset('img/lg-prodi.png'));
+
+        // Twitter card
+        SEOTools::twitter()->setTitle('BTKV FK UNAIR - Program Studi Spesialis Bedah Toraks, Kardiak, Vaskular');
+        SEOTools::twitter()->setDescription(
+            'Program Studi Dokter Spesialis Bedah Toraks, Kardiak, dan Vaskular 
+            (BTKV) Fakultas Kedokteran Universitas Airlangga Surabaya merupakan 
+            program pendidikan dokter spesialis yang berdiri pada tahun 2007. 
+            Program Studi BTKV FK UNAIR telah terakreditasi "A" oleh LAM-PTKes berdasarkan Surat Keputusan 
+            Nomor: 001/LAM-PTKes/Akr/VI/2021, berlaku sejak tanggal 30 Juni 2021 sampai dengan 30 Juni 2026.'
+        );
+        SEOTools::twitter()->setImage(asset('images/lg-prodi.png'));
+
+        // Meta Keyword
+        SEOTools::metatags()->setKeywords([
+            'Bedah Toraks Kardiak Vaskular',
+            'Universitas Airlangga',
+            'Spesialis Bedah Toraks',
+            'Spesialis Bedah Jantung',
+            'Spesialis Bedah Vaskular',
+            'Program Spesialis BTKV Surabaya'
+        ]);
 
         return view('beranda', [
             'berita' => $berita,

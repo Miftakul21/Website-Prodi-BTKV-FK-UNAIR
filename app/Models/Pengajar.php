@@ -54,6 +54,17 @@ class Pengajar extends Model
         });
     }
 
+    protected static function booted()
+    {
+        static::saved(function () {
+            Cache::forget('pengajar_all');
+        });
+
+        static::deleted(function () {
+            Cache::forget('pengajar_all');
+        });
+    }
+
     protected static function generateUniqueSlug($name)
     {
         $baseSlug = Str::slug($name);
