@@ -51,15 +51,17 @@
                 position: 'center',
                 timer: 2000,
                 showConfirmButton: false
-            });
-        })
+            })
+        });
 
         Livewire.on('pengajarError', (message) => {
             Swal.fire({
                 title: 'Error!',
                 text: message,
-                icon: 'error'
-            });
+                icon: 'error',
+                timer: 2000,
+                showConfirmButton: false,
+            })
         });
     })
 </script>

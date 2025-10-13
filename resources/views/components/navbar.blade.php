@@ -21,18 +21,16 @@
                      <li class="nav-item">
                          <a class="nav-link active" aria-current="page" href="/">Beranda</a>
                      </li>
-                     <!-- <li class="nav-item">
-                            <a class="nav-link" href="#">Profil</a>
-                        </li> -->
                      <li class="nav-item dropdown ">
                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                              aria-expanded="false">
                              Profil
                          </a>
                          <ul class="dropdown-menu">
-                             <li><a class="dropdown-item text-dark" href="#">Visi dan Misi</a></li>
-                             <li><a class="dropdown-item text-dark" href="#">Struktur Organisasi</a></li>
-                             <li><a class="dropdown-item text-dark" href="/daftar-pengajar">Tenaga Pengajar</a></li>
+                             <li><a class="dropdown-item text-dark" href="#">Sejarah</a></li>
+                             <li><a class="dropdown-item text-dark" href="/profil/visi-misi-spesialis1-btkv-fk-unair">Visi Misi</a></li>
+                             <li><a class="dropdown-item text-dark" href="#">Fasilitas</a></li>
+                             <li><a class="dropdown-item text-dark" href="/profil/akreditasi-spesialis1-btkv-fk-unair">Akreditasi</a></li>
                          </ul>
                      </li>
                      <li class="nav-item">
@@ -58,9 +56,10 @@
                          Profil <i class="bi bi-chevron-down ms-1" style="font-size: 18px;"></i>
                      </a>
                      <ul class="dropdown-menu bg-white">
-                         <li><a class="dropdown-item text-dark" href="#">Visi dan Misi</a></li>
-                         <li><a class="dropdown-item text-dark" href="#">Struktur Organisasi</a></li>
-                         <li><a class="dropdown-item text-dark" href="/daftar-pengajar">Tenaga Pengajar</a></li>
+                         <li><a class="dropdown-item text-dark" href="#">Sejarah</a></li>
+                         <li><a class="dropdown-item text-dark" href="/profil/visi-misi-spesialis1-btkv-fk-unair">Visi danMisi</a></li>
+                         <li><a class="dropdown-item text-dark" href="#">Fasilitas</a></li>
+                         <li><a class="dropdown-item text-dark" href="/profil/akreditasi-spesialis1-btkv-fk-unair">Akreditasi</a></li>
                      </ul>
                  </li>
                  <li class="nav-item">

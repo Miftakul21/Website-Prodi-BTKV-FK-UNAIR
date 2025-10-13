@@ -104,7 +104,7 @@
                             <option value="Event">Event</option>
                         </select>
 
-                        <div wire:ignore class="mt-2">
+                        <div wire:ignore>
                             <label class="fw-bold mt-2">Konten Berita</label>
                             <textarea class="form-control" id="konten_berita" style="height: 500px;">{!! $konten_berita !!}</textarea>
                         </div>
@@ -206,7 +206,7 @@
                                 }
                             })
                         })
-                        .catch(error => console.error(error));
+                        .catch(error => console.error('Something wrong!'));
                 }, 100); // delay 100ms
             });
 

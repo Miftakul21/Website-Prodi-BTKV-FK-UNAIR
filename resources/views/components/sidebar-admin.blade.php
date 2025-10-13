@@ -53,6 +53,25 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-trash"></i>
+                        <span>Data Terhapus</span>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="/berita-terhapus" class="submenu-link">
+                                Berita
+                            </a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="/pengajar-terhapus" class="submenu-link">
+                                Pengajar
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li
                     class="sidebar-item {{Request::is('anggota') ? 'active' : '' }}">
                     <a href="{{ route('anggota') }}" class='sidebar-link'>
@@ -79,7 +98,7 @@
 
                 <li
                     class="sidebar-item">
-                    <a href="index.html" class='sidebar-link'>
+                    <a href="{{ route('galeri-admin') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Galeri</span>
                     </a>

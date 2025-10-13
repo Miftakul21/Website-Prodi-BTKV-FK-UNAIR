@@ -26,6 +26,7 @@ class BeritaCrud extends Component
         $kategori = 'Berita',
         $konten_berita,
         $thumbnail_image;
+
     public $isOpen = false;
 
     protected $listeners = [
@@ -102,27 +103,28 @@ class BeritaCrud extends Component
 
         try {
             $this->validate([
-                'judul' => 'required|string|max:255',
-                'tgl_berita' => 'required|date',
-                'kategori' => 'required|string|max:50',
-                'konten_berita' => 'required|string',
+                'judul'           => 'required|string|max:255',
+                'tgl_berita'      => 'required|date',
+                'kategori'        => 'required|string|max:50',
+                'konten_berita'   => 'required|string',
                 'thumbnail_image' => 'required|mimes:jpg,jpeg,png|max:5120'
             ]);
 
             $berita = Berita::create([
-                'user_id' => Auth::user()->id_user,
-                'judul' => Purifier::clean($this->judul, 'custom'),
-                'tgl_berita' => Purifier::clean($this->tgl_berita, 'custom'),
-                'kategori' => Purifier::clean($this->kategori, 'custom'),
+                'user_id'         => Auth::user()->id_user,
+                'judul          ' => Purifier::clean($this->judul, 'custom'),
+                'tgl_berita'      => Purifier::clean($this->tgl_berita, 'custom'),
+                'kategori'        => Purifier::clean($this->kategori, 'custom'),
                 'thumbnail_image' => null,
-                'konten_berita' => Purifier::clean($this->konten_berita, 'custom'),
-                'viewers' => 0,
+                'konten_berita'   => Purifier::clean($this->konten_berita, 'custom'),
+                'viewers'         => 0,
             ]);
 
             if ($this->thumbnail_image) {
                 DB::afterCommit(function () use ($berita) {
-                    $filename = Str::random(20) . '.' . $this->thumbnail_image->getClientOriginalExtension();
-                    $path = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
+                    $filename = Str::random(20) . '.'
+                        . $this->thumbnail_image->getClientOriginalExtension();
+                    $path     = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
 
                     $berita->update(['thumbnail_image' => $path]);
                 });
@@ -147,33 +149,31 @@ class BeritaCrud extends Component
         try {
             // Nanti dikasih slug ya
             $this->validate([
-                'judul' => 'required|string|max:255',
-                'tgl_berita' => 'required|date',
-                'kategori' => 'required|string|max:50',
-                'konten_berita' => 'required|string',
+                'judul'           => 'required|string|max:255',
+                'tgl_berita'      => 'required|date',
+                'kategori'        => 'required|string|max:50',
+                'konten_berita'   => 'required|string',
                 'thumbnail_image' => 'nullable|mimes:jpg,jpeg,png|max:5120',
             ]);
 
             $berita = Berita::findOrFail($this->id_berita);
             $berita->update([
-                'user_id' => Auth::user()->id_user,
-                'judul' => Purifier::clean($this->judul, 'custom'),
-                'tgl_berita' => Purifier::clean($this->tgl_berita, 'custom'),
-                'kategori' => Purifier::clean($this->kategori, 'custom'),
+                'user_id'       => Auth::user()->id_user,
+                'judul'         => Purifier::clean($this->judul, 'custom'),
+                'tgl_berita'    => Purifier::clean($this->tgl_berita, 'custom'),
+                'kategori'      => Purifier::clean($this->kategori, 'custom'),
                 'konten_berita' => Purifier::clean($this->konten_berita, 'custom'),
             ]);
 
             if ($this->thumbnail_image) {
                 $oldPath = $berita->thumbnail_image;
-
                 DB::afterCommit(function () use ($berita, $oldPath) {
                     // delete file lama jika ada
                     if ($oldPath && Storage::disk('public')->exists(str_replace('storage/', '', $oldPath))) {
                         Storage::disk('public')->delete(str_replace('storage/', '', $oldPath));
                     }
-
                     $filename = Str::random(20) . '.' . $this->thumbnail_image->getClientOriginalExtension();
-                    $path = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
+                    $path     = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
                     $berita->update(['thumbnail_image' => $path]);
                 });
             }

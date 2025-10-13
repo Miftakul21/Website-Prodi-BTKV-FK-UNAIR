@@ -41,31 +41,35 @@ class UserCrud extends Component
 
     public function store()
     {
-        $this->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email,' . $this->id_user . ',id_user',
-            'phone_number' => 'required|string',
-            'role' => 'required|string',
-            'password' => $this->id_user ? 'nullable|min:8' : 'required|min:8'
-        ]);
+        try {
+            $this->validate([
+                'name' => 'required|string',
+                'email' => 'required|email|unique:users,email,' . $this->id_user . ',id_user',
+                'role' => 'required|string',
+                'password' => $this->id_user ? 'nullable|min:8' : 'required|min:8'
+            ]);
 
-        // Nanti Buat Hash untuk password agar tidak mudah di brute force
-        User::updateOrCreate(['id_user' => $this->id_user], [
-            'name' => $this->name,
-            'email' => $this->email,
-            'nomor_telepon' => $this->phone_number,
-            'role' => $this->role,
-            'password' => $this->password ?
-                Hash::make(env('SALT_PASSWORD') . $this->password  . env('SALT_PASSWORD')) :
-                User::find($this->id_user)->password
-        ]);
+            // Nanti Buat Hash untuk password agar tidak mudah di brute force
+            User::updateOrCreate(['id_user' => $this->id_user], [
+                'name' => $this->name,
+                'email' => $this->email,
+                'nomor_telepon' => $this->phone_number,
+                'role' => $this->role,
+                'password' => $this->password ?
+                    Hash::make(env('SALT_PASSWORD') . $this->password  . env('SALT_PASSWORD')) :
+                    User::find($this->id_user)->password
+            ]);
 
-        Cache::forget('users_all');
-        $this->closeModal();
-        $this->resetFields();
+            Cache::forget('users_all');
+            $this->closeModal();
+            $this->resetFields();
 
-        $message = $this->id_user ? 'Berhasil diperbarui!' : 'Berhasil ditambahkan!';
-        $this->dispatch('userSaved', $message);
+            $message = $this->id_user ? 'Berhasil diperbarui!' : 'Berhasil ditambahkan!';
+            $this->dispatch('userSaved', $message);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $firstMessage = collect($e->errors())->flatten()->first();
+            $this->dispatch('validationError', $firstMessage);
+        }
     }
 
     public function edit($id)
