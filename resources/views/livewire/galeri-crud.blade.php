@@ -6,7 +6,7 @@
                     <div class="card-header fw-bold">
                         <span>Data Galeri</span>
                         <!-- nanti ya -->
-                        <button class="btn btn-priamry btn-sm ms-2" title="Add Data" wire:click="create">
+                        <button class="btn btn-primary btn-sm ms-2" title="Add Data" wire:click="create">
                             <i class="bi bi-plus-square"></i>
                         </button>
                     </div>
@@ -24,7 +24,56 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelase($galeris as $data)
+                                    @forelse($galeris as $data)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$data->judul_galeri}}</td>
+                                        <td>
+                                            @if($data->image_utama)
+                                            <img src="{{asset('storage/'.$data->image_utama)}}" alt="image_utama">
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {!! $data->deskripsi !!}
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-1">
+                                                @if($data->image_first || $data->image_second || $data->image_third || $data->fourth)
+                                                <img src="{{asset('storage/'.$data->image_first)}}" alt="">
+                                                <img src="{{asset('storage/'.$data->image_second)}}" alt="">
+                                                <img src="{{asset('storage/'.$data->image_third)}}" alt="">
+                                                <img src="{{asset('storage/'.$data->image_fourth)}}" alt="">
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-secondary"
+                                                    type="button"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <button class="dropdown-item" wire:click="edit('{{$data->id_galeri}}')">
+                                                            <i class="bi bi-pencil text-warning"></i> Edit
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item" onclick="confirmDelete('{{$data->id_galeri}}')">
+                                                            <i class="bi bi-trash text-danger"></i> Delete
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/detail-galeri/{{$data->slug}}" class="dropdown-item">
+                                                            <i class="bi bi-eye text-info"></i> Preview
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     @empty
                                     <tr>
                                         <td colspan="6" class="text-center">Data Not Found</td>
@@ -59,7 +108,7 @@
 
                         <div wire:ignore>
                             <label class="fw-bold mt-2">Deskripsi</label>
-                            <textarea class="form-control" id="deskrispi" style="height: 500px;">{!! $deskripsi !!}</textarea>
+                            <textarea class="form-control" id="deskripsi" style="height: 500px;">{!! $deskripsi !!}</textarea>
                         </div>
 
                         <label class="fw-bold mt-2">Kategori</label>
@@ -181,7 +230,7 @@
                             Close
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-floppy">Save</i>
+                            <i class="bi bi-floppy"></i> Save
                         </button>
                     </div>
                 </form>
@@ -222,7 +271,7 @@
                         editorInstance = editor;
 
                         // update livewire tiap ada perubahan
-                        editor.modal.document.on('change:data', () => {
+                        editor.model.document.on('change:data', () => {
                             Livewire.dispatch('updateDeskripsi', {
                                 value: editor.getData()
                             });

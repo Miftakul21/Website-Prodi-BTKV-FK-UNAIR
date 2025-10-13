@@ -15,8 +15,12 @@ return new class extends Migration
             $table->uuid('id_galeri')->priamry();
             $table->string('judul_galeri')->nullable();
             $table->longText('deskripsi')->nullable();
-            $table->string('image_utama')->nullable();
-            $table->longText('image_lainnya')->nullable();
+            $table->string('image_utama');
+            $table->string('image_first')->nullable();
+            $table->string('image_second')->nullable();
+            $table->string('image_third')->nullable();
+            $table->string('image_fourth')->nullable();
+            $table->string('kategori')->nullable();
             $table->longText('slug')->nullable();
             $table->timestamps();
         });

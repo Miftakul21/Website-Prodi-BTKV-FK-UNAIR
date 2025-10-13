@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class Galeri extends Model
@@ -21,8 +20,21 @@ class Galeri extends Model
         'judul_galeri',
         'deskripsi',
         'image_utama',
-        'image_lainnya',
+        'image_first',
+        'image_second',
+        'image_third',
+        'image_fourth',
         'kategori',
         'slug'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
 }

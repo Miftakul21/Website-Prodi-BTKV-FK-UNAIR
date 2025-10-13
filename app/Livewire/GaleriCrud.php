@@ -3,6 +3,11 @@
 namespace App\Livewire;
 
 use App\Models\Galeri;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -10,7 +15,7 @@ use Purifier;
 
 class GaleriCrud extends Component
 {
-    use WithUploads, WithPagination;
+    use WithFileUploads, WithPagination;
 
     protected $paginationTheme = 'bootstrap';
     public $id_galeri,
@@ -26,13 +31,16 @@ class GaleriCrud extends Component
 
     public $isOpen = false;
 
-    protected $listeners = ['deleteGaleri' => 'delete'];
+    protected $listeners = [
+        'deleteGaleri'    => 'delete',
+        'updateDeskripsi' => 'updateDeskripsi', // menerima payload dari JS
+    ];
 
     public function render()
     {
         $page = $this->getPage();
         $galeris = Cache::remember("galeris_page_${page}", 100, function () {
-            return Galer::select(
+            return Galeri::select(
                 'id_galeri',
                 'judul_galeri',
                 'deskripsi',
@@ -53,7 +61,7 @@ class GaleriCrud extends Component
         $total = Galeri::count();
         $lastPage = ceil($total / 10);
         foreach (range(1, $lastPage) as $i) {
-            Cache::gorget("galeris_page_${i}");
+            Cache::forget("galeris_page_${i}");
         }
     }
 
@@ -74,18 +82,24 @@ class GaleriCrud extends Component
 
     public function edit($id)
     {
-        $galeri             = Galeri::findOrFail($Id);
+        $galeri             = Galeri::findOrFail($id);
         $this->id_galeri    = $id;
         $this->judul_galeri = $galeri->judul_galeri;
-        $this->deskripsi    = $galeri->galeri;
+        $this->deskripsi    = $galeri->deskripsi;
+        $this->kategori     = $galeri->kategori;
         $this->image_utama  = null;
         $this->image_first  = null;
         $this->image_second = null;
         $this->image_third  = null;
         $this->image_fourth = null;
-        $this->kategori     = $galeri->kategori;
         $this->isOpen = true;
         $this->dispatch('initEditor');
+    }
+
+    // terima konten dari JS
+    public function updateDeskripsi($value = null)
+    {
+        $this->deskripsi = $value ?? '';
     }
 
     public function store()
@@ -98,6 +112,7 @@ class GaleriCrud extends Component
                 'deskripsi'    => 'nullable|string',
                 'image_utama'  => 'required|mimes:jpg,jpeg,png|max:5120',
                 'image_first'  => 'nullable|mimes:jpg,jpeg,png|max:5120',
+                'image_second' => 'nullable|mimes:jpg,jpeg,png|max:5120',
                 'image_third'  => 'nullable|mimes:jpg,jpeg,png|max:5120',
                 'image_fourth' => 'nullable|mimes:jpg,jpeg,png|max:5120',
             ]);
@@ -108,7 +123,7 @@ class GaleriCrud extends Component
                 'kategori'     => Purifier::clean($this->kategori, 'custom'),
             ]);
 
-            $imageFileds = [
+            $imageFields = [
                 'image_utama',
                 'image_first',
                 'image_second',
@@ -116,14 +131,14 @@ class GaleriCrud extends Component
                 'image_fourth'
             ];
 
-            foreach ($imageFileds as $field) {
+            foreach ($imageFields as $field) {
                 if ($this->$field) {
                     DB::afterCommit(function () use ($galeri, $field) {
                         $file     = $this->$field;
                         $filename = Str::random(20) . '.' .
                             $file->getClientOriginalExtension();
                         $path     = $file->storeAs('galeris', $filename, 'public');
-                        $galeri->update([$filed => $path]);
+                        $galeri->update([$field => $path]);
                     });
                 }
             }
@@ -133,7 +148,7 @@ class GaleriCrud extends Component
             $this->closeModal();
             $this->dispatch('galeriSaved', 'Berhasil ditambahkan!');
         } catch (\Throwable $e) {
-            DN::rollBack();
+            DB::rollBack();
             Log::error('Galeri store error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
@@ -149,7 +164,7 @@ class GaleriCrud extends Component
                 'judul_galeri' => 'required|string|max:255',
                 'deskripsi'    => 'nullable|string',
                 'kategori'     => 'required|string',
-                'image_utama'  => 'required|mimes:jpg,jpeg,png|max:5120',
+                'image_utama'  => 'nullable|mimes:jpg,jpeg,png|max:5120',
                 'image_first'  => 'nullable|mimes:jpg,jpeg,png|max:5120',
                 'image_second' => 'nullable|mimes:jpg,jpeg,png|max:5120',
                 'image_fourth' => 'nullable|mimes:jpg,jpeg,png|max:5120',
@@ -162,7 +177,7 @@ class GaleriCrud extends Component
                 'kategori'     => Purifier::clean($this->kategori, 'custom'),
             ]);
 
-            $imageFileds = [
+            $imageFields = [
                 'image_utama',
                 'image_first',
                 'image_second',
@@ -170,9 +185,9 @@ class GaleriCrud extends Component
                 'image_fourth',
             ];
 
-            foreach ($imageFileds as $field) {
+            foreach ($imageFields as $field) {
                 if ($this->$field) {
-                    DB::affterCommit(function () use ($galeri, $field) {
+                    DB::afterCommit(function () use ($galeri, $field) {
                         $file = $this->$field;
 
                         if ($galeri->$field && Storage::disk('public')->exists($galeri->$field)) {
@@ -184,7 +199,7 @@ class GaleriCrud extends Component
                             . $file->getClientOriginalExtension();
                         $path     = $file->storeAs('galeris', $filename, 'public');
 
-                        $galeri->update([$filed => $path]);
+                        $galeri->update([$field => $path]);
                     });
                 }
             }
@@ -202,7 +217,7 @@ class GaleriCrud extends Component
         }
     }
 
-    public function delete($d)
+    public function delete($id)
     {
         try {
             $galeri = Galeri::findOrFail($id);
@@ -227,6 +242,7 @@ class GaleriCrud extends Component
         $this->id_galeri    = '';
         $this->judul_galeri = '';
         $this->deskripsi    = '';
+        $this->kategori     = '';
         $this->image_utama  = null;
         $this->image_first  = null;
         $this->image_second = null;
