@@ -45,6 +45,10 @@ class GaleriCrud extends Component
                 'judul_galeri',
                 'deskripsi',
                 'image_utama',
+                'image_first',
+                'image_second',
+                'image_third',
+                'image_fourth',
                 'slug',
                 'kategori',
             )

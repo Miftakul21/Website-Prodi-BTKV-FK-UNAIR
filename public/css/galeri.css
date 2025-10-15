@@ -1,0 +1,12 @@
+.galeri-section {
+    padding: 50px 0;
+}
+
+.galeri-section .title-section {
+    font-size: 42px !important;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+/* .galeri-section .card */

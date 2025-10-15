@@ -30,7 +30,7 @@
                                         <td>{{$data->judul_galeri}}</td>
                                         <td>
                                             @if($data->image_utama)
-                                            <img src="{{asset('storage/'.$data->image_utama)}}" alt="image_utama">
+                                            <img src="{{asset('storage/'.$data->image_utama)}}" alt="image_utama" style="width: 60px">
                                             @endif
                                         </td>
                                         <td>
@@ -38,11 +38,11 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-1">
-                                                @if($data->image_first || $data->image_second || $data->image_third || $data->fourth)
-                                                <img src="{{asset('storage/'.$data->image_first)}}" alt="">
-                                                <img src="{{asset('storage/'.$data->image_second)}}" alt="">
-                                                <img src="{{asset('storage/'.$data->image_third)}}" alt="">
-                                                <img src="{{asset('storage/'.$data->image_fourth)}}" alt="">
+                                                @if($data->image_first || $data->image_second || $data->image_third || $data->image_fourth)
+                                                <img src="{{asset('storage/'.$data->image_first)}}" alt="" style="width: 60px;">
+                                                <img src="{{asset('storage/'.$data->image_second)}}" alt="" style="width: 60px;">
+                                                <img src="{{asset('storage/'.$data->image_third)}}" alt="" style="width: 60px;">
+                                                <img src="{{asset('storage/'.$data->image_fourth)}}" alt="" style="width: 60px;">
                                                 @endif
                                             </div>
                                         </td>
@@ -136,7 +136,7 @@
                         @endif
                         <!-- pesan kalau edit tapi belum pilih gambar -->
                         @if($id_galeri && $image_utama == null)
-                        <small class="text-muted">
+                        <small class="text-muted d-block">
                             <span class="text-danger">*</span>Kosongkan jika tidak mengganti thumbnail galeri
                         </small>
                         @endif
@@ -157,7 +157,7 @@
                         @endif
                         <!-- pesan kalau edit tapi belum pilih gambar -->
                         @if($id_galeri && $image_first == null)
-                        <small class="text-muted">
+                        <small class="text-muted d-block">
                             <span class="text-danger">*</span>Kosongkan jika tidak mengganti image galeri lainnya 1
                         </small>
                         @endif
@@ -178,7 +178,7 @@
                         @endif
                         <!-- pesan kalau edit tapi belum pilih gambar -->
                         @if($id_galeri && $image_second == null)
-                        <small class="text-muted">
+                        <small class="text-muted d-block">
                             <span class="text-danger">*</span>Kosongkan jika tidak mengganti image galeri lainnya 2
                         </small>
                         @endif
@@ -199,7 +199,7 @@
                         @endif
                         <!-- pesan kalau edit tapi belum pilih gambar -->
                         @if($id_galeri && $image_third == null)
-                        <small class="text-muted">
+                        <small class="text-muted d-block">
                             <span class="text-danger">*</span>Kosongkan jika tidak mengganti image galeri lainnya 3
                         </small>
                         @endif

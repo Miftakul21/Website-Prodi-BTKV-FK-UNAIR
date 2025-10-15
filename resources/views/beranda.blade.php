@@ -108,7 +108,7 @@
         </div>
         @if($berita->isNotEmpty())
         <div class="d-flex justify-content-center align-items-center">
-            <a href="/berita" class="btn btn-primary my-5 text-priamry"><i class="bi bi-newspaper"></i> Berita Lainnya</a>
+            <a href="/berita" class="btn btn-primary my-3"><i class="bi bi-newspaper"></i> Berita Lainnya</a>
         </div>
         @endif
     </div>
@@ -211,7 +211,7 @@
             @endforelse
         </div>
         <div class="d-flex justify-content-center align-items-center my-3">
-            <a href="/pengajar" class="btn btn-primary text-priamry"><i class="bi bi-person-workspace me-2"></i>Pengajar Lainnya</a>
+            <a href="/pengajar" class="btn btn-primary"><i class="bi bi-person-workspace me-2"></i>Pengajar Lainnya</a>
         </div>
 </section>
 <!-- end section pengajar -->
@@ -231,11 +231,11 @@
             <button class="btn btn-outline-primary me-2 mb-2 filter-btn active" data-filter="all" style="color: #fff !important;">
                 Semua <span class="badge bg-secondary ms-1">0</span>
             </button>
-            <button class="btn btn-outline-primary me-2 mb-2 filter-btn" data-filter="layanan">
-                Layanan <span class="badge bg-secondary ms-1">0</span>
-            </button>
             <button class="btn btn-outline-primary me-2 mb-2 filter-btn" data-filter="seminar">
                 Seminar <span class="badge bg-secondary ms-1">0</span>
+            </button>
+            <button class="btn btn-outline-primary me-2 mb-2 filter-btn" data-filter="workshop">
+                Workshop <span class="badge bg-secondary ms-1">0</span>
             </button>
             <button class="btn btn-outline-primary me-2 mb-2 filter-btn" data-filter="penelitian">
                 Penelitian <span class="badge bg-secondary ms-1">0</span>
@@ -243,27 +243,23 @@
         </div>
 
         <div class="row g-4 gallery">
-            <!-- Card 1 -->
-            <div class="col-12 col-sm-6 col-lg-3 gallery-item" data-cats="layanan">
-                <div class="card h-100 shadow-sm">
-                    <img src="{{ asset('img/hero-banner1.jpg') }}" class="card-img-top" alt="layanan">
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-0 fw-bold">Layanan</h6>
+            @forelse($galeri as $data)
+            <a href="" style="color: unset;">
+                <div class="col-12 col-sm-6 col-lg-3 gallery-item" data-cats="{{strtolower($data->galeri_category)}}">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{{asset('storage/'.$data->galeri_thumbnail)}}" alt="">
+                        <div class="card-body text-center">
+                            <h6 class="card-title mb-0 fw-bold">{{$data->galeri_title}}</h6>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="col-12 col-sm-6 col-lg-3 gallery-item" data-cats="penelitian">
-                <div class="card h-100 shadow-sm">
-                    <img src="{{ asset('img/hero-banner2.jpg') }}" class="card-img-top" alt="Penelitian">
-                    <div class="card-body text-center">
-                        <h6 class="card-title mb-0 fw-bold">Penelitian</h6>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tambah card lainnya sesuai kategori -->
+            </a>
+            @empty
+            <h4 class="text-center">Tidak ada galeri terbaru</h4>
+            @endforelse
+        </div>
+        <div class="d-flex justify-content-center align-items-center my-3">
+            <a href="/galeri" class="btn btn-primary"><i class="bi bi-images me-2"></i> Galeri Lainnya</a>
         </div>
     </div>
 </section>

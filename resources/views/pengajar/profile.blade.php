@@ -52,18 +52,17 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-md-6 col-12">
+            <div class="col-md-6 col-12">
                 <div class="card card-hover border border-primary p-2 mb-3 border-opacity-50">
                     <div class="card-body">
                         <h6 class="fw-semibold kepentingan-klinis"> Kepentingan Klinis</h6>
-
                         <ul class="list-kepentingan-klinis">
                             <li>Minimally Invasive Surgery</li>
                             <li>Complex Valve Repair</li>
                         </ul>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <div class="col-md-6 col-12">
                 <div class="card card-hover border border-primary p-2 mb-3 border-opacity-50">
                     <div class="card-body">

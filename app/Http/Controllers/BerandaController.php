@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Pengajar;
-use Illuminate\Http\Request;
+use App\Models\Galeri;
 use Illuminate\Support\Facades\Cache;
 use Artesaos\SEOTools\Facades\SEOTools;
 
@@ -39,6 +39,18 @@ class BerandaController extends Controller
             )
                 ->latest()
                 ->paginate(4);
+        });
+
+        $galeri = Cache::remember('galeris', '100', function () {
+            return Galeri::select(
+                'id_galeri as galeri_id',
+                'judul_galeri as galeri_title',
+                'image_utama as galeri_thumbnail',
+                'kategori as galeri_category',
+                'slug as galeri_slug',
+            )
+                ->latest()
+                ->paginate(10);
         });
 
         SEOTools::setTitle('Spesalis Bedah Toraks, Kardiak, Vaskular - FK Universitas Airlangga');
@@ -78,8 +90,9 @@ class BerandaController extends Controller
         ]);
 
         return view('beranda', [
-            'berita' => $berita,
-            'pengajar' => $pengajar
+            'berita'   => $berita,
+            'pengajar' => $pengajar,
+            'galeri'   => $galeri
         ]);
     }
 }

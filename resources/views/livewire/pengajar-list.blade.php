@@ -18,10 +18,12 @@
                         <p class="text-muted">{{$data->pengajar_pendidikan}}</p>
 
                         <!-- Publikasi Karya Tulis Ilmiah  & Penghargaan -->
-                        <!-- <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
+                        <!-- 
+                        <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
                             <i class="bi bi-journal-text"></i> 150+ Karya tulis ilmiah<br>
                             <i class="bi bi-award"></i> 2 Penghargaan Spesialis
-                        </p> -->
+                        </p> 
+                        -->
                     </div>
                 </div>
             </a>

@@ -12,11 +12,13 @@
         <div class="d-flex justify-content-center align-items-center mb-2">
             <span class="title-section">Tenaga Pengajar Spesialis Kami</span>
         </div>
-        <!-- <div class="d-flex justify-content-center align-items-center mb-2">
-                <p class="description-section" style="text-align: center;">
-                    Pengajar ahli kami merupakan dokter spesialis dengan pengalaman klinis dan akademis yang luas, yang membimbing <br> Program Pendidikan Dokter Spesialis Bedah Toraks, Kardiak, dan Vaskular
-                </p>
-            </div> -->
+        <!-- 
+        <div class="d-flex justify-content-center align-items-center mb-2">
+            <p class="description-section" style="text-align: center;">
+                Pengajar ahli kami merupakan dokter spesialis dengan pengalaman klinis dan akademis yang luas, yang membimbing <br> Program Pendidikan Dokter Spesialis Bedah Toraks, Kardiak, dan Vaskular
+            </p>
+        </div> 
+        -->
 
         <!-- komponen live wire -->
         <livewire:pengajar-list />

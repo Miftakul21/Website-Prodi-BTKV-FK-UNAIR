@@ -16,6 +16,9 @@ Route::get('/berita', [BeritaController::class, 'index']);
 Route::get('/detail-berita/{slug}', [BeritaController::class, 'detailBerita']);
 Route::get('/pengajar', [PengajarController::class, 'index']);
 Route::get('/detail-pengajar/{slug}', [PengajarController::class, 'detailPengajar']);
+Route::get('/galeri', [GaleriController::class, 'index']);
+Route::get('/detail-galeri/{slug}', [GaleriController::class, 'detailGaleri']);
+
 // profil
 Route::get('/profil/visi-misi-spesialis1-btkv-fk-unair', [ProfilController::class, 'visiDanMisi']);
 Route::get('/profil/akreditasi-spesialis1-btkv-fk-unair', [ProfilController::class, 'akreditasi']);

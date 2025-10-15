@@ -39,11 +39,11 @@ class BeritaList extends Component
         });
 
         $berita = $berita_all->take($this->limit);
-        $total = $berita_all->count();
+        $total  = $berita_all->count();
 
         return view('livewire.berita-list', [
             'berita' => $berita,
-            'total' => $total,
+            'total'  => $total,
         ]);
     }
 }
