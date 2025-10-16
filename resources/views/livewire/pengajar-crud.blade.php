@@ -95,13 +95,35 @@
                         <label class="fw-bold mt-2">Jabatan Prodi</label>
                         <input type="text" class="form-control" placeholder="Jabatan Prodi" wire:model="posisi">
                         <label class="fw-bold mt-2">Pendidikan</label>
-                        <textarea class="form-control" placeholder="Pendidikan" wire:model="pendidikan" style="height: 300px">{!!$pendidikan!!}</textarea>
+                        @foreach($pendidikan as $index => $pen)
+                        <div class="row mb-2">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Pendidikan" wire:model.live="pendidikan.{{$index}}.pendidikan">
+                            </div>
+                            <div class="col-1">
+                                @if(count($pendidikan) > 1)
+                                <button type="button" class="btn btn-danger btn-sm" wire:click="removePendidikan({{$index}})">X</button>
+                                @endif
+                            </div>
+                        </div>
+                        @endforeach
                         <label class="fw-bold mt-2">Biografi</label>
                         <textarea class="form-control" placeholder="Biografi" wire:model="biografi" style="height: 300px">{!!$biografi!!}</textarea>
                         <label class="fw-bold mt-2">Pakar Penelitian</label>
                         <textarea class="form-control" placeholder="Pakar Penelitian" wire:model="pakar_penelitian" style="height: 300px">{!!$pakar_penelitian!!}</textarea>
                         <label class="fw-bold mt-2">Kepentingan Klinis</label>
-                        <textarea class="form-control" placeholder="Kepentingan Klinis" wire:model="kepentingan_klinis" style="height: 300px">{!!$kepentingan_klinis!!}</textarea>
+                        @foreach($kepentingan_klinis as $index => $kep_klin)
+                        <div class="row mb-2">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Kepentingan Klinis" wire:model.live="kepentingan_klinis.{{$index}}.klinis">
+                            </div>
+                            <div class="col-1">
+                                @if(count($kepentingan_klinis) > 1)
+                                <button type="button" class="btn btn-danger btn-sm" wire:click="removeKepentinganKlinis({{$index}})">X</button>
+                                @endif
+                            </div>
+                        </div>
+                        @endforeach
                         <!-- publikasi penelitian -->
                         <label class="fw-bold mt-2">Publikasi Penelitian</label>
                         @foreach($publikasi_penelitian as $index => $pub)
@@ -119,7 +141,6 @@
                             </div>
                         </div>
                         @endforeach
-                        <!-- <textarea class="form-control" placeholder="Publikasi Penelitian" wire:model="publikasi_penelitian" style="height: 300px">{!!$kepentingan_klinis!!}</textarea> -->
                         <!-- prestasi dan penghargaan -->
                         <label class="fw-bold mt-2">Prestasi dan Penghargaan</label>
                         @foreach($prestasi_dan_penghargaan as $index => $pre)

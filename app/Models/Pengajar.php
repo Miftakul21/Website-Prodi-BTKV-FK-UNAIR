@@ -3,18 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class Pengajar extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'pengajar';
+    protected $table      = 'pengajar';
     protected $primaryKey = 'id_pengajar';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    public $incrementing  = false;
+    protected $keyType    = 'string';
 
     protected $fillable = [
         'id_pengajar',
@@ -30,8 +31,10 @@ class Pengajar extends Model
     ];
 
     protected $casts = [
-        'publikasi_penelitian' => 'array',
+        'publikasi_penelitian'     => 'array',
+        'kepentingan_klinis'       => 'array',
         'prestasi_dan_penghargaan' => 'array',
+        'pendidikan'               => 'array'
     ];
 
     protected static function boot()

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 use App\Models\User;
@@ -34,7 +33,7 @@ class RolePermissionSeeder extends Seeder
 
         // assidn role ke user
         $userAdministrator = User::firstOrCreate([
-            'email' => 'adminstratorbtkvunaira@gmail.com',
+            'email' => 'adminstratorbtkvunair@gmail.com',
             'role' => 'Administrator',
             'nomor_telepon' => null,
         ], [

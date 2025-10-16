@@ -21,12 +21,12 @@ class PengajarCrud extends Component
     public $id_pengajar,
         $name,
         $posisi,
-        $pendidikan,
+        $pendidikan               = [['pendidikan' => '']],
         $biografi,
         $pakar_penelitian,
-        $kepentingan_klinis,
-        $publikasi_penelitian = [['judul' => '', 'jurnal' => '']],
-        $prestasi_dan_penghargaan = [['prestasi' => '']],
+        $kepentingan_klinis       = [['klinis'     => '']],
+        $publikasi_penelitian     = [['judul'      => '', 'jurnal'    =>   '']],
+        $prestasi_dan_penghargaan = [['prestasi'   => '']],
         $foto;
 
     public $isOpen = false;
@@ -55,6 +55,26 @@ class PengajarCrud extends Component
                     $this->prestasi_dan_penghargaan[] = ['prestasi' => ''];
                 }
             }
+        } else if (str_starts_with($propertyName, 'pendidikan.')) {
+            $index = explode('.', $propertyName)[1] ?? null;
+
+            if ($index !== null && $index == count($this->pendidikan) - 1) {
+                $last = $this->pendidikan[$index];
+
+                if (!empty($last['pendidikan'])) {
+                    $this->pendidikan[] = ['pendidikan' => ''];
+                }
+            }
+        } else if (str_starts_with($propertyName, 'kepentingan_klinis.')) {
+            $index = explode('.', $propertyName)[1] ?? null;
+
+            if ($index !== null && $index == count($this->kepentingan_klinis) - 1) {
+                $last = $this->kepentingan_klinis[$index];
+
+                if (!empty($last['klinis'])) {
+                    $this->kepentingan_klinis[] = ['klinis' => ''];
+                }
+            }
         }
     }
 
@@ -71,6 +91,22 @@ class PengajarCrud extends Component
         if (count($this->prestasi_dan_penghargaan) > 1) {
             unset($this->prestasi_dan_penghargaan[$index]);
             $this->prestasi_dan_penghargaan = array_values($this->prestasi_dan_penghargaan);
+        }
+    }
+
+    public function removePendidikan($index)
+    {
+        if (count($this->pendidikan) > 1) {
+            unset($this->pendidikan[$index]);
+            $this->pendidikan = array_values($this->pendidikan);
+        }
+    }
+
+    public function removeKepentinganKlinis($index)
+    {
+        if (count($this->kepentingan_klinis) > 1) {
+            unset($this->kepentingan_klinis[$index]);
+            $this->kepentingan_klinis = array_values($this->kepentingan_klinis);
         }
     }
 
@@ -117,22 +153,46 @@ class PengajarCrud extends Component
         $this->id_pengajar        = $id;
         $this->name               = $pengajar->name;
         $this->posisi             = $pengajar->posisi;
-        $this->pendidikan         = $pengajar->pendidikan;
         $this->biografi           = $pengajar->biografi;
         $this->pakar_penelitian   = $pengajar->pakar_penelitian;
-        $this->kepentingan_klinis = $pengajar->kepentingan_klinis;
+        // $this->kepentingan_klinis = $pengajar->kepentingan_klinis;
+
+        $this->pendidikan = collect($pengajar->pendidikan ?? [])
+            ->map(fn($item)  => [
+                'pendidikan' => $item['pendidikan'] ?? ''
+            ])->toArray();
+
+        // jika pendidikan kosong
+        if (empty($this->pendidikan)) {
+            $this->pendidikan = [
+                ['pendidikan' => '']
+            ];
+        }
+
+        $this->kepentingan_klinis = collect($pengajar->kepentingan_klinis ?? [])
+            ->map(fn($item) => [
+                'klinis' => $item['klinis'] ?? ''
+            ])->toArray();
+
+        // 
+        if (empty($this->kepentingan_klinis)) {
+            $this->kepentingan_klinis = [
+                ['klinis' => '']
+            ];
+        }
 
         $this->publikasi_penelitian = collect($pengajar->publikasi_penelitian ?? [])
             ->map(fn($item) => [
-                'judul' => $item['jurnal'] ?? '',
+                'judul'  => $item['judul'] ?? '',
                 'jurnal' => $item['jurnal'] ?? ''
             ])->toArray();
 
         // jika publikasi penelitian kosong
         if (empty($this->publikasi_penelitian)) {
-            $this->publikasi_penelitian = [
-                ['judul' => '', 'jurnal' => '']
-            ];
+            $this->publikasi_penelitian = [[
+                'judul' => '',
+                'jurnal' => ''
+            ]];
         }
 
         $this->prestasi_dan_penghargaan = collect($pengajar->prestasi_dan_penghargaan ?? [])
@@ -142,11 +202,10 @@ class PengajarCrud extends Component
 
         // jika prestasi dan penghargaan kosong
         if (empty($this->prestasi_dan_penghargaan)) {
-            $this->prestasi_dan_penghargaan = [
-                ['prestasi' => '']
-            ];
+            $this->prestasi_dan_penghargaan = [[
+                'prestasi' => ''
+            ]];
         }
-
 
         // reset file input setiap kali modal dibuka
         $this->foto = null;
@@ -161,18 +220,28 @@ class PengajarCrud extends Component
             $this->validate([
                 'name'                                => 'required|string',
                 'posisi'                              => 'required|string',
-                'pendidikan'                          => 'nullable|string',
+                'pendidikan.*.pendidikan'             => 'nullable|string',
                 'biografi'                            => 'nullable|string',
                 'pakar_penelitian'                    => 'nullable|string',
-                'kepentingan_klinis'                  => 'nullable|string',
+                'kepentingan_klinis.*.klinis'         => 'nullable|string',
                 'publikasi_penelitian.*.judul'        => 'nullable|string',
                 'publikasi_penelitian.*.jurnal'       => 'nullable|string',
                 'prestasi_dan_penghargaan.*.prestasi' => 'nullable|string',
                 'foto'                                => 'nullable|image|max:5120'
             ]);
 
+            $pendidikan = collect($this->pendidikan)
+                ->filter(fn($item) => !empty($item['pendidikan']))
+                ->values()
+                ->toArray();
+
+            $kepentingan_klinis = collect($this->kepentingan_klinis)
+                ->filter(fn($item) => !empty($item['klinis']))
+                ->values()
+                ->toArray();
+
             $publikasi = collect($this->publikasi_penelitian)
-                ->filter(fn($item) => !empty($item['judul'] || !empty($item['jurnal'])))
+                ->filter(fn($item) => !empty($item['judul']) || !empty($item['jurnal']))
                 ->values()
                 ->toArray();
 
@@ -184,10 +253,10 @@ class PengajarCrud extends Component
             $pengajar = Pengajar::create([
                 'name'                     => Purifier::clean($this->name, 'custom'),
                 'posisi'                   => Purifier::clean($this->posisi, 'custom'),
-                'pendidikan'               => Purifier::clean($this->pendidikan, 'custom'),
+                'pendidikan'               => $pendidikan,
                 'biografi'                 => Purifier::clean($this->biografi, 'custom'),
                 'pakar_penelitian'         => Purifier::clean($this->pakar_penelitian, 'custom'),
-                'kepentingan_klinis'       => Purifier::clean($this->kepentingan_klinis, 'custom'),
+                'kepentingan_klinis'       => $kepentingan_klinis,
                 'publikasi_penelitian'     => $publikasi,
                 'prestasi_dan_penghargaan' => $prestasi,
                 'foto'                     => null,
@@ -223,10 +292,10 @@ class PengajarCrud extends Component
             $this->validate([
                 'name'                                => 'required|string',
                 'posisi'                              => 'required|string',
-                'pendidikan'                          => 'nullable|string',
+                'pendidikan.*.pendidikan'             => 'nullable|string',
                 'biografi'                            => 'nullable|string',
                 'pakar_penelitian'                    => 'nullable|string',
-                'kepentingan_klinis'                  => 'nullable|string',
+                'kepentingan_klinis.*.klinis'         => 'nullable|string',
                 'publikasi_penelitian.*.judul'        => 'nullable|string',
                 'publikasi_penelitian.*.jurnal'       => 'nullable|string',
                 'prestasi_dan_penghargaan.*.prestasi' => 'nullable|string',
@@ -234,6 +303,16 @@ class PengajarCrud extends Component
             ]);
 
             $pengajar = Pengajar::findOrFail($this->id_pengajar);
+
+            $pendidikan = collect($this->pendidikan)
+                ->filter(fn($item) => !empty($item['pendidikan']))
+                ->values()
+                ->toArray();
+
+            $kepentingan_klinis = collect($this->kepentingan_klinis)
+                ->filter(fn($item) => !empty($item['klinis']))
+                ->values()
+                ->toArray();
 
             $publikasi = collect($this->publikasi_penelitian)
                 ->filter(fn($item) => !empty($item['judul']) || !empty($item['jurnal']))
@@ -249,10 +328,10 @@ class PengajarCrud extends Component
             $pengajar->update([
                 'name'                     => Purifier::clean($this->name, 'custom'),
                 'posisi'                   => Purifier::clean($this->posisi, 'custom'),
-                'pendidikan'               => Purifier::clean($this->pendidikan, 'custom'),
+                'pendidikan'               => $pendidikan,
                 'biografi'                 => Purifier::clean($this->biografi, 'custom'),
                 'pakar_penelitian'         => Purifier::clean($this->pakar_penelitian, 'custom'),
-                'kepentingan_klinis'       => Purifier::clean($this->kepentingan_klinis, 'custom'),
+                'kepentingan_klinis'       => $kepentingan_klinis,
                 'publikasi_penelitian'     => $publikasi,
                 'prestasi_dan_penghargaan' => $prestasi,
             ]);
@@ -308,12 +387,12 @@ class PengajarCrud extends Component
         $this->id_pengajar              = '';
         $this->name                     = '';
         $this->posisi                   = '';
-        $this->pendidikan               = '';
+        $this->pendidikan               = [['pendidikan' => '']];
         $this->biografi                 = '';
         $this->pakar_penelitian         = '';
-        $this->kepentingan_klinis       = '';
-        $this->publikasi_penelitian     = [['judul' => '', 'jurnal' => '']];
-        $this->prestasi_dan_penghargaan = [['prestasi' => '']];
+        $this->kepentingan_klinis       = [['klinis'     => '']];
+        $this->publikasi_penelitian     = [['judul'      => '', 'jurnal' => '']];
+        $this->prestasi_dan_penghargaan = [['prestasi'   => '']];
         $this->foto                     = null;
     }
 }

@@ -36,15 +36,15 @@ class BeritaController extends Controller
             ->get();
 
         $data = [
-            'berita_id' => $berita->id_berita,
-            'berita_title' => $berita->judul,
-            'berita_date' => $berita->tgl_berita,
-            'berita_category' => $berita->kategori,
+            'berita_id'         => $berita->id_berita,
+            'berita_title'      => $berita->judul,
+            'berita_date'       => $berita->tgl_berita,
+            'berita_category'   => $berita->kategori,
             'berita_thumbnail'  => $berita->thumbnail_image,
-            'berita_content' => $berita->konten_berita,
-            'views_count' => $berita->viewers,
-            'berita_editor' => $berita->user->name ?? '',
-            'berita_lainnya' => $berita_lainnya,
+            'berita_content'    => $berita->konten_berita,
+            'views_count'       => $berita->viewers,
+            'berita_editor'     => $berita->user->name ?? '',
+            'berita_lainnya'    => $berita_lainnya,
         ];
 
         // SEO setup

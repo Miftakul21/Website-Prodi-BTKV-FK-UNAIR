@@ -19,7 +19,10 @@
                         <h6 class="profile-long-experiance"><i class="bi bi-person-lines-fill"></i> 25+ Tahun Pengalaman</h6>
                         <div class="container-info-education">
                             <p><i class="bi bi-mortarboard"></i> Pendidikan</p>
-                            <p>{{ $pengajar_pendidikan }}</p>
+                            @forelse($pengajar_pendidikan as $pen)
+                            <p>{{$pen['pendidikan'] ?? ''}}</p>
+                            @empty
+                            @endforelse
                         </div>
                     </div>
                     <div class="col-xl-5 col-md-6 col-12 offset-xl-1 order-1 order-md-2">
@@ -57,8 +60,10 @@
                     <div class="card-body">
                         <h6 class="fw-semibold kepentingan-klinis"> Kepentingan Klinis</h6>
                         <ul class="list-kepentingan-klinis">
-                            <li>Minimally Invasive Surgery</li>
-                            <li>Complex Valve Repair</li>
+                            @forelse($pengajar_kepentingan_klinis as $ket_klinis)
+                            <li>{{$ket_klinis['klinis']}}</li>
+                            @empty
+                            @endforelse
                         </ul>
                     </div>
                 </div>
