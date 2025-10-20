@@ -6,7 +6,7 @@
     </a>
 </header>
 <div class="page-heading">
-    <h3>Berita</h3>
+    <h3>Artikel</h3>
 </div>
 @livewire('berita-crud')
 @push('js')

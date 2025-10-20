@@ -5,7 +5,6 @@
         <i class="bi bi-justify fs-3"></i>
     </a>
 </header>
-
 <div class="page-heading">
     <h3>Dashboard</h3>
 </div>
@@ -24,7 +23,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Anggota</h6>
-                                    <h6 class="font-extrabold mb-0">1</h6>
+                                    <h6 class="font-extrabold mb-0">{{$user_count}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +40,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Tenaga Pengajar</h6>
-                                    <h6 class="font-extrabold mb-0">30</h6>
+                                    <h6 class="font-extrabold mb-0">{{$tenaga_pengajar_count}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -58,7 +57,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Berita & Event</h6>
-                                    <h6 class="font-extrabold mb-0">30</h6>
+                                    <h6 class="font-extrabold mb-0">{{$berita_count}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +74,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Galeri</h6>
-                                    <h6 class="font-extrabold mb-0">112</h6>
+                                    <h6 class="font-extrabold mb-0"></h6>
                                 </div>
                             </div>
                         </div>

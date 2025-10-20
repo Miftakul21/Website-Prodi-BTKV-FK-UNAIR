@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="card border-top border-primary border-2">
                     <div class="card-header fw-bold">
-                        <span>Data Berita</span>
+                        <span>Data Artikel</span>
                         <!-- nanti ya -->
                         <button class="btn btn-primary btn-sm ms-2" title="Add Data" wire:click="create">
                             <i class="bi bi-plus-square"></i>
@@ -101,7 +101,8 @@
                         <label class="fw-bold mt-2">Kategori</label>
                         <select class="form-select" wire:model="kategori">
                             <option value="Berita" selected>Berita</option>
-                            <option value="Event">Event</option>
+                            <option value="Acara">Acara</option>
+                            <option value="Hasil Karya">Hasil Karya</option>
                         </select>
 
                         <div wire:ignore>

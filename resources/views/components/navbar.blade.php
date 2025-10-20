@@ -1,4 +1,3 @@
- <div></div>
  <!-- navbar -->
  <nav class="navbar navbar-expand-lg bg-primary">
      <div class="container">
@@ -21,26 +20,52 @@
                      <li class="nav-item">
                          <a class="nav-link active" aria-current="page" href="/">Beranda</a>
                      </li>
-                     <li class="nav-item dropdown ">
+
+                     <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                              aria-expanded="false">
                              Profil
                          </a>
                          <ul class="dropdown-menu">
-                             <li><a class="dropdown-item text-dark" href="#">Sejarah</a></li>
-                             <li><a class="dropdown-item text-dark" href="/profil/visi-misi-spesialis1-btkv-fk-unair">Visi Misi</a></li>
-                             <li><a class="dropdown-item text-dark" href="#">Fasilitas</a></li>
-                             <li><a class="dropdown-item text-dark" href="/profil/akreditasi-spesialis1-btkv-fk-unair">Akreditasi</a></li>
+                             <li><a class="dropdown-item" href="#">Sejarah</a></li>
+                             <li><a class="dropdown-item" href="{{route('visi-misi')}}">Visi Misi</a></li>
+                             <li><a class="dropdown-item" href="{{route('fasilitas')}}">Fasilitas</a></li>
+                             <li><a class="dropdown-item" href="{{route('akreditasi')}}">Akreditasi</a></li>
                          </ul>
                      </li>
-                     <li class="nav-item">
-                         <a class="nav-link" href="/daftar-berita">Berita</a>
+
+                     <li class="nav-item dropdown">
+                         <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                             Akademik
+                         </a>
+                         <ul class="dropdown-menu">
+                             <li><a href="#" class="dropdown-item">Alumni</a></li>
+                             <li><a href="https://unairsatu.unair.ac.id/site/login" class="dropdown-item">Cyber Campus</a></li>
+                             <li><a href="{{route('kalender')}}" class="dropdown-item">Kalender Akademik</a></li>
+                             <li><a href="#" class="dropdown-item">Kurikulum</a></li>
+                             <li><a href="#" class="dropdown-item">Tugas Akhir Tesis</a></li>
+                             <li><a href="#" class="dropdown-item">Yudisium Prodi BTKV</a></li>
+                         </ul>
                      </li>
-                     <li class="nav-item">
-                         <a class="nav-link" href="#">Layanan</a>
+
+                     <li class="nav-item dropdown">
+                         <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                             Informasi
+                         </a>
+                         <ul class="dropdown-menu">
+                             <li><a href="#" class="dropdown-item">Brosur Prodi Spesialis BTKV</a></li>
+                             <li><a href="#" class="dropdown-item">Penerimaan PPDS BTKV</a></li>
+                             <li><a href="{{route('berita')}}" class="dropdown-item">Berita</a></li>
+                             <li><a href="#" class="dropdown-item">Pengumuman</a></li>
+                             <li><a href="#" class="dropdown-item">Prestasi</a></li>
+                             <li><a href="#" class="dropdown-item">Site Staf dan Tenaga Pengajar</a></li>
+                             <li><a href="#" class="dropdown-item">Publikasi</a></li>
+                             <li><a href="#" class="dropdown-item">Hasil Karya</a></li>
+                         </ul>
                      </li>
+
                      <li class="nav-item">
-                         <a class="nav-link" href="#">Galeri</a>
+                         <a class="nav-link" href="#">Kontak</a>
                      </li>
                  </ul>
              </div>
@@ -51,25 +76,53 @@
                  <li class="nav-item">
                      <a class="nav-link active" aria-current="page" href="/">Beranda</a>
                  </li>
+
                  <li class="nav-item dropdown">
-                     <a class="nav-link d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                         Profil <i class="bi bi-chevron-down ms-1" style="font-size: 18px;"></i>
+                     <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                         Profil
                      </a>
-                     <ul class="dropdown-menu bg-white">
-                         <li><a class="dropdown-item text-dark" href="#">Sejarah</a></li>
-                         <li><a class="dropdown-item text-dark" href="/profil/visi-misi-spesialis1-btkv-fk-unair">Visi danMisi</a></li>
-                         <li><a class="dropdown-item text-dark" href="#">Fasilitas</a></li>
-                         <li><a class="dropdown-item text-dark" href="/profil/akreditasi-spesialis1-btkv-fk-unair">Akreditasi</a></li>
+
+                     <ul class="dropdown-menu">
+                         <li><a href="#" class="dropdown-item">Sejarah</a></li>
+                         <li><a href="{{route('visi-misi')}}" class="dropdown-item">Visi Misi</a></li>
+                         <li><a href="{{route('fasilitas')}}" class="dropdown-item">Fasilitas</a></li>
+                         <li><a href="{{route('akreditasi')}}" class="dropdown-item">Akreditasi</a></li>
                      </ul>
                  </li>
-                 <li class="nav-item">
-                     <a class="nav-link" href="/daftar-berita">Berita</a>
+
+                 <li class="nav-item dropdown">
+                     <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                         Akademik
+                     </a>
+
+                     <ul class="dropdown-menu">
+                         <li><a href="#" class="dropdown-item">Alumni</a></li>
+                         <li><a href="https://unairsatu.unair.ac.id/site/login" class="dropdown-item">Cyber Campus</a></li>
+                         <li><a href="{{route('kalender')}}" class="dropdown-item">Kalender Akademik</a></li>
+                         <li><a href="#" class="dropdown-item">Kurikulum Akademik</a></li>
+                         <li><a href="#" class="dropdown-item">Tugas Akhir Tesis</a></li>
+                         <li><a href="#" class="dropdown-item">Yudisium Prodi BTKV</a></li>
+                     </ul>
                  </li>
-                 <li class="nav-item">
-                     <a class="nav-link" href="#">Layanan</a>
+
+                 <li class="nav-item dropdown">
+                     <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                         Informasi
+                     </a>
+                     <ul class="dropdown-menu">
+                         <li><a href="#" class="dropdown-item">Brosur Prodi Spesialis BTKV</a></li>
+                         <li><a href="#" class="dropdown-item">Penerimaan PPDS BTKV</a></li>
+                         <li><a href="{{route('berita')}}" class="dropdown-item">Berita</a></li>
+                         <li><a href="#" class="dropdown-item">Pengumuman</a></li>
+                         <li><a href="#" class="dropdown-item">Prestasi</a></li>
+                         <li><a href="#" class="dropdown-item">Site Staf dan Tenaga Pengajar</a></li>
+                         <li><a href="#" class="dropdown-item">Publikasi</a></li>
+                         <li><a href="#" class="dropdown-item">Hasil Karya</a></li>
+                     </ul>
                  </li>
+
                  <li class="nav-item">
-                     <a class="nav-link" href="#">Galeri</a>
+                     <a class="nav-link" href="#">Kontak</a>
                  </li>
              </ul>
          </div>

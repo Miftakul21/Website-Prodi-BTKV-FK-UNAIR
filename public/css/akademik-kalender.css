@@ -1,0 +1,30 @@
+.kalender-section {
+    padding: 50px 0;
+}
+
+.kalender-section .info-section {
+    font-size: 1.4rem;
+    font-weight: bold;
+    font-family: "Montserrat", sans-serif;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.container-image-kalender {
+    height: auto;
+    margin: 38px 0;
+}
+
+.container-image-kalender img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* responsive mobile */
+@media (max-width: 576px) {
+    .container-image-kalender {
+        width: 100%;
+    }
+}

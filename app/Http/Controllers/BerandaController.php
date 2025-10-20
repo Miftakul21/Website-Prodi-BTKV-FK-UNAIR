@@ -38,8 +38,15 @@ class BerandaController extends Controller
                 'slug as pengajar_slug'
             )
                 ->latest()
-                ->paginate(4);
+                ->paginate(4)
+                ->through(function ($item) {
+                    $decoded = json_decode($item->pengajar_pendidikan, true);
+                    $item->pengajar_pendidikan = $decoded[0]['pendidikan'] ?? '-';
+                    return $item;
+                });
         });
+
+        \Log::info('Test Data' . json_encode($pengajar));
 
         $galeri = Cache::remember('galeris', '100', function () {
             return Galeri::select(

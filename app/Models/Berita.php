@@ -12,6 +12,11 @@ class Berita extends Model
 {
     use HasFactory, SoftDeletes;
 
+    /**
+     * Model Berita ini tidak hanya mengelola artikel berita saja,
+     * tetapi acara (workshop, seminar), hasil karya
+     */
+
     protected $table = 'berita';
     protected $primaryKey = 'id_berita';
     public $incrementing = false;

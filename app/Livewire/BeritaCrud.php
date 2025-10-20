@@ -17,6 +17,11 @@ use Purifier;
 
 class BeritaCrud extends Component
 {
+    /*
+        Livewire ini tidak hanya mengangani berita saja kategorinya tetapi juga artikel, 
+        event, dan hasil harya
+    */
+
     use WithFileUploads, WithPagination;
 
     protected $paginationTheme = 'bootstrap';
@@ -112,7 +117,7 @@ class BeritaCrud extends Component
 
             $berita = Berita::create([
                 'user_id'         => Auth::user()->id_user,
-                'judul          ' => Purifier::clean($this->judul, 'custom'),
+                'judul'           => Purifier::clean($this->judul, 'custom'),
                 'tgl_berita'      => Purifier::clean($this->tgl_berita, 'custom'),
                 'kategori'        => Purifier::clean($this->kategori, 'custom'),
                 'thumbnail_image' => null,

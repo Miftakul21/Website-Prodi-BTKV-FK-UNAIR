@@ -9,3 +9,21 @@
     line-height: 1.4;
     text-align: center;
 }
+
+.container-akreditasi-1 {
+    width: auto;
+    height: 500px;
+}
+
+.container-akreditasi-1 img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* ==================== Mobile (max 576px) ==================== */
+@media (max-width: 576px) {
+    .container-akreditasi-1 {
+        height: 250px;
+    }
+}

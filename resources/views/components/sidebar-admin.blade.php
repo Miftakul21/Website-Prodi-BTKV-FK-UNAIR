@@ -3,7 +3,6 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <!-- <a href="index.html"><img src="compiled/svg/logo.svg" alt="Logo" srcset=""></a> -->
                     <a href="" style="font-size: 14px;">
                         BTKV FK UNAIR
                     </a>
@@ -25,7 +24,7 @@
                         </g>
                     </svg>
                     <div class="form-check form-switch fs-6">
-                        <input class="form-check-input  me-0" type="checkbox" id="toggle-dark" style="cursor: pointer">
+                        <input class="form-check-input me-0" type="checkbox" id="toggle-dark" style="cursor: pointer">
                         <label class="form-check-label"></label>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
@@ -53,25 +52,6 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item has-sub">
-                    <a href="#" class="sidebar-link">
-                        <i class="bi bi-trash"></i>
-                        <span>Data Terhapus</span>
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <a href="/berita-terhapus" class="submenu-link">
-                                Berita
-                            </a>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="/pengajar-terhapus" class="submenu-link">
-                                Pengajar
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
                 <li
                     class="sidebar-item {{Request::is('anggota') ? 'active' : '' }}">
                     <a href="{{ route('anggota') }}" class='sidebar-link'>
@@ -84,7 +64,7 @@
                     class="sidebar-item {{Request::is('berita-admin') ? 'active' : '' }}">
                     <a href="{{ route('berita-admin') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
-                        <span>Berita</span>
+                        <span>Artikel</span>
                     </a>
                 </li>
 

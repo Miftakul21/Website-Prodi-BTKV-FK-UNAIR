@@ -1,0 +1,17 @@
+.fasilitas-section {
+    padding: 50px 0;
+}
+
+.fasilitas-section .info-section {
+    font-size: 1.4rem;
+    font-weight: bold;
+    font-family: "Montserrat", sans-serif;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.container-content {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.8;
+}

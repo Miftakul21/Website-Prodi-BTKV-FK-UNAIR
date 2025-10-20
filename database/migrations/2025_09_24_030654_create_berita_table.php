@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('tgl_berita');
             $table->text('judul');
             $table->string('kategori');
-            $table->string('thumbnail_image');
+            $table->string('thumbnail_image')->nullable();
             $table->longText('konten_berita');
             $table->longText('slug')->nullable()->unique();
             $table->integer('viewers')->nullable();
