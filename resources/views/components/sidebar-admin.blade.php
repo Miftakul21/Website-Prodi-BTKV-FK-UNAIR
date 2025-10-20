@@ -94,6 +94,73 @@
 
                 <li class="sidebar-item has-sub">
                     <a href="#" class="sidebar-link">
+                        <i class="bi "></i>
+                        <span>Profil</span>
+                    </a>
+
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">
+                                Sejarah
+                            </a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">
+                                Visi Misi
+                            </a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">
+                                Fasilitas
+                            </a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">
+                                Akreditasi
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sudebar-item has-sub">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi"></i>
+                        <span>Akademk</span>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">
+                                Alumni
+                            </a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">
+                                Kalender Akademik
+                            </a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">
+                                Kurikulum
+                            </a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">
+                                Tugas Akhir Tesis
+                            </a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">
+                                Yudisium Prodi BTKV
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+
+
+                <li class="sidebar-item has-sub">
+                    <a href="#" class="sidebar-link">
                         <i class="bi bi-trash"></i>
                         <span>Data Terhapus</span>
                     </a>
