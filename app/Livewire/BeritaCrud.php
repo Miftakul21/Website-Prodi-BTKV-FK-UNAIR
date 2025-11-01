@@ -84,14 +84,14 @@ class BeritaCrud extends Component
     public function edit($id)
     {
         $berita = Berita::findOrFail($id);
-        $this->id_berita = $id;
-        $this->judul = $berita->judul;
-        $this->tgl_berita = $berita->tgl_berita;
-        $this->kategori = $berita->kategori;
-        $this->konten_berita = $berita->konten_berita;
+        $this->id_berita       = $id;
+        $this->judul           = $berita->judul;
+        $this->tgl_berita      = $berita->tgl_berita;
+        $this->kategori        = $berita->kategori;
+        $this->konten_berita   = $berita->konten_berita;
         // reset file input setiap kali modal dibuka
         $this->thumbnail_image = null;
-        $this->isOpen = true;
+        $this->isOpen          = true;
         $this->dispatch('initEditor');
         $this->dispatch('loadKonten', $this->konten_berita);
     }
@@ -152,7 +152,6 @@ class BeritaCrud extends Component
     {
         DB::beginTransaction();
         try {
-            // Nanti dikasih slug ya
             $this->validate([
                 'judul'           => 'required|string|max:255',
                 'tgl_berita'      => 'required|date',
@@ -189,7 +188,7 @@ class BeritaCrud extends Component
             $this->dispatch('beritaSaved', 'Berhasil diperbarui!');
         } catch (\Throwable $e) {
             DB::rollBack();
-            \Log::error('Berita update error: ' . $e->getMessage(), [
+            Log::error('Berita update error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
             ]);
             $this->dispatch('beritaError', 'Terjadi kesalahan: ' . $e->getMessage());
@@ -218,11 +217,11 @@ class BeritaCrud extends Component
 
     public function resetFields()
     {
-        $this->id_berita = '';
-        $this->judul = '';
-        $this->tgl_berita = '';
-        $this->kategori = 'Berita';
-        $this->konten_berita = '';
+        $this->id_berita       = '';
+        $this->judul           = '';
+        $this->tgl_berita      = '';
+        $this->kategori        = 'Berita';
+        $this->konten_berita   = '';
         $this->thumbnail_image = null;
     }
 }

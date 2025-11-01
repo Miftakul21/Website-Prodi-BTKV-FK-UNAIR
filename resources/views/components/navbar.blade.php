@@ -99,7 +99,7 @@
                          <li><a href="#" class="dropdown-item">Alumni</a></li>
                          <li><a href="https://unairsatu.unair.ac.id/site/login" class="dropdown-item">Cyber Campus</a></li>
                          <li><a href="{{route('kalender')}}" class="dropdown-item">Kalender Akademik</a></li>
-                         <li><a href="#" class="dropdown-item">Kurikulum Akademik</a></li>
+                         <li><a href="{{route('kurikulum')}}" class="dropdown-item">Kurikulum Akademik</a></li>
                          <li><a href="#" class="dropdown-item">Tugas Akhir Tesis</a></li>
                          <li><a href="#" class="dropdown-item">Yudisium Prodi BTKV</a></li>
                      </ul>

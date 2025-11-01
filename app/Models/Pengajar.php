@@ -71,8 +71,8 @@ class Pengajar extends Model
     protected static function generateUniqueSlug($name)
     {
         $baseSlug = Str::slug($name);
-        $slug = $baseSlug;
-        $counter = 1;
+        $slug     = $baseSlug;
+        $counter  = 1;
 
         while (static::where('slug', $slug)->exists()) {
             $slug = "${baseSlug}-{$counter}";

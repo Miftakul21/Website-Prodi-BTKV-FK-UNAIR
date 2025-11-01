@@ -5,7 +5,6 @@
                 <div class="card border-top border-primary border-2">
                     <div class="card-header fw-bold">
                         <span>Data Pengajar</span>
-                        <!-- nanti ya -->
                         <button class="btn btn-primary btn-sm ms-2" title="Add Data" wire:click="create">
                             <i class="bi bi-plus-square"></i>
                         </button>

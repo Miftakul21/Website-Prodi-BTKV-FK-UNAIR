@@ -94,7 +94,7 @@
 
                 <li class="sidebar-item has-sub">
                     <a href="#" class="sidebar-link">
-                        <i class="bi "></i>
+                        <i class="bi bi-grid-fill"></i>
                         <span>Profil</span>
                     </a>
 
@@ -105,7 +105,7 @@
                             </a>
                         </li>
                         <li class="submenu-item">
-                            <a href="#" class="submenu-link">
+                            <a href="{{route('visi-misi-admin')}}" class="submenu-link">
                                 Visi Misi
                             </a>
                         </li>
@@ -122,9 +122,9 @@
                     </ul>
                 </li>
 
-                <li class="sudebar-item has-sub">
+                <li class="sidebar-item has-sub">
                     <a href="#" class="sidebar-link">
-                        <i class="bi"></i>
+                        <i class="bi bi-grid-fill"></i>
                         <span>Akademk</span>
                     </a>
                     <ul class="submenu">
@@ -134,17 +134,17 @@
                             </a>
                         </li>
                         <li class="submenu-item">
-                            <a href="#" class="submenu-link">
+                            <a href="{{route('kalender-admin')}}" class="submenu-link">
                                 Kalender Akademik
                             </a>
                         </li>
                         <li class="submenu-item">
-                            <a href="#" class="submenu-link">
+                            <a href="{{route('kurikulum-admin')}}" class="submenu-link">
                                 Kurikulum
                             </a>
                         </li>
                         <li class="submenu-item">
-                            <a href="#" class="submenu-link">
+                            <a href="{{route('tugas-akhir-admin')}}" class="submenu-link">
                                 Tugas Akhir Tesis
                             </a>
                         </li>
@@ -155,9 +155,6 @@
                         </li>
                     </ul>
                 </li>
-
-
-
 
                 <li class="sidebar-item has-sub">
                     <a href="#" class="sidebar-link">

@@ -25,4 +25,10 @@ class ProfilController extends Controller
     {
         return view('profil.akreditasi');
     }
+
+    // admin
+    public function visiDanMisiAdminIndex()
+    {
+        return view('profil.visi_dan_misi_admin_index');
+    }
 }

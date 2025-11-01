@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class AkademikController extends Controller
 {
+    // user atau pengunjung
     public function alumni()
     {
         return null;
@@ -18,6 +19,22 @@ class AkademikController extends Controller
 
     public function kurikulumAkademik()
     {
-        return null;
+        return view('akademik.kurikulum');
+    }
+
+    // admin
+    public function kalenderAdminIndex()
+    {
+        return view('akademik.kalender-admin-index');
+    }
+
+    public function kurikulumAdminIndex()
+    {
+        return view('akademik.kurikulum-admin-index');
+    }
+
+    public function tugasAkhirAdminIndex()
+    {
+        return view('akademik.tugas-akhir-admin-index');
     }
 }
