@@ -12,7 +12,8 @@ use Livewire\WithFileUploads;
 use Livewire\Component;
 use Purifier;
 
-class FasilitasCrud extends Component
+
+class YudisiumCrud extends Component
 {
     use WithFileUploads;
 
@@ -23,77 +24,78 @@ class FasilitasCrud extends Component
     public $isOpen = false;
 
     protected $listeners = [
-        'updateKonten'    => 'updateKonten', // menerima payload dari JS
-        'deleteFasilitas' => 'delete'
+        'updateKonten'   => 'updateKonten',
+        'deleteYudisium' => 'delete'
     ];
 
     public function render()
     {
-        $fasilitas = Cache::remember('fasilitas_page', 100, function () {
+        $yudisium = Cache::remember('yudisium_page', 100, function () {
             return Pages::select(
-                'id_pages as id_fasilitas',
+                'id_pages as id_yudisium',
                 'title',
                 'content'
             )
-                ->where('faslitias')
+                ->where('slug', 'Yudisium')
                 ->get();
         });
-
-        return view('livewire.fasilitas-crud', [
-            'fasilitas' => $fasilitas
+        return view('livewire.yudisium-crud', [
+            'yudisium' => $yudisium
         ]);
     }
 
-    public function clearFaslitasCache()
+    protected function clearYudisiumCache()
     {
-        Cache::forget('fasilitas_page');
+        Cache::forget('yudisium_page');
     }
 
     public function create()
     {
         $this->resetFields();
-        $this->title   = 'Fasilitas';
+        $this->title   = 'Yudisium';
+        $this->content = null;
         $this->isOpen  = true;
         $this->dispatch('initEditor');
     }
 
     public function edit($id)
     {
-        $pages =  Pages::findOrFail($id);
+        $pages = Pages::findOrFail($id);
         $this->id_pages = $id;
-        $this->title    = 'Fasilitas';
+        $this->title    = 'Yudisium';
         $this->content  = $pages->content;
         $this->isOpen   = true;
         $this->dispatch('initEditor');
         $this->dispatch('loadKonten', $this->content);
     }
 
+    // terima konten dari JS
     public function updateKonten($value = null)
     {
         $this->content = $value ?? '';
     }
 
-    public function store()
+    public function save()
     {
         DB::beginTransaction();
         try {
             $this->validate([
-                'title'   => 'nullable|string',
-                'content' => 'nullable|string',
+                'title'   => 'required|string|max:255',
+                'content' => 'required|string',
             ]);
 
             Pages::create([
                 'title'   => $this->title,
-                'content' => Purifier::clean($this->content, 'custom')
+                'content' => Purifier::clean($this->content, 'custom'),
             ]);
 
             DB::commit();
-            $this->clearFaslitasCache();
+            $this->clearYudisiumCache();
             $this->closeModal();
-            $this->dispatch('faslitias', 'Berhasil ditambahjan');
-        } catch (\Throwable $e) {
+            $this->dispatch('yudisiumSaved', 'Berhasil ditambahkan!');
+        } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Fasilitas error: ' . $e->getMessage(), [
+            Log::error('Yudisium Error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
         }
@@ -102,42 +104,42 @@ class FasilitasCrud extends Component
     public function update()
     {
         DB::beginTransaction();
+
         try {
             $this->validate([
                 'title'   => 'nullable|string',
-                'content' => 'nullable|string'
+                'content' => 'nullable|string',
             ]);
 
-            $fasilitas = Pages::findOrFail($this->id_pages);
-            $fasilitas->update([
+            $yudisium = Pages::findOrFail($this->id_pages);
+            $yudisium->update([
                 'title'   => $this->title,
                 'content' => Purifier::clean($this->content, 'custom')
             ]);
 
             DB::commit();
-            $this->clearFasilitasCache();
+            $this->clearYidisiumCache();
             $this->closeModal();
-            $this->dispatch('fasilitascSaved', 'Berhasil diperbarui!');
+            $this->dispatch('yudsiumUpdated', 'Berhasil diperbarui!');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Fasilitas error: ' . $e->getMessage(), [
+            Log::error("Yudisium error: " . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
+            $this->dispatch('yudisiumError', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
     public function delete($id)
     {
         try {
-            $fasilitas = Pages::findOrFail($id);
-            $fasilitas->delete();
-
-            $this->clearFasilitasCache();
-            $this->dispatch('faslitasDeleted');
-        } catch (\Throwable $e) {
-            Log::error('Fasilitas error: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
-            ]);
+            $yudisium = Pages::findOrFail($id);
+            $yudisium->delete();
+            $this->clearYudisiumCache();
+            $this->dispatch('yudisiumDeleted', 'Berhasil dihapus?');
+        } catch (\Throwbla $e) {
+            Log::error('Yudisium delete error: ' . $e->getMessage());
+            $this->dispatch('yudisiumError', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

@@ -97,7 +97,6 @@
                         <i class="bi bi-grid-fill"></i>
                         <span>Profil</span>
                     </a>
-
                     <ul class="submenu">
                         <li class="submenu-item">
                             <a href="#" class="submenu-link">
@@ -129,7 +128,7 @@
                     </a>
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="#" class="submenu-link">
+                            <a href="{{route('alumni-admin')}}" class="submenu-link">
                                 Alumni
                             </a>
                         </li>
@@ -149,8 +148,8 @@
                             </a>
                         </li>
                         <li class="submenu-item">
-                            <a href="#" class="submenu-link">
-                                Yudisium Prodi BTKV
+                            <a href="{{route('yudisium-admin')}}" class="submenu-link">
+                                Yudisium
                             </a>
                         </li>
                     </ul>

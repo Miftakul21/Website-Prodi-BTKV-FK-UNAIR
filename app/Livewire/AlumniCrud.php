@@ -12,52 +12,52 @@ use Livewire\WithFileUploads;
 use Livewire\Component;
 use Purifier;
 
-class KurikulumCrud extends Component
+class AlumniCrud extends Component
 {
     use WithFileUploads;
 
     public $id_pages,
         $title,
         $content,
-        $image,
-        $file;
+        $file,
+        $image;
+
 
     public $isOpen = false;
 
     protected $listeners = [
-        'updateKonten'    => 'updateKonten', // menerima payload dari JS
-        'deleteKurikulum' => 'delete'
+        'updateKonten' => 'updateKonten',
+        'deleteAlumni' => 'delete'
     ];
 
     public function render()
     {
-        $kurikulum = Cache::remember('kurikulum_page', 100, function () {
+        $alumni = Cache::remember('alumni_page', 100, function () {
             return Pages::select(
-                'id_pages as id_kurikulum',
+                'id_pages as id_alumni',
                 'title',
                 'content',
-                'image',
                 'file'
             )
-                ->where('slug', 'Kurikulum-Akademik')
+                ->where('slug', 'Alumni')
                 ->get();
         });
 
-        return view('livewire.kurikulum-crud', [
-            'kurikulum' => $kurikulum
+        return view('livewire.alumni-crud', [
+            'alumni' => $alumni
         ]);
     }
 
-    protected function clearKurikulumCache()
+    protected function clearAlumniCache()
     {
-        Cache::forget('kurikulum_page');
+        Cache::forget('alumni_page');
     }
 
     public function create()
     {
         $this->resetFields();
-        $this->title   = 'Kurikulum Akademik';
-        $this->image   = null;
+        $this->title   = 'Alumni';
+        $this->content = null;
         $this->file    = null;
         $this->isOpen  = true;
         $this->dispatch('initEditor');
@@ -67,7 +67,7 @@ class KurikulumCrud extends Component
     {
         $pages = Pages::findOrFail($id);
         $this->id_pages = $id;
-        $this->title    = 'Kurikulum Akademik';
+        $this->title    = 'Alumni';
         $this->content  = $pages->content;
         $this->file     = null;
         $this->image    = null;
@@ -76,7 +76,7 @@ class KurikulumCrud extends Component
         $this->dispatch('loadKonten', $this->content);
     }
 
-    // terima konten dari JS
+    // rerima konten dari JS
     public function updateKonten($value = null)
     {
         $this->content = $value ?? '';
@@ -94,39 +94,38 @@ class KurikulumCrud extends Component
                 'image'    => 'nullable|mimes:jpg,jpeg,png|max:5120'
             ]);
 
-            $kurikulum = Pages::create([
-                'title'    => $this->title,
-                'content'  => Purifier::clean($this->content, 'custom'),
-                'file'     => null,
-                'image'    => null
+            $alumni = Pages::create([
+                'title'   => $this->title,
+                'content' => Purifier::clean($this->content, 'custom'),
+                'file'    => null,
+                'image'   => null
             ]);
 
             if ($this->file) {
                 $fileBaru = $this->file;
-                DB::afterCommit(function () use ($kurikulum, $fileBaru) {
+                DB::afterCommit(function () use ($alumni, $fileBaru) {
                     $filename = Str::random(20) . '.' . $fileBaru->getClientOriginalExtension();
                     $path     = $fileBaru->storeAs('akademik', $filename, 'public');
-                    $kurikulum->update(['file' => $path]);
+                    $alumni->update(['file' => $path]);
                 });
             }
 
             if ($this->image) {
                 $imageBaru = $this->image;
-                DB::afterCommit(function () use ($kurikulum, $imageBaru) {
-                    $filename = Str::random(20) . '.'
-                        . $imageBaru->getClientOriginalExtension();
+                DB::afterCommit(function () use ($alumni, $imageBaru) {
+                    $filename = Str::random(20) . '.' . $imageBaru->getClientOriginalExtension();
                     $path     = $imageBaru->storeAs('akademik', $filename, 'public');
-                    $kurikulum->update(['image' => $path]);
+                    $alumni->update(['image' => $path]);
                 });
             }
 
             DB::commit();
-            $this->clearKurikulumCache();
+            $this->clearAlumniCache();
             $this->closeModal();
-            $this->dispatch('kurikulumSaved', 'Berhasil ditambahkan!');
+            $this->dispatch('alumniSaved', 'Berhasil ditambahkan!');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error("Kurikulum Akademik error: " . $e->getMessage(), [
+            Log::error('Error menyimpan data alumni: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
         }
@@ -135,7 +134,6 @@ class KurikulumCrud extends Component
     public function update()
     {
         DB::beginTransaction();
-
         try {
             $this->validate([
                 'title'   => 'nullable|string',
@@ -144,63 +142,62 @@ class KurikulumCrud extends Component
                 'image'   => 'nullable|mimes:jpg,jpeg,png|max:5120'
             ]);
 
-            $kurikulum = Pages::findOrFail($this->id_pages);
-            $kurikulum->update([
+            $alumni = Pages::findOrFail($this->id_pages);
+            $alumni->update([
                 'title'   => $this->title,
                 'content' => Purifier::clean($this->content, 'custom'),
             ]);
 
             if ($this->file) {
-                $oldPath  = $kurikulum->file;
+                $oldPath  = $alumni->file;
                 $fileBaru = $this->file;
-                DB::afterCommit(function () use ($kurikulum, $oldPath, $fileBaru) {
-                    // delete file lama jika ada
+                DB::afterCommit(function () use ($alumni, $oldPath, $fileBaru) {
                     if ($oldPath && Storage::disk('public')->exists(str_replace('storage/', '', $oldPath))) {
                         Storage::disk('public')->delete(str_replace('storage/', '', $oldPath));
                     }
                     $filename = Str::random(20) . '.' . $fileBaru->getClientOriginalExtension();
                     $path     = $fileBaru->storeAs('akademik', $filename, 'public');
-                    $kurikulum->update(['file' => $path]);
+                    $alumni->update(['file' => $path]);
                 });
             }
 
             if ($this->image) {
-                $oldPath   = $kurikulum->image;
+                $oldPath  = $alumni->image;
                 $imageBaru = $this->image;
-                DB::afterCommit(function () use ($kurikulum, $oldPath, $imageBaru) {
+                DB::afterCommit(function () use ($alumni, $oldPath, $imageBaru) {
                     // delete image lama jika ada
                     if ($oldPath && Storage::disk('public')->exists(str_replace('storage/', '', $oldPath))) {
                         Storage::disk('public')->delete(str_replace('storage/', '', $oldPath));
                     }
                     $filename = Str::random(20) . '.' . $imageBaru->getClientOriginalExtension();
                     $path     = $imageBaru->storeAs('akademik', $filename, 'public');
-                    $kurikulum->update(['image' => $path]);
+                    $alumni->update(['image' => $path]);
                 });
             }
 
             DB::commit();
-            $this->clearKurikulumCache();
+            $this->clearAlumniCache();
             $this->closeModal();
-            $this->dispatch('kurikulumSaved', 'Berhasil diperbarui!');
+            $this->dispatch('alumniSaved', 'Berhasil diperbarui!');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('kurikulum update error: ' . $e->getMessage(), [
+            Log::error('alumni update error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
             ]);
-            $this->dispatch('kurikulumError', 'Terjadi kesalahan: ' . $e->getMessage());
+            $this->dispatch('alumniError', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
     public function delete($id)
     {
         try {
-            $kurikulum = Pages::findOrFail($id);
-            $kurikulum->delete();
-            $this->clearKurikulumCache();
-            $this->dispatch('kurikulumDeleted');
+            $alumni = Pages::findOrFail($id);
+            $alumni->delete();
+            $this->clearAlumniCache();
+            $this->dispatch('alumniDeleted');
         } catch (\Throwable $e) {
-            Log::error("Kurikulum delete error: " . $e->getMessage());
-            $this->dispatch('kurikulumError', 'Terjadi kesalahan: ' . $e->getMessage());
+            Log::error('Alumni delete error: ' . $e->getMessage());
+            $this->dispatch('alumniError', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

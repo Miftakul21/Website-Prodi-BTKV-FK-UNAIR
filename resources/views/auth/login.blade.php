@@ -39,7 +39,8 @@
         </div>
     </div>
     <div class="col-lg-7 d-none d-lg-block">
-        <div id="auth-right">
+        <div id="auth-right" style="width: 100%; height: 100%; overflow: hidden;">
+            <img src="{{asset('img/bg-fk-unair.webp')}}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
     </div>
 </div>

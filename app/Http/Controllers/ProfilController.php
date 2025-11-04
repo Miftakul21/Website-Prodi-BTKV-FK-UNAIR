@@ -31,4 +31,9 @@ class ProfilController extends Controller
     {
         return view('profil.visi_dan_misi_admin_index');
     }
+
+    public function fasilitasAdminIndex()
+    {
+        return view('profil.fasilitas_admin_index');
+    }
 }

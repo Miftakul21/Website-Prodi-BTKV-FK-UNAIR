@@ -23,6 +23,11 @@ class AkademikController extends Controller
     }
 
     // admin
+    public function alumniAdminIndex()
+    {
+        return view('akademik.alumni-admin-index');
+    }
+
     public function kalenderAdminIndex()
     {
         return view('akademik.kalender-admin-index');
@@ -36,5 +41,10 @@ class AkademikController extends Controller
     public function tugasAkhirAdminIndex()
     {
         return view('akademik.tugas-akhir-admin-index');
+    }
+
+    public function yudisiumAdminIndex()
+    {
+        return view('akademik.yudisium-admin-index');
     }
 }

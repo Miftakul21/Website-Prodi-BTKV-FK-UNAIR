@@ -43,12 +43,14 @@ Route::middleware(['auth.login', 'user.online'])->group(function () {
 
     // profil
     Route::get('/visi-misi-admin', [ProfilController::class, 'visiDanMisiAdminIndex'])->name('visi-misi-admin');
-
+    Route::get('/fasilitas-admin', [ProfilController::class, 'fasilitasAdminIndex'])->name('fasilitas-admin');
 
     // akademik
+    Route::get('/alumni-admin', [AkademikController::class, 'alumniAdminIndex'])->name('alumni-admin');
     Route::get('/kalender-admin', [AkademikController::class, 'kalenderAdminIndex'])->name('kalender-admin');
     Route::get('/kurikulum-admin', [AkademikController::class, 'kurikulumAdminIndex'])->name('kurikulum-admin');
-    ROute::get('/tugas-akhir-admin', [AkademikController::class, 'tugasAkhirAdminIndex'])->name('tugas-akhir-admin');
+    Route::get('/tugas-akhir-admin', [AkademikController::class, 'tugasAkhirAdminIndex'])->name('tugas-akhir-admin');
+    Route::get('/yudisium-admin', [AkademikController::class, 'yudisiumAdminIndex'])->name('yudisium-admin');
 
     Route::post('/upload-image-ckeditor', [BeritaController::class, 'uploadImageCKEditor'])
         ->name('ckeditor.upload');
