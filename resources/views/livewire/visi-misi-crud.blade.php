@@ -14,11 +14,10 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <td>No</td>
-                                        <td>Page</td>
-                                        <!-- <td>Image</td> -->
-                                        <td>Deskripsi</td>
-                                        <td>Action</td>
+                                        <th>No</th>
+                                        <th>Page</th>
+                                        <th>Deskripsi</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,32 +88,6 @@
                             <textarea class="form-control" id="deskripsi" style="height: 500px;">{!! $content !!}</textarea>
                         </div>
 
-                        <label class="fw-bold mt-2">Image</label>
-                        <input type="file" class="form-control" wire:model="image">
-
-                        <!-- indikator upload -->
-                        <!-- <div wire:loading wire:target="image" class="text-info">
-                            Sedang upload image...
-                        </div> -->
-
-                        <!-- preview image baru -->
-                        <!-- @if($image)
-                        <div class="mt-2">
-                            <span class="text-success">Image: {{$image->getClientOriginalName()}}</span>
-                            <br>
-                            <img src="{{$image->temporaryUrl()}}" class="img-thumbnail mt-2" width="150">
-                        </div>
-                        @endif -->
-
-                        <!-- pesan kalau edit tapi belum pilih gambar -->
-                        <!-- @if($id_pages && $image== null)
-                        <small class="text-muted">
-                            <span class="text-danger">*</span>Kosongkan jika tidak mengganti image
-                        </small>
-                        @endif -->
-
-                        <!-- <label class="fw-bold mt-2 d-block">File</label>
-                        <input type="file" class="form-control" wire:model="file"> -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-secondary" wire:click="closeModal">
@@ -132,48 +105,106 @@
 
     @push('js')
     <!-- ckeditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@39.0.2/build/ckeditor.js"></script>
     <script>
         document.addEventListener('livewire:init', () => {
             let editorInstance;
 
             Livewire.on('initEditor', () => {
-                // kasih delay biar modal keburu render
                 setTimeout(() => {
                     if (editorInstance) return;
 
                     const el = document.getElementById('deskripsi');
-                    if (!el) {
-                        console.warn('CKEditor target tidak ditemukan!');
-                        return;
-                    }
+                    if (!el) return console.warn('CKEditor target tidak ditemukan!');
 
-                    ClassicEditor.create(el, {
-                        tollbar: [
-                            'heading',
-                            '|', 'bold', 'italic', 'underline', 'link',
-                            '|', 'bulletedList', 'numberedList',
-                            '|', 'blockQuote', 'insertTable',
-                            '|', 'undo', 'redo'
-                        ]
-                    }).then(editor => {
-                        editorInstance = editor;
-                        // update livewire tiap ada perubahan
-                        editor.model.document.on('change:data', () => {
-                            Livewire.dispatch('updateKonten', {
-                                value: editor.getData()
+                    ClassicEditor
+                        .create(el, {
+                            toolbar: [
+                                'heading',
+                                '|', 'bold', 'italic', 'underline', 'link',
+                                '|', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
+                                '|', 'alignment:left', 'alignment:center', 'alignment:right', 'alignment:justify',
+                                '|', 'bulletedList', 'numberedList',
+                                '|', 'blockQuote', 'insertTable',
+                                '|', 'undo', 'redo'
+                            ],
+                            heading: {
+                                options: [{
+                                        model: 'paragraph',
+                                        title: 'Paragraph',
+                                        class: 'ck-heading_paragraph'
+                                    },
+                                    {
+                                        model: 'heading1',
+                                        view: 'h1',
+                                        title: 'Heading 1',
+                                        class: 'ck-heading_heading1'
+                                    },
+                                    {
+                                        model: 'heading2',
+                                        view: 'h2',
+                                        title: 'Heading 2',
+                                        class: 'ck-heading_heading2'
+                                    },
+                                    {
+                                        model: 'heading3',
+                                        view: 'h3',
+                                        title: 'Heading 3',
+                                        class: 'ck-heading_heading3'
+                                    },
+                                    {
+                                        model: 'heading4',
+                                        view: 'h4',
+                                        title: 'Heading 4',
+                                        class: 'ck-heading_heading4'
+                                    },
+                                    {
+                                        model: 'heading5',
+                                        view: 'h5',
+                                        title: 'Heading 5',
+                                        class: 'ck-heading_heading5'
+                                    }
+                                ]
+                            },
+                            alignment: {
+                                options: ['left', 'center', 'right', 'justify']
+                            },
+                            fontSize: {
+                                options: [8, 10, 12, 14, 'default', 18, 24, 36],
+                                supportAllValues: true
+                            },
+                            fontFamily: {
+                                options: [
+                                    'default',
+                                    'Arial, Helvetica, sans-serif',
+                                    'Courier New, Courier, monospace',
+                                    'Georgia, serif',
+                                    'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                                    'Tahoma, Geneva, sans-serif',
+                                    'Times New Roman, Times, serif',
+                                    'Trebuchet MS, Helvetica, sans-serif',
+                                    'Verdana, Geneva, sans-serif'
+                                ],
+                                supportAllValues: true
+                            }
+                        })
+                        .then(editor => {
+                            editorInstance = editor;
+
+                            editor.model.document.on('change:data', () => {
+                                Livewire.dispatch('updateKonten', {
+                                    value: editor.getData()
+                                });
                             });
-                        });
 
-                        // load data ke ditor
-                        Livewire.on('loadKonten', konten => {
-                            editor.setData(konten || '');
-                        });
-                    }).catch(error => console.error("Something wrong! " + error));
+                            Livewire.on('loadKonten', konten => {
+                                editor.setData(konten || '');
+                            });
+                        })
+                        .catch(error => console.error('CKEditor Error:', error));
                 }, 100);
             });
 
-            // reset editor kalau modal ditutup
             Livewire.on('resetEditor', () => {
                 if (editorInstance) {
                     editorInstance.destroy();

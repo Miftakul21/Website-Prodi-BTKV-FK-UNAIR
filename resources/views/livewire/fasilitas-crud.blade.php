@@ -36,12 +36,12 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <button class="dropdown-item" wire:click="edit('{{$data->id_fasilitas_akhir}}')">
+                                                        <button class="dropdown-item" wire:click="edit('{{$data->id_fasilitas}}')">
                                                             <i class="bi bi-pencil text-warning"></i> Edit
                                                         </button>
                                                     </li>
                                                     <li>
-                                                        <button class="dropdown-item" onclick="confirmDelete('{{$data->id_fasilitas_akhir}}')">
+                                                        <button class="dropdown-item" onclick="confirmDelete('{{$data->id_fasilitas}}')">
                                                             <i class="bi bi-trash text-danger"></i> Delete
                                                         </button>
                                                     </li>
@@ -103,7 +103,116 @@
 
     @push('js')
     <!-- ckeditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@39.0.2/build/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic-with-font@39.0.2/build/ckeditor.js"></script>
+    <script>
+        document.addEventListener('livewire:init', () => {
+            let editorInstance;
+
+            Livewire.on('initEditor', () => {
+                setTimeout(() => {
+                    if (editorInstance) return;
+
+                    const el = document.getElementById('deskripsi');
+                    if (!el) return console.warn('CKEditor target tidak ditemukan!');
+
+                    ClassicEditor
+                        .create(el, {
+                            toolbar: [
+                                'heading',
+                                '|', 'bold', 'italic', 'underline', 'link',
+                                '|', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
+                                '|', 'alignment:left', 'alignment:center', 'alignment:right', 'alignment:justify',
+                                '|', 'bulletedList', 'numberedList',
+                                '|', 'blockQuote', 'insertTable',
+                                '|', 'undo', 'redo'
+                            ],
+                            heading: {
+                                options: [{
+                                        model: 'paragraph',
+                                        title: 'Paragraph',
+                                        class: 'ck-heading_paragraph'
+                                    },
+                                    {
+                                        model: 'heading1',
+                                        view: 'h1',
+                                        title: 'Heading 1',
+                                        class: 'ck-heading_heading1'
+                                    },
+                                    {
+                                        model: 'heading2',
+                                        view: 'h2',
+                                        title: 'Heading 2',
+                                        class: 'ck-heading_heading2'
+                                    },
+                                    {
+                                        model: 'heading3',
+                                        view: 'h3',
+                                        title: 'Heading 3',
+                                        class: 'ck-heading_heading3'
+                                    },
+                                    {
+                                        model: 'heading4',
+                                        view: 'h4',
+                                        title: 'Heading 4',
+                                        class: 'ck-heading_heading4'
+                                    },
+                                    {
+                                        model: 'heading5',
+                                        view: 'h5',
+                                        title: 'Heading 5',
+                                        class: 'ck-heading_heading5'
+                                    }
+                                ]
+                            },
+                            alignment: {
+                                options: ['left', 'center', 'right', 'justify']
+                            },
+                            fontSize: {
+                                options: [8, 10, 12, 14, 'default', 18, 24, 36],
+                                supportAllValues: true
+                            },
+                            fontFamily: {
+                                options: [
+                                    'default',
+                                    'Arial, Helvetica, sans-serif',
+                                    'Courier New, Courier, monospace',
+                                    'Georgia, serif',
+                                    'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                                    'Tahoma, Geneva, sans-serif',
+                                    'Times New Roman, Times, serif',
+                                    'Trebuchet MS, Helvetica, sans-serif',
+                                    'Verdana, Geneva, sans-serif'
+                                ],
+                                supportAllValues: true
+                            }
+                        })
+                        .then(editor => {
+                            editorInstance = editor;
+
+                            editor.model.document.on('change:data', () => {
+                                Livewire.dispatch('updateKonten', {
+                                    value: editor.getData()
+                                });
+                            });
+
+                            Livewire.on('loadKonten', konten => {
+                                editor.setData(konten || '');
+                            });
+                        })
+                        .catch(error => console.error('CKEditor Error:', error));
+                }, 100);
+            });
+
+            Livewire.on('resetEditor', () => {
+                if (editorInstance) {
+                    editorInstance.destroy();
+                    editorInstance = null;
+                }
+            });
+        });
+    </script>
+    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
     <script>
         document.addEventListener('livewire:init', () => {
             let editorInstance;
@@ -152,6 +261,6 @@
                 }
             });
         });
-    </script>
+    </script> -->
     @endpush
 </div>

@@ -35,7 +35,7 @@ class FasilitasCrud extends Component
                 'title',
                 'content'
             )
-                ->where('faslitias')
+                ->where('slug', 'fasilitas')
                 ->get();
         });
 
@@ -44,7 +44,7 @@ class FasilitasCrud extends Component
         ]);
     }
 
-    public function clearFaslitasCache()
+    public function clearFasilitasCache()
     {
         Cache::forget('fasilitas_page');
     }
@@ -90,7 +90,7 @@ class FasilitasCrud extends Component
             DB::commit();
             $this->clearFaslitasCache();
             $this->closeModal();
-            $this->dispatch('faslitias', 'Berhasil ditambahjan');
+            $this->dispatch('faslitiasSaved', 'Berhasil ditambahkan');
         } catch (\Throwable $e) {
             DB::rollBack();
             Log::error('Fasilitas error: ' . $e->getMessage(), [
@@ -117,7 +117,7 @@ class FasilitasCrud extends Component
             DB::commit();
             $this->clearFasilitasCache();
             $this->closeModal();
-            $this->dispatch('fasilitascSaved', 'Berhasil diperbarui!');
+            $this->dispatch('fasilitasSaved', 'Berhasil diperbarui!');
         } catch (\Throwable $e) {
             DB::rollBack();
             Log::error('Fasilitas error: ' . $e->getMessage(), [

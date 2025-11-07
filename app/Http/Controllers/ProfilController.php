@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pages;
 use Illuminate\Http\Request;
 
 class ProfilController extends Controller
 {
+
+    protected function showDataContent($slug)
+    {
+        return Pages::where('slug', $slug)->first();
+    }
+
     public function visiDanMisi()
     {
-        return view('profil.visi_dan_misi');
+        $pages = $this->showDataContent('visi-dan-misi');
+        return view('profil.visi_dan_misi', [
+            'visi_dan_misi' => $pages->content ?? null,
+        ]);
     }
 
     public function sejarah()
@@ -18,7 +28,10 @@ class ProfilController extends Controller
 
     public function fasilitas()
     {
-        return view('profil.fasilitas');
+        $pages = $this->showDataContent('Fasilitas');
+        return view('profil.fasilitas', [
+            'fasilitas' => $pages->content ?? null
+        ]);
     }
 
     public function akreditasi()

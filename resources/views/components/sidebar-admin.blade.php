@@ -109,7 +109,7 @@
                             </a>
                         </li>
                         <li class="submenu-item">
-                            <a href="#" class="submenu-link">
+                            <a href="{{route('fasilitas-admin')}}" class="submenu-link">
                                 Fasilitas
                             </a>
                         </li>

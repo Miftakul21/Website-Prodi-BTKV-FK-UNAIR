@@ -16,7 +16,6 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Page</th>
-                                        <th>Image</th>
                                         <th>Deskripsi</th>
                                         <th>Action</th>
                                     </tr>
@@ -26,11 +25,6 @@
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$data->title}}</td>
-                                        <td>
-                                            @if($data->image)
-                                            <img src="{{asset('storage/'.$data->image)}}" style="width: 60px;">
-                                            @endif
-                                        </td>
                                         <td>{!!$data->content!!}</td>
                                         <td>
                                             <div class="dropdown">
@@ -62,7 +56,7 @@
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td class="text-center" colspan="5">Data Not Found</td>
+                                        <td class="text-center" colspan="4">Data Not Found</td>
                                     </tr>
                                     @endforelse
                                 </tbody>
@@ -93,30 +87,6 @@
                             <label class="fw-bold mt-2">Deskripsi</label>
                             <textarea class="form-control" id="deskripsi" style="height: 500px;">{!! $content !!}</textarea>
                         </div>
-
-                        <label class="fw-bold mt-2">Image</label>
-                        <input type="file" class="form-control" wire:model="image">
-
-                        <!-- indikator upload -->
-                        <div wire:loading wire:target="image" class="text-info">
-                            Sedang upload image...
-                        </div>
-
-                        <!-- preview image baru -->
-                        @if($image)
-                        <div class="mt-2">
-                            <span class="text-success">Image: {{$image->getClientOriginalName()}}</span>
-                            <br>
-                            <img src="{{$image->temporaryUrl()}}" class="img-thumbnail mt-2" width="150">
-                        </div>
-                        @endif
-
-                        <!-- pesan kalau edit tapi belum pilih gambar -->
-                        @if($id_pages && $image== null)
-                        <small class="text-muted">
-                            <span class="text-danger">*</span>Kosongkan jika tidak mengganti image
-                        </small>
-                        @endif
 
                         <label class="fw-bold mt-2 d-block">File</label>
                         <input type="file" class="form-control" wire:model="file">

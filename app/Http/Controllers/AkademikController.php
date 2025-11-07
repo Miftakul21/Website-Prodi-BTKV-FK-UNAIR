@@ -2,24 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pages;
 use Illuminate\Http\Request;
 
 class AkademikController extends Controller
 {
-    // user atau pengunjung
-    public function alumni()
+    protected function showDataContent($slug)
     {
-        return null;
+        return Pages::where('slug', $slug)->first();
+    }
+
+    // user atau pengunjung
+    public function alumniAkademik()
+    {
+        $alumni = $this->showDataContent('Alumni');
+        return view('akademik.alumni', [
+            'alumni' => $alumni->content ?? null,
+            'file'   => $alumni->file ?? null
+        ]);
     }
 
     public function kalenderAkademik()
     {
-        return view('akademik.kalender');
+        $kalender = $this->showDataContent('Kalender-Akademik');
+        return view('akademik.kalender', [
+            'kalender' => $kalender->content ?? null,
+            'image'    => $kalender->image   ?? null,
+            'file'     => $kalender->file    ?? null
+        ]);
     }
 
     public function kurikulumAkademik()
     {
-        return view('akademik.kurikulum');
+        $kurikulum = $this->showDataContent('Kurikulum');
+        return view('akademik.kurikulum', [
+            'kurikulum' => $kurikulum->content ?? null,
+            'file'      => $kurikulum->file    ?? null
+        ]);
     }
 
     // admin
