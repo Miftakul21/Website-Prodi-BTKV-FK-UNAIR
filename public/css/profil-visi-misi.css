@@ -10,12 +10,6 @@
     text-align: left;
 }
 
-.container-visi,
-.container-misi {
-    max-width: 800px;
-    margin: 20px 5px 0 0 !important;
-}
-
 .line {
     display: inline-block;
     width: 800px;
@@ -23,13 +17,13 @@
     background: #eeee;
 }
 
-.container-misi ol li {
+/* .container-misi ol li {
     font-size: 16px;
     font-weight: 400;
     font-family: "Montserrat", sans-serif;
     text-align: justify;
     line-height: 1.8;
-}
+} */
 
 .container-content {
     text-align: justify;

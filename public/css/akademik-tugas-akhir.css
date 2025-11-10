@@ -1,0 +1,28 @@
+.tugas-akhir-section {
+    padding: 50px 0;
+}
+
+.tugas-akhir-section .info-section {
+    font-size: 25px;
+    font-weight: bold;
+    font-family: "Montserrat", sans-serif;
+    line-height: left;
+}
+
+.line {
+    display: inline-block;
+    width: 800px;
+    height: 2px;
+    background: #eeee;
+}
+
+.container-content {
+    text-align: justify;
+}
+
+/* respinsuve mobile */
+@media (max-width: 576px) {
+    .tugas-akhir-section .info-section {
+        font-size: 1rem;
+    }
+}

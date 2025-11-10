@@ -27,6 +27,7 @@ Route::get('/profil/akreditasi-spesialis1-btkv-fk-unair', [ProfilController::cla
 Route::get('/akademik/kalender-akademik', [AkademikController::class, 'kalenderAkademik'])->name('kalender');
 Route::get('/akademik/kurikulum-akademik', [AkademikController::class, 'kurikulumAkademik'])->name('kurikulum');
 Route::get('/akademik/alumni', [AkademikController::class, 'alumniAkademik'])->name('alumni');
+Route::get('/akademik/tugas-akhir', [AkademikController::class, 'tugasAkhirAkademik'])->name("tugas-akhir");
 // Halaman login (GET) — beri nama 'login' supaya middleware bisa redirect ke sini
 Route::get('/login-btkv-fk-unair', [AuthController::class, 'index'])->name('login');
 Route::post('/login-authentication', [AuthController::class, 'authentication'])->name('login.process');

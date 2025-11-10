@@ -144,7 +144,7 @@
                         </li>
                         <li class="submenu-item">
                             <a href="{{route('tugas-akhir-admin')}}" class="submenu-link">
-                                Tugas Akhir Tesis
+                                Tugas Akhir
                             </a>
                         </li>
                         <li class="submenu-item">

@@ -10,9 +10,11 @@
             <span class="info-section">Kurikulum Akademik</span>
         </div>
         <div class="row">
+            <span class="my-3">Kurikulum dapat dilihat pada link berikut ini: <a href="https://docs.google.com/spreadsheets/d/1Rwdjc3Puer4yFfepcdDDjbzrSIaWdotCL8CBt2gAocs/edit?usp=sharing">Kurikulum Akademik</a></span>
             <div class="col-lg-8 col-md-8 col-12">
-                <div class="container-content">
-                    {!! $kurikulum !!}
+                <!-- Halaman Kurikulum Ini Harus Image Sih -->
+                <div style="width: 100%;">
+                    <img src="{{asset('img/kurikulum.jpg')}}" alt="">
                 </div>
             </div>
         </div>

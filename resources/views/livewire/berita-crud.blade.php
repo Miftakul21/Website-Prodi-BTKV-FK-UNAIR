@@ -103,6 +103,8 @@
                             <option value="Berita" selected>Berita</option>
                             <option value="Acara">Acara</option>
                             <option value="Hasil Karya">Hasil Karya</option>
+                            <option value="Hasil Karya">Prestasi</option>
+                            <option value="Hasil Karya">Tugas Akhir</option>
                         </select>
 
                         <div wire:ignore>

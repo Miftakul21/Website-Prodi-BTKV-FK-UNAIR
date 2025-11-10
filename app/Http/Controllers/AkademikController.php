@@ -34,10 +34,21 @@ class AkademikController extends Controller
 
     public function kurikulumAkademik()
     {
-        $kurikulum = $this->showDataContent('Kurikulum');
+        $kurikulum = $this->showDataContent('Kurikulum-Akademik');
         return view('akademik.kurikulum', [
             'kurikulum' => $kurikulum->content ?? null,
             'file'      => $kurikulum->file    ?? null
+        ]);
+    }
+
+    public function tugasAkhirAkademik()
+    {
+        $tugasAkhir = $this->showDataContent('Tugas-Akhir-Tesis');
+
+        return view('akademik.tugas-akhir', [
+            'tugasAkhir' => $tugasAkhir->content ?? null,
+            'file'       => $tugasAkhir->file    ?? null,
+            'image'      => $tugasAKhir->image   ?? null
         ]);
     }
 
