@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Berita;
+use App\Models\Artikel;
 
 use Auth;
 use Illuminate\Support\Facades\Storage;
@@ -15,41 +15,36 @@ use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Purifier;
 
-class BeritaCrud extends Component
+class ArtikelCrud extends Component
 {
-    /*
-        Livewire ini tidak hanya mengangani berita saja kategorinya tetapi juga artikel, 
-        event, dan hasil harya
-    */
-
     use WithFileUploads, WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    public $id_berita,
+    public $id_artikel,
         $judul,
-        $tgl_berita,
-        $kategori = 'Berita',
-        $konten_berita,
+        $tgl_artikel,
+        $kategori = 'Artikel',
+        $konten_artikel,
         $thumbnail_image;
 
     public $isOpen = false;
 
     protected $listeners = [
-        'deleteBerita' => 'delete',
+        'deleteArtikel' => 'delete',
         'updateKonten' => 'updateKonten', // menerima payload dari JS
     ];
 
     public function render()
     {
         $page = $this->getPage();
-        $beritas = Cache::remember("beritas_page_{$page}", 100, function () {
-            return Berita::with('user:id_user,name')
+        $artikels = Cache::remember("artikels_page_{$page}", 100, function () {
+            return Artikel::with('user:id_user,name')
                 ->select(
-                    'id_berita',
+                    'id_artikel',
                     'user_id',
                     'judul',
-                    'konten_berita',
-                    'tgl_berita',
+                    'konten_artikel',
+                    'tgl_artikel',
                     'kategori',
                     'slug',
                     'thumbnail_image',
@@ -58,24 +53,24 @@ class BeritaCrud extends Component
                 ->paginate(10);
         });
 
-        return view('livewire.berita-crud', [
-            'beritas' => $beritas
+        return view('livewire.artikel-crud', [
+            'artikels' => $artikels
         ]);
     }
 
-    protected function clearBeritaCache()
+    protected function clearArtikelCache()
     {
-        $total = Berita::count();
+        $total = Artikel::count();
         $lastPage = ceil($total / 10);
         foreach (range(1, $lastPage) as $i) {
-            Cache::forget("beritas_page_{$i}");
+            Cache::forget("artikels_page_{$i}");
         }
     }
 
     public function create()
     {
         $this->resetFields();
-        $this->tgl_berita = now()->format('Y-m-d');
+        $this->tgl_artikel = now()->format('Y-m-d');
         $this->thumbnail_image = null;
         $this->isOpen = true;
         $this->dispatch('initEditor');
@@ -83,23 +78,21 @@ class BeritaCrud extends Component
 
     public function edit($id)
     {
-        $berita = Berita::findOrFail($id);
-        $this->id_berita       = $id;
-        $this->judul           = $berita->judul;
-        $this->tgl_berita      = $berita->tgl_berita;
-        $this->kategori        = $berita->kategori;
-        $this->konten_berita   = $berita->konten_berita;
-        // reset file input setiap kali modal dibuka
+        $artikel = Artikel::findOrFail($id);
+        $this->id_artikel      = $id;
+        $this->judul           = $artikel->judul;
+        $this->tgl_artikel     = $artikel->tgl_artikel;
+        $this->kategori        = $artikel->kategori;
+        $this->konten_artikel  = $artikel->konten_artikel;
         $this->thumbnail_image = null;
         $this->isOpen          = true;
         $this->dispatch('initEditor');
-        $this->dispatch('loadKonten', $this->konten_berita);
+        $this->dispatch('loadKonten', $this->konten_artikel);
     }
 
-    // terima konten dari JS
     public function updateKonten($value = null)
     {
-        $this->konten_berita = $value ?? '';
+        $this->konten_artikel = $value ?? '';
     }
 
     public function store()
@@ -109,42 +102,42 @@ class BeritaCrud extends Component
         try {
             $this->validate([
                 'judul'           => 'required|string|max:255',
-                'tgl_berita'      => 'required|date',
+                'tgl_artikel'     => 'required|date',
                 'kategori'        => 'required|string|max:50',
-                'konten_berita'   => 'required|string',
+                'konten_artikel'  => 'required|string',
                 'thumbnail_image' => 'required|mimes:jpg,jpeg,png|max:5120'
             ]);
 
-            $berita = Berita::create([
+            $artikel = Artikel::create([
                 'user_id'         => Auth::user()->id_user,
                 'judul'           => Purifier::clean($this->judul, 'custom'),
-                'tgl_berita'      => Purifier::clean($this->tgl_berita, 'custom'),
+                'tgl_artikel'     => Purifier::clean($this->tgl_artikel, 'custom'),
                 'kategori'        => Purifier::clean($this->kategori, 'custom'),
                 'thumbnail_image' => null,
-                'konten_berita'   => Purifier::clean($this->konten_berita, 'custom'),
+                'konten_artikel'  => Purifier::clean($this->konten_artikel, 'custom'),
                 'viewers'         => 0,
             ]);
 
             if ($this->thumbnail_image) {
-                DB::afterCommit(function () use ($berita) {
-                    $filename = Str::random(20) . '.'
-                        . $this->thumbnail_image->getClientOriginalExtension();
-                    $path     = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
+                $thumbnail = $this->thumbnail_image;
 
-                    $berita->update(['thumbnail_image' => $path]);
+                DB::afterCommit(function () use ($artikel, $thumbnail) {
+                    $filename = Str::random(20) . '.' . $thumbnail->getClientOriginalExtension();
+                    $path     = $thumbnail->storeAs('thumbnails', $filename, 'public');
+                    $artikel->update(['thumbnail_image' => $path]);
                 });
             }
 
             DB::commit();
-            $this->clearBeritaCache();
+            $this->clearArtikelCache();
             $this->closeModal();
-            $this->dispatch('beritaSaved', 'Berhasil ditambahkan!');
+            $this->dispatch('artikelSaved', 'Berhasil ditambahkan!');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Berita store error: ' . $e->getMessage(), [
+            Log::error('Artikel store error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
-            $this->dispatch('beritaError', 'Terjadi kesalahan: ' . $e->getMessage());
+            $this->dispatch('artikelError', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
@@ -154,57 +147,58 @@ class BeritaCrud extends Component
         try {
             $this->validate([
                 'judul'           => 'required|string|max:255',
-                'tgl_berita'      => 'required|date',
+                'tgl_artikel'     => 'required|date',
                 'kategori'        => 'required|string|max:50',
-                'konten_berita'   => 'required|string',
+                'konten_artikel'  => 'required|string',
                 'thumbnail_image' => 'nullable|mimes:jpg,jpeg,png|max:5120',
             ]);
 
-            $berita = Berita::findOrFail($this->id_berita);
-            $berita->update([
-                'user_id'       => Auth::user()->id_user,
-                'judul'         => Purifier::clean($this->judul, 'custom'),
-                'tgl_berita'    => Purifier::clean($this->tgl_berita, 'custom'),
-                'kategori'      => Purifier::clean($this->kategori, 'custom'),
-                'konten_berita' => Purifier::clean($this->konten_berita, 'custom'),
+            $artikel = Artikel::findOrFail($this->id_artikel);
+            $artikel->update([
+                'user_id'        => Auth::user()->id_user,
+                'judul'          => Purifier::clean($this->judul, 'custom'),
+                'tgl_artikel'    => Purifier::clean($this->tgl_artikel, 'custom'),
+                'kategori'       => Purifier::clean($this->kategori, 'custom'),
+                'konten_artikel' => Purifier::clean($this->konten_artikel, 'custom'),
             ]);
 
             if ($this->thumbnail_image) {
-                $oldPath = $berita->thumbnail_image;
-                DB::afterCommit(function () use ($berita, $oldPath) {
+                $oldPath = $artikel->thumbnail_image;
+                DB::afterCommit(function () use ($artikel, $oldPath) {
                     // delete file lama jika ada
                     if ($oldPath && Storage::disk('public')->exists(str_replace('storage/', '', $oldPath))) {
                         Storage::disk('public')->delete(str_replace('storage/', '', $oldPath));
                     }
                     $filename = Str::random(20) . '.' . $this->thumbnail_image->getClientOriginalExtension();
                     $path     = $this->thumbnail_image->storeAs('thumbnails', $filename, 'public');
-                    $berita->update(['thumbnail_image' => $path]);
+                    $artikel->update(['thumbnail_image' => $path]);
                 });
             }
 
             DB::commit();
-            $this->clearBeritaCache();
+            $this->clearArtikelCache();
             $this->closeModal();
-            $this->dispatch('beritaSaved', 'Berhasil diperbarui!');
+            $this->dispatch('artikelSaved', 'Berhasil diperbarui!');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Berita update error: ' . $e->getMessage(), [
+            Log::error('Artikel update error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
             ]);
-            $this->dispatch('beritaError', 'Terjadi kesalahan: ' . $e->getMessage());
+            $this->dispatch('artikelError', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
     public function delete($id)
     {
         try {
-            $berita = Berita::findOrFail($id);
-            $berita->delete();
-            $this->clearBeritaCache();
-            $this->dispatch('beritaDeleted');
+            $artikel = Artikel::findOrFail($id);
+            $artikel->delete();
+            $this->clearArtikelCache();
+            $this->dispatch('artikelDeleted');
         } catch (\Throwable $e) {
-            Log::error('Berita delete error: ' . $e->getMessage());
-            $this->dispatch('beritaError', 'Terjadi kesalahan: ' . $e->getMessage());
+            Log::error('Artikel delete error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
         }
     }
 
@@ -217,11 +211,11 @@ class BeritaCrud extends Component
 
     public function resetFields()
     {
-        $this->id_berita       = '';
+        $this->id_artikel      = '';
         $this->judul           = '';
-        $this->tgl_berita      = '';
-        $this->kategori        = 'Berita';
-        $this->konten_berita   = '';
+        $this->tgl_artikel     = '';
+        $this->kategori        = 'Artikel';
+        $this->konten_artikel  = '';
         $this->thumbnail_image = null;
     }
 }

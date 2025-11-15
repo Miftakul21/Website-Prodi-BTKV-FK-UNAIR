@@ -5,7 +5,6 @@
                 <div class="card border-top border-primary border-2">
                     <div class="card-header fw-bold">
                         <span>Data Artikel</span>
-                        <!-- nanti ya -->
                         <button class="btn btn-primary btn-sm ms-2" title="Add Data" wire:click="create">
                             <i class="bi bi-plus-square"></i>
                         </button>
@@ -26,7 +25,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($beritas as $data)
+                                        @forelse($artikels as $data)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$data->judul}}</td>
@@ -35,8 +34,8 @@
                                                 <img src="{{asset('storage/'.$data->thumbnail_image)}}" alt="thubmnail_image" style="width: 50px; height: 50px;">
                                                 @endif
                                             </td>
-                                            <td>{{\Carbon\Carbon::parse($data->tgl_berita)->format('M, d Y')}}</td>
-                                            <td>{{Str::limit(strip_tags($data->konten_berita), 200)}}</td>
+                                            <td>{{\Carbon\Carbon::parse($data->tgl_artikel)->format('M, d Y')}}</td>
+                                            <td>{{Str::limit(strip_tags($data->konten_artikel), 200)}}</td>
                                             <td>{{$data->user?->name}}</td>
                                             <td>
                                                 <div class="dropdown">
@@ -48,17 +47,40 @@
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <button class="dropdown-item" wire:click="edit('{{$data->id_berita}}')">
+                                                            <button class="dropdown-item" wire:click="edit('{{$data->id_artikel}}')">
                                                                 <i class="bi bi-pencil text-warning"></i> Edit
                                                             </button>
                                                         </li>
                                                         <li>
-                                                            <button class="dropdown-item" onclick="confirmDelete('{{$data->id_berita}}')">
+                                                            <button class="dropdown-item" onclick="confirmDelete('{{$data->id_artikel}}')">
                                                                 <i class="bi bi-trash text-danger"></i> Delete
                                                             </button>
                                                         </li>
                                                         <li>
-                                                            <a href="/detail-berita/{{$data->slug}}" class="dropdown-item">
+                                                            <!-- pengkondisian -->
+                                                            @php
+                                                            $url = '';
+
+                                                            switch($data->kategori) {
+                                                            case 'Berita':
+                                                            $url = '/detail-berita/'.$data->slug;
+                                                            break;
+                                                            case 'Prestasi':
+                                                            $url = '/detail-prestasi/'.$data->slug;
+                                                            break;
+                                                            case 'Event':
+                                                            $url = '/detail-event/'.$data->slug;
+                                                            break;
+                                                            case 'Hasil Karya':
+                                                            $url = '/detail-event/'.$data->slug;
+                                                            break;
+                                                            default:
+                                                            break;
+                                                            }
+
+                                                            @endphp
+
+                                                            <a href="{{$url}}" class="dropdown-item">
                                                                 <i class="bi bi-eye text-info"></i> Preview
                                                             </a>
                                                         </li>
@@ -85,10 +107,10 @@
     <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
         <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
             <div class="modal-content">
-                <form wire:submit.prevent="{{ $id_berita ? 'update' : 'store' }}" enctype="multipart/form-data">
+                <form wire:submit.prevent="{{ $id_artikel ? 'update' : 'store' }}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
-                        <h4 class="modal-title">{{ $id_berita ? 'Edit Data' : 'Add Data' }}</h4>
+                        <h4 class="modal-title">{{ $id_artikel ? 'Edit Data' : 'Add Data' }}</h4>
                         <button type="button" class="btn-close" wire:click="closeModal"></button>
                     </div>
                     <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
@@ -96,20 +118,19 @@
                         <input type="text" class="form-control" placeholder="Judul Berita" wire:model="judul">
 
                         <label class="fw-bold mt-2">Tanggal</label>
-                        <input type="date" class="form-control" placeholder="Tanggal Berita" wire:model="tgl_berita">
+                        <input type="date" class="form-control" placeholder="Tanggal Berita" wire:model="tgl_artikel">
 
                         <label class="fw-bold mt-2">Kategori</label>
                         <select class="form-select" wire:model="kategori">
                             <option value="Berita" selected>Berita</option>
-                            <option value="Acara">Acara</option>
+                            <option value="Event">Event</option>
                             <option value="Hasil Karya">Hasil Karya</option>
-                            <option value="Hasil Karya">Prestasi</option>
-                            <option value="Hasil Karya">Tugas Akhir</option>
+                            <option value="Prestasi">Prestasi</option>
                         </select>
 
                         <div wire:ignore>
                             <label class="fw-bold mt-2">Konten Berita</label>
-                            <textarea class="form-control" id="konten_berita" style="height: 500px;">{!! $konten_berita !!}</textarea>
+                            <textarea class="form-control" id="konten_artikel" style="height: 500px;">{!! $konten_artikel !!}</textarea>
                         </div>
 
                         <label class="fw-bold mt-2">Image Thumbnail</label>
@@ -130,7 +151,7 @@
                         @endif
 
                         <!-- pesan kalau edit tapi belum pilih gambar -->
-                        @if($id_berita && $thumbnail_image == null)
+                        @if($id_artikel && $thumbnail_image == null)
                         <small class="text-muted">
                             <span class="text-danger">*</span>Kosongkan jika tidak mengganti thumbnail image
                         </small>
@@ -163,7 +184,7 @@
                 setTimeout(() => {
                     if (editorInstance) return;
 
-                    const el = document.getElementById('konten_berita');
+                    const el = document.getElementById('konten_artikel');
                     if (!el) {
                         console.warn("CKEditor target tidak ditemukan!");
                         return;

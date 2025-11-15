@@ -1,25 +1,25 @@
 <div>
     <div class="page-heading">
-        <h3>Data Berita Terhapus</h3>
+        <h3>Data Artikel Terhapus</h3>
     </div>
     <div class="page-content">
         <div class="row">
             <div class="col-12">
                 <div class="card border-top border-primary border-2">
                     <div class="card-header fw-bold d-flex justify-content-between align-items-center">
-                        <span>Data Berita</span>
+                        <span>Data Artikel</span>
                         <div>
                             <button class="btn btn-success btn-sm"
                                 wire:click="restoreSelected"
                                 wire:loading.attr="disabled"
-                                :disabled="!@this.selectedBeritas.length">
+                                :disabled="!@this.selectedArtikels.length">
                                 Kembalikan
                             </button>
 
                             <button class="btn btn-danger btn-sm"
                                 wire:click="deleteSelected"
                                 wire:loading.attr="disabled"
-                                :disabled="!@this.selectedBeritas.length">
+                                :disabled="!@this.selectedArtikels.length">
                                 Hapus
                             </button>
                         </div>
@@ -42,12 +42,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($beritas as $data)
+                                    @forelse($artikels as $data)
                                     <tr>
                                         <td>
                                             <input type="checkbox"
-                                                wire:model="selectedBeritas"
-                                                value="{{ $data->id_berita }}">
+                                                wire:model="selectedArtikels"
+                                                value="{{ $data->id_artikel }}">
                                         </td>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $data->judul }}</td>
@@ -58,8 +58,8 @@
                                                 style="width: 50px; height: 50px;">
                                             @endif
                                         </td>
-                                        <td>{{ $data->tgl_berita }}</td>
-                                        <td>{!! $data->konten_berita !!}</td>
+                                        <td>{{ $data->tgl_artikel }}</td>
+                                        <td>{!! $data->konten_artikel !!}</td>
                                         <td>{{ $data->user?->name }}</td>
                                     </tr>
                                     @empty
@@ -71,7 +71,7 @@
                             </table>
                         </div>
                         <div class="mt-2">
-                            {{ $beritas->links() }}
+                            {{ $artikels->links() }}
                         </div>
                     </div>
                 </div>

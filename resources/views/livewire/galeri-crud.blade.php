@@ -114,10 +114,10 @@
                         <label class="fw-bold mt-2">Kategori</label>
                         <select class="form-select" wire:model="kategori">
                             <option selected>Pilih</option>
-                            <option value="Layanan">Layanan</option>
                             <option value="Penelitian">Penelitian</option>
                             <option value="Seminar">Seminar</option>
                             <option value="Workshop">Workshop</option>
+                            <option value="Event">Event</option>
                         </select>
 
                         <label class="fw-bold mt-2">Thumbnail Galeri</label>

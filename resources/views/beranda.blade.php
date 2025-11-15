@@ -1,5 +1,4 @@
 @extends('layouts.layouts-users')
-
 @push('css')
 <!-- link css beranda  -->
 {!! SEO::generate() !!}
@@ -84,20 +83,20 @@
             <p class="description-section">Berita terbaru seputar kegiatan dan informasi kami</p>
         </div>
         <div class="row g-4">
-            @forelse($berita as $data)
+            @forelse($artikel as $data)
             <div class="col-12 col-md-6 col-lg-3">
-                <a href="/detail-berita/{{$data->berita_slug}}">
+                <a href="/detail-berita/{{$data->artikel_slug}}">
                     <div class="card h-100 shadow-sm border-0">
                         <div class="overflow-hidden">
-                            <img src="{{ asset('storage/'.$data->berita_thumbnail) }}" class="card-img-top img-zoom" alt="Berita 1">
+                            <img src="{{ asset('storage/'.$data->artikel_thumbnail) }}" class="card-img-top img-zoom" alt="Berita 1">
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between text-muted small mb-2">
-                                <span><i class="bi bi-calendar"></i> {{\Carbon\Carbon::parse($data->berita_date)->format('M d')}}</span>
+                                <span><i class="bi bi-calendar"></i> {{\Carbon\Carbon::parse($data->artikel_date)->format('M d')}}</span>
                                 <span><i class="bi bi-eye"></i> {{$data->views_count}}</span>
                             </div>
-                            <h5 class="card-title fw-bold text-dark">{{Str::limit($data->berita_title, 90)}}</h5>
-                            <p class="card-text text-dark">{{Str::limit(strip_tags($data->berita_content), 200)}}</p>
+                            <h5 class="card-title fw-bold text-dark">{{Str::limit($data->artikel_title, 90)}}</h5>
+                            <p class="card-text text-dark">{{Str::limit(strip_tags($data->artikel_content), 200)}}</p>
                         </div>
                     </div>
                 </a>
@@ -106,7 +105,7 @@
             <h4 class="text-center">Tidak ada berita terbaru</h4>
             @endforelse
         </div>
-        @if($berita->isNotEmpty())
+        @if($artikel->isNotEmpty())
         <div class="d-flex justify-content-center align-items-center">
             <a href="/berita" class="btn btn-primary my-3"><i class="bi bi-newspaper"></i> Berita Lainnya</a>
         </div>
@@ -127,61 +126,8 @@
             </p>
         </div>
 
-        <!-- list Deskripsi -->
-        <!-- <div class="row">
-                <div class="col-md-4 col-12">
-                    <div class="card card-pengajar-info mb-3">
-                        <div class="card-body">
-                            <h3>30+</h3>
-                            <span>Pengalaman Spesialis Kedokteran</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-12">
-                    <div class="card card-pengajar-info mb-3">
-                        <div class="card-body">
-                            <h3>200+</h3>
-                            <span>Publikasi Penelitian</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-12">
-                    <div class="card card-pengajar-info mb-3">
-                        <div class="card-body">
-                            <h3>20+</h3>
-                            <span>Pengharagaan</span>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
         <!-- list pengajar -->
         <div class="row py-3">
-            <div class="col-md-3 col-12">
-                <a href="">
-                    <div class="card shadow-sm border-0 mb-3" style="min-height: 480px;">
-                        <!-- Foto Dokter -->
-                        <div class="container-image-pengajar">
-                            <img src="{{ asset('img/doctor-1.jpeg') }}" class="card-img-top" alt="Profile Image">
-                        </div>
-                        <div class="card-body shadow-sm">
-                            <!-- Nama & Jabatan -->
-                            <h5 class="card-title mb-0 text-dark">dr. Imanuel Steven, Sp.BTKV, Subsp.VE</h5>
-                            <p class="text-primary fw-semibold mb-2 text-primary">Kepala Program Studi</p>
-
-                            <!-- Pendidikan -->
-                            <p class="mb-1 text-dark"><strong>Pendidikan</strong></p>
-                            <p class="text-muted">MD, PhD - Harvard Medical School</p>
-
-                            <!-- Publikasi Karya Tulis Ilmiah  & Penghargaan -->
-                            <!-- <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
-                                <i class="bi bi-journal-text"></i> 150+ Karya tulis ilmiah<br>
-                                <i class="bi bi-award"></i> 2 Penghargaan Spesialis
-                            </p> -->
-                        </div>
-                    </div>
-                </a>
-            </div>
             @forelse($pengajar as $data)
             <div class="col-md-3 col-12">
                 <a href="/detail-pengajar/{{$data->pengajar_slug}}">
@@ -198,10 +144,12 @@
                             <p class="mb-1 text-dark"><strong>Pendidikan</strong></p>
                             <p class="text-muted">{{$data->pengajar_pendidikan}}</p>
                             <!-- Publikasi Karya Tulis Ilmiah  & Penghargaan -->
-                            <!-- <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
-                                <i class="bi bi-journal-text"></i> 150+ Karya tulis ilmiah<br>
-                                <i class="bi bi-award"></i> 2 Penghargaan Spesialis
-                            </p> -->
+                            <!-- 
+                                <p class="text-muted mb-0 " style="white-space: nowrap; font-size: 14px;">
+                                    <i class="bi bi-journal-text"></i> 150+ Karya tulis ilmiah<br>
+                                    <i class="bi bi-award"></i> 2 Penghargaan Spesialis
+                                </p>
+                            -->
                         </div>
                     </div>
                 </a>
@@ -240,26 +188,32 @@
             <button class="btn btn-outline-primary me-2 mb-2 filter-btn" data-filter="penelitian">
                 Penelitian <span class="badge bg-secondary ms-1">0</span>
             </button>
+            <button class="btn btn-outline-primary me-2 mb-2 filter-btn" data-filter="event">
+                Event <span class="badge bg-secondary ms-1">0</span>
+            </button>
         </div>
 
         <div class="row g-4 gallery">
             @forelse($galeri as $data)
-            <a href="" style="color: unset;">
-                <div class="col-12 col-sm-6 col-lg-3 gallery-item" data-cats="{{strtolower($data->galeri_category)}}">
-                    <div class="card h-100 shadow-sm">
-                        <img src="{{asset('storage/'.$data->galeri_thumbnail)}}" alt="">
-                        <div class="card-body text-center">
-                            <h6 class="card-title mb-0 fw-bold">{{$data->galeri_title}}</h6>
-                        </div>
+            <div class="col-12 col-sm-6 col-lg-3 gallery-item"
+                data-cats="{{strtolower($data->galeri_category)}}"
+                data-judul="{{$data->galeri_title}}"
+                data-deskripsi="{{$data->deskripsi}}"
+                data-image_utama="{{ $data->galeri_thumbnail ? asset('storage/'.$data->galeri_thumbnail) : '' }}"
+                data-image_first="{{ $data->image_first ? asset('storage/'.$data->image_first) : ''  }}"
+                data-image_second="{{ $data->image_second ? asset('storage/'.$data->image_second) : ''}}"
+                data-image_third="{{ $data->image_third ? asset('storage/'.$data->image_thrid) : '' }}"
+                data-image_fourth="{{ $data->image_fourth ? asset('storage/'.$data->image_fourth) : '' }}">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{asset('storage/'.$data->galeri_thumbnail)}}" alt="">
+                    <div class="card-body text-center">
+                        <h6 class="card-title mb-0 fw-bold">{{$data->galeri_title}}</h6>
                     </div>
                 </div>
-            </a>
+            </div>
             @empty
             <h4 class="text-center">Tidak ada galeri terbaru</h4>
             @endforelse
-        </div>
-        <div class="d-flex justify-content-center align-items-center my-3">
-            <a href="/galeri" class="btn btn-primary"><i class="bi bi-images me-2"></i> Galeri Lainnya</a>
         </div>
     </div>
 </section>
@@ -436,29 +390,66 @@
 </section>
 <!-- end rs section -->
 
+
+<div class="modal fade" id="galeriModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+
+            <!-- Header dengan tombol X -->
+            <div class="modal-header border-0">
+                <h5 id="modalTitle" class="modal-title fw-bold"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Body utama -->
+            <div class="modal-body">
+                <div class="row">
+                    <!-- gambar utama -->
+                    <div class="col-lg-8 text-center mb-3 mb-lg-0">
+                        <img id="mainImage" src="" alt="" class="img-fluid rounded shadow">
+                    </div>
+
+                    <!-- thumbnail -->
+                    <div class="col-lg-4">
+                        <div class="d-flex flex-wrap gap-2 mb-3" id="thumbnailContainer"></div>
+                    </div>
+                </div>
+
+                <div class="mt-4 border-top pt-3">
+                    <div id="modalDesc" class="mb-0"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
 @push('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // scroll ke atas saat diklik
-        backToTop.addEventListener("click", function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+        const backToTop = document.getElementById('backToTop');
+        if (backToTop) {
+            backToTop.addEventListener("click", function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
-        });
+        }
 
         const filters = document.querySelectorAll('.filter-btn');
         const cards = document.querySelectorAll('.gallery-item');
 
-        // Helper: ambil kategori dari card (array)
+        // Helper kategori
         const cardHasCategory = (card, filter) => {
             const cats = (card.dataset.cats || '').trim().split(/\s+/).filter(Boolean);
             return cats.includes(filter);
         };
 
-        // Update badge counts pada tombol berdasarkan jumlah kartu
+        // Update badge
         function updateCounts() {
             filters.forEach(btn => {
                 const filter = btn.dataset.filter;
@@ -473,10 +464,9 @@
             });
         }
 
-        // Set behavior click pada tombol filter
+        // Tombol filter
         filters.forEach(btn => {
             btn.addEventListener('click', function() {
-                // ubah visual aktif
                 filters.forEach(b => {
                     b.classList.remove('btn-primary');
                     b.classList.add('btn-outline-primary');
@@ -488,7 +478,6 @@
 
                 const filter = this.dataset.filter;
 
-                // lakukan filtering: tampilkan / sembunyikan kartu
                 if (filter === 'all') {
                     cards.forEach(c => c.classList.remove('d-none'));
                 } else {
@@ -503,7 +492,46 @@
             });
         });
 
-        // Inisialisasi: hitung badge counts
+        // Modal logic
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.dataset.judul;
+                const desc = this.dataset.deskripsi;
+                const images = [
+                    this.dataset.image_utama,
+                    this.dataset.image_first,
+                    this.dataset.image_second,
+                    this.dataset.image_third,
+                    this.dataset.image_fourth
+                ].filter(img => img && img !== '');
+
+                // Update modal isi
+                document.getElementById('modalTitle').textContent = title;
+                document.getElementById('modalDesc').innerHTML = desc;
+                document.getElementById('mainImage').src = images[0];
+
+                const thumbContainer = document.getElementById('thumbnailContainer');
+                thumbContainer.innerHTML = '';
+
+                images.forEach(img => {
+                    const thumb = document.createElement('img');
+                    thumb.src = img;
+                    thumb.classList.add('img-thumbnail');
+                    thumb.style.width = '70px';
+                    thumb.style.height = '70px';
+                    thumb.style.objectFit = 'cover';
+                    thumb.style.cursor = 'pointer';
+                    thumb.onclick = () => {
+                        document.getElementById('mainImage').src = img;
+                    };
+                    thumbContainer.appendChild(thumb);
+                });
+
+                // Tampilkan modal
+                new bootstrap.Modal(document.getElementById('galeriModal')).show();
+            });
+        });
+
         updateCounts();
     });
 </script>

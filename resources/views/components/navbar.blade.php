@@ -44,7 +44,7 @@
                              <li><a href="{{route('kalender')}}" class="dropdown-item">Kalender Akademik</a></li>
                              <li><a href="#" class="dropdown-item">Kurikulum</a></li>
                              <li><a href="{{route('tugas-akhir')}}" class="dropdown-item">Tugas Akhir</a></li>
-                             <li><a href="#" class="dropdown-item">Yudisium Prodi</a></li>
+                             <!-- <li><a href="{{route('yudisium')}}" class="dropdown-item">Yudisium Prodi</a></li> -->
                          </ul>
                      </li>
 
@@ -53,11 +53,10 @@
                              Informasi
                          </a>
                          <ul class="dropdown-menu">
-                             <li><a href="#" class="dropdown-item">Brosur Prodi Spesialis BTKV</a></li>
                              <li><a href="#" class="dropdown-item">Penerimaan PPDS BTKV</a></li>
                              <li><a href="{{route('berita')}}" class="dropdown-item">Berita</a></li>
                              <li><a href="#" class="dropdown-item">Pengumuman</a></li>
-                             <li><a href="#" class="dropdown-item">Prestasi</a></li>
+                             <li><a href="{{route('prestasi')}}" class="dropdown-item">Prestasi</a></li>
                              <li><a href="#" class="dropdown-item">Site Staf dan Tenaga Pengajar</a></li>
                              <li><a href="#" class="dropdown-item">Publikasi</a></li>
                              <li><a href="#" class="dropdown-item">Hasil Karya</a></li>
@@ -101,7 +100,7 @@
                          <li><a href="{{route('kalender')}}" class="dropdown-item">Kalender Akademik</a></li>
                          <li><a href="{{route('kurikulum')}}" class="dropdown-item">Kurikulum Akademik</a></li>
                          <li><a href="{{route('tugas-akhir')}}" class="dropdown-item">Tugas Akhir</a></li>
-                         <li><a href="#" class="dropdown-item">Yudisium Prodi</a></li>
+                         <!-- <li><a href="{{route('yudisium')}}" class="dropdown-item">Yudisium Prodi</a></li> -->
                      </ul>
                  </li>
 
@@ -110,11 +109,10 @@
                          Informasi
                      </a>
                      <ul class="dropdown-menu">
-                         <li><a href="#" class="dropdown-item">Brosur Prodi Spesialis BTKV</a></li>
                          <li><a href="#" class="dropdown-item">Penerimaan PPDS BTKV</a></li>
                          <li><a href="{{route('berita')}}" class="dropdown-item">Berita</a></li>
                          <li><a href="#" class="dropdown-item">Pengumuman</a></li>
-                         <li><a href="#" class="dropdown-item">Prestasi</a></li>
+                         <li><a href="{{route('prestasi')}}" class="dropdown-item">Prestasi</a></li>
                          <li><a href="#" class="dropdown-item">Site Staf dan Tenaga Pengajar</a></li>
                          <li><a href="#" class="dropdown-item">Publikasi</a></li>
                          <li><a href="#" class="dropdown-item">Hasil Karya</a></li>

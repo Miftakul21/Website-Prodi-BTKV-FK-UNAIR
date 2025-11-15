@@ -8,7 +8,7 @@
 <div class="page-heading">
     <h3>Artikel</h3>
 </div>
-@livewire('berita-crud')
+@livewire('artikel-crud')
 @push('js')
 <script>
     function confirmDelete(id) {
@@ -23,7 +23,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                Livewire.dispatch('deleteBerita', {
+                Livewire.dispatch('deleteArtikel', {
                     id: id
                 })
             }
@@ -32,7 +32,7 @@
 
     document.addEventListener('livewire:init', () => {
         // delete success
-        Livewire.on('beritaDeleted', () => {
+        Livewire.on('artikelDeleted', () => {
             Swal.fire({
                 title: 'Berhasil!',
                 text: 'Data berhasil dihapus.',
@@ -43,7 +43,7 @@
         });
 
         // store / update success
-        Livewire.on('beritaSaved', (message) => {
+        Livewire.on('artikelSaved', (message) => {
             Swal.fire({
                 title: 'Berhasil!',
                 text: message,
@@ -54,7 +54,7 @@
             })
         });
 
-        Livewire.on('beritaError', (message) => {
+        Livewire.on('artikelError', (message) => {
             Swal.fire({
                 title: 'Error!',
                 text: message,

@@ -21,7 +21,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($fasilitas as $data)
+                                    @forelse($yudisium as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$data->title}}</td>

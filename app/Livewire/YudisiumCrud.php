@@ -75,7 +75,7 @@ class YudisiumCrud extends Component
         $this->content = $value ?? '';
     }
 
-    public function save()
+    public function store()
     {
         DB::beginTransaction();
         try {

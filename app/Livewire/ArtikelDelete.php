@@ -2,35 +2,36 @@
 
 namespace App\Livewire;
 
-use App\Models\Berita;
+use App\Models\Artikel;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class BeritaDelete extends Component
+
+class ArtikelDelete extends Component
 {
     use WithPagination;
 
-    public $selectedBeritas = [];
+    public $selectedArtikels = [];
     public $selectAll = false;
 
     protected $paginationTheme = 'bootstrap';
 
     public function render()
     {
-        $beritas = Berita::onlyTrashed()
+        $artikels = Artikel::onlyTrashed()
             ->with('user:id_user,name')
             ->latest()
             ->paginate(20);
 
-        return view('livewire.berita-delete', compact('beritas'));
+        return view('livewire.artikel-delete', compact('artikels'));
     }
 
-    public function updatedSelectedBeritas()
+    public function updatedSelectedArtikels()
     {
         // auto update selectAll kalau semua baris dicentang
-        $total = Berita::onlyTrashed()->count();
-        $this->selectAll = ($total > 0 && count($this->selectedBeritas) === $total);
+        $total = Artikel::onlyTrashed()->count();
+        $this->selectAll = ($total > 0 && count($this->selectedArtikels) === $total);
     }
 
     public function toggleSelectAll()
@@ -38,43 +39,43 @@ class BeritaDelete extends Component
         if ($this->selectAll) {
             // kalau selectAll = true → uncheck semua
             $this->selectAll = false;
-            $this->selectedBeritas = [];
+            $this->selectedArtikels = [];
         } else {
             // kalau selectAll = false → check semua
             $this->selectAll = true;
-            $this->selectedBeritas = Berita::onlyTrashed()->pluck('id_berita')->toArray();
+            $this->selectedArtikels = Artikel::onlyTrashed()->pluck('id_artikel')->toArray();
         }
     }
 
     public function restoreSelected()
     {
-        if (!empty($this->selectedBeritas)) {
-            Berita::withTrashed()
-                ->whereIn('id_berita', $this->selectedBeritas)
+        if (!empty($this->selectedArtikels)) {
+            Artikel::withTrashed()
+                ->whereIn('id_artikel', $this->selectedArtikels)
                 ->restore();
-            $this->reset(['selectedBeritas', 'selectAll']);
+            $this->reset(['selectedArtikels', 'selectAll']);
         }
     }
 
     public function deleteSelected()
     {
-        if (!empty($this->selectedBeritas)) {
-            $beritas = Berita::withTrashed()
-                ->whereIn('id_berita', $this->selectedBeritas)
+        if (!empty($this->selectedArtikels)) {
+            $artikels = Artikel::withTrashed()
+                ->whereIn('id_artikel', $this->selectedArtikels)
                 ->get();
 
-            foreach ($beritas as $data) {
+            foreach ($artikels as $data) {
                 if ($data->thumbnail_image && Storage::disk('public')->exists($data->thumbnail_image)) {
                     Storage::disk('public')->delete($data->thumbnail_image);
                 }
             }
 
-            Berita::withTrashed()
-                ->whereIn('id_berita', $this->selectedBeritas)
+            Artikel::withTrashed()
+                ->whereIn('id_artikel', $this->selectedArtikels)
                 ->forceDelete();
 
-            $this->reset(['selectedBeritas', 'selectAll']);
-            $this->dispatch('beritaDeleted');
+            $this->reset(['selectedArtikels', 'selectAll']);
+            $this->dispatch('ArtikelDeleted');
         }
     }
 }

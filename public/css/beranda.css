@@ -151,6 +151,16 @@
     color: #fff !important;
 }
 
+#thumbnailContainer img:hover {
+    border: 2px solid #0d6efd;
+    transform: scale(1.05);
+    transition: 0.2s;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
 /* rs jejaring section */
 .rs-section {
     padding-top: 60px;

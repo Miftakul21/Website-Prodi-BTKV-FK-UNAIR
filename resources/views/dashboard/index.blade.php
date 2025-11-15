@@ -56,8 +56,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Berita & Event</h6>
-                                    <h6 class="font-extrabold mb-0">{{$berita_count}}</h6>
+                                    <h6 class="text-muted font-semibold">Artikel</h6>
+                                    <h6 class="font-extrabold mb-0">{{$artikel_count}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Galeri</h6>
-                                    <h6 class="font-extrabold mb-0"></h6>
+                                    <h6 class="font-extrabold mb-0">{{$galeri_count}}</h6>
                                 </div>
                             </div>
                         </div>

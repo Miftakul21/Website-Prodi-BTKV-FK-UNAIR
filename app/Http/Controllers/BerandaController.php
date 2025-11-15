@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Berita;
+use App\Models\Artikel;
 use App\Models\Pengajar;
 use App\Models\Galeri;
 use Illuminate\Support\Facades\Cache;
@@ -12,18 +12,19 @@ class BerandaController extends Controller
 {
     public function index()
     {
-        $berita = Cache::remember('beritas', '100', function () {
-            return Berita::with('user:id_user')
+        $artikel = Cache::remember('artikels', '100', function () {
+            return Artikel::with('user:id_user')
                 ->select(
-                    'id_berita as berita_id',
-                    'judul as berita_title',
-                    'tgl_berita as berita_date',
-                    'kategori as berita_category',
-                    'thumbnail_image as berita_thumbnail',
-                    'konten_berita as berita_content',
-                    'viewers as views_count',
-                    'slug as berita_slug'
+                    'id_artikel      as artikel_id',
+                    'judul           as artikel_title',
+                    'tgl_artikel     as artikel_date',
+                    'kategori        as artikel_category',
+                    'thumbnail_image as artikel_thumbnail',
+                    'konten_artikel   as artikel_content',
+                    'viewers         as views_count',
+                    'slug            as artikel_slug'
                 )
+                ->where('kategori', 'Berita')
                 ->latest()
                 ->get(4);
         });
@@ -46,13 +47,16 @@ class BerandaController extends Controller
                 });
         });
 
-        \Log::info('Test Data' . json_encode($pengajar));
-
         $galeri = Cache::remember('galeris', '100', function () {
             return Galeri::select(
                 'id_galeri as galeri_id',
                 'judul_galeri as galeri_title',
                 'image_utama as galeri_thumbnail',
+                'image_first',
+                'image_second',
+                'image_third',
+                'image_fourth',
+                'deskripsi',
                 'kategori as galeri_category',
                 'slug as galeri_slug',
             )
@@ -97,7 +101,7 @@ class BerandaController extends Controller
         ]);
 
         return view('beranda', [
-            'berita'   => $berita,
+            'artikel'  => $artikel,
             'pengajar' => $pengajar,
             'galeri'   => $galeri
         ]);

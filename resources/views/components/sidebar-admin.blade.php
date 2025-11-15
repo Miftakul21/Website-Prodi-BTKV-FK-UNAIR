@@ -61,8 +61,8 @@
                 </li>
 
                 <li
-                    class="sidebar-item {{Request::is('berita-admin') ? 'active' : '' }}">
-                    <a href="{{ route('berita-admin') }}" class='sidebar-link'>
+                    class="sidebar-item {{Request::is('artikel-admin') ? 'active' : '' }}">
+                    <a href="{{ route('artikel-admin') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Artikel</span>
                     </a>
@@ -162,8 +162,8 @@
                     </a>
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="/berita-terhapus" class="submenu-link">
-                                Berita
+                            <a href="/artikel-terhapus" class="submenu-link">
+                                Artikel
                             </a>
                         </li>
                         <li class="submenu-item">

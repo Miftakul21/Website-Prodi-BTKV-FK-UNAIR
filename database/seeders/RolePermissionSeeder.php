@@ -14,7 +14,7 @@ class RolePermissionSeeder extends Seeder
     {
         $permissions = [
             'anggota',
-            'berita',
+            'artikel',
             'pengajar',
             'galeri'
         ];
@@ -29,15 +29,15 @@ class RolePermissionSeeder extends Seeder
 
         // asssign perrmission ke role
         $administrator->givePermissionTo(Permission::all());
-        $editor->givePermissionTo(['berita']);
+        $editor->givePermissionTo(['artikel']);
 
         // assidn role ke user
         $userAdministrator = User::firstOrCreate([
             'email' => 'adminstratorbtkvunair@gmail.com',
-            'role' => 'Administrator',
+            'role'  => 'Administrator',
             'nomor_telepon' => null,
         ], [
-            'name' => 'Adminstrator BTKV UNAIR',
+            'name'     => 'Adminstrator BTKV UNAIR',
             'password' => Hash::make(env('SALT_PASSWORD') . "administratorpasswordbtkvunair2025#" . env('SALT_PASSWORD')),
         ]);
 
@@ -45,10 +45,10 @@ class RolePermissionSeeder extends Seeder
 
         $userEditor = User::firstOrCreate([
             'email' => 'editobtkvunairr@gmail.com',
-            'role' => 'Editor',
+            'role'  => 'Editor',
             'nomor_telepon' => null,
         ], [
-            'name' => 'Editor BTKV UNAIR',
+            'name'     => 'Editor BTKV UNAIR',
             'password' => Hash::make(env('SALT_PASSWORD') . "editorpasswordbtkvunair2025#" . env('SALT_PASSWORD')),
         ]);
 

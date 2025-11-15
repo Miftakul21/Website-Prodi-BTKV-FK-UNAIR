@@ -8,29 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class Berita extends Model
+
+class Artikel extends Model
 {
     use HasFactory, SoftDeletes;
 
-    /**
-     * Model Berita ini tidak hanya mengelola artikel berita saja,
-     * tetapi acara (workshop, seminar), hasil karya
-     */
-
-    protected $table = 'berita';
-    protected $primaryKey = 'id_berita';
+    protected $table = 'artikel';
+    protected $primaryKey = 'id_artikel';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id_berita',
+        'id_artikel',
         'user_id',
-        'tgl_berita',
+        'tgl_artikel',
         'judul',
         'slug',
         'kategori',
         'thumbnail_image',
-        'konten_berita',
+        'konten_artikel',
         'viewers',
     ];
 
@@ -58,11 +54,11 @@ class Berita extends Model
     protected static function booted()
     {
         static::saved(function () {
-            Cache::forget('berita_all');
+            Cache::forget('artikel_all');
         });
 
         static::deleted(function () {
-            Cache::forget('berita_all');
+            Cache::forget('artikel_all');
         });
     }
 
