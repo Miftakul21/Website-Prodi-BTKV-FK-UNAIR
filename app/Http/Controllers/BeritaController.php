@@ -16,67 +16,80 @@ class BeritaController extends Controller
         return view('berita.berita');
     }
 
-    public function detailBerita($slug)
+    private function setSeoArticel($artikel)
     {
-        $berita = Berita::with('user')->where('slug', $slug)->firstOrFail();
+        SEOTools::setTitle($artikel->judul);
+        SEOTOols::setDescription(Str::limit(strip_tags($artikel->konten_artikel), 100));
+        SEOTools::opengraph()->setUrl(url()->current());
+        SEOTOols::opengraph()->addImage(asset('storage/' . $artikel->thumbnail_image));
+        SEOTools::setCanonical(url()->current());
 
-        // jumlah pembaca
-        $sessionKey = 'berita_saved_' . $berita->id_berita;
+        SEOTools::opengraph()->setType('article');
+        SEOTools::opengraph()->addProperty('locale', 'id_ID');
+        SEOTools::opengraph()->addProperty('article:published_time', $artikel->tgl_artikel);
+        SEOTools::opengraph()->addProperty('article:author', $artikel->user->name ?? 'Administrator');
+        SEOTools::metatags()->addMeta('robots', 'index, follow');
+
+        SEOTools::twitter()->setTitle($artikel->judul);
+        SEOTOols::twitter()->setDescription(Str::limit(strip_tags($artikel->konten_artikel), 100));
+        SEOTools::twitter()->setImage(asset('storage/' . $artikel->thumbnail_image));
+
+        SEOTools::jsonLd()->setTYpe('Article');
+        SEOTools::jsonLd()->setTitle($artikel->judul);
+
+        SEOTools::jsonLd()->setDescription(Str::limit(strip_tags($artikel->konten_artikel), 160));
+        SEOTools::jsonLd()->setUrl(url()->current());
+        SEOTools::jsonLd()->addImage(asset('storage/' . $artikel->thumbnail_image));
+        SEOTools::jsonLd()->addValue('author', $artikel->user->name ?? 'Administrator');
+        SEOTools::jsonLd()->addValue('datePublished', $artikel->tgl_artikel);
+    }
+
+    public function detailArtikel($slug, $kategori, $viewName)
+    {
+        $artikel = Artikel::with('user')
+            ->where('slug', $slug)
+            ->where('kategori', $kategori)
+            ->firstOrFail();
+
+        // hitung viewer
+        $sessionKey = $kategori . '_saved_' . $artikel->id_artikel;
         if (!Session::has($sessionKey)) {
-            Berita::where('id_berita', $berita->id_berita)->increment('viewers');
-            Session::put($sessionKey, true);
+            Artikel::where('id_artikel', $artikel->id_artikel)
+                ->increment('viewers');
+            Session::put($ssesionKey, true);
         }
 
-        // pagination berita
-        $berita_lainnya = Berita::where('id_berita', '!=', $berita->id_berita)
-            ->select('id_berita as berita_id', 'judul as berita_title', 'tgl_berita as berita_date')
-            ->where('kategori', $berita->kategori)
-            ->orderByDesc('tgl_berita')
+        // artikel lainnya
+        $artikel_lainnya = Artikel::where('id_artikel', '!=', $artikel->id_artikel)
+            ->where('kategori', $kategori)
+            ->select(
+                'id_artikel  as artikel_id',
+                'judul       as artikel_title',
+                'tgl_artikel as artikel_date'
+            )
+            ->orderByDesc('tgl_artikel')
             ->limit(3)
             ->get();
 
+        // data array 
         $data = [
-            'berita_id'         => $berita->id_berita,
-            'berita_title'      => $berita->judul,
-            'berita_date'       => $berita->tgl_berita,
-            'berita_category'   => $berita->kategori,
-            'berita_thumbnail'  => $berita->thumbnail_image,
-            'berita_content'    => $berita->konten_berita,
-            'views_count'       => $berita->viewers,
-            'berita_editor'     => $berita->user->name ?? '',
-            'berita_lainnya'    => $berita_lainnya,
+            'artikel_id'        => $artikel->id_artikel,
+            'artikel_title'     => $artikel->judul,
+            'artikel_date'      => $artikel->tgl_artikel,
+            'artikel_category'  => $artikel->kategori,
+            'artikel_thumbnail' => $artikel->thumbnail_image,
+            'artikel_content'   => $artikel->konten_artikel,
+            'artikel_editor'    => $artikel->user->name ?? '',
+            'artikel_lainnya'   => $artikel->lainnya
         ];
 
-        // SEO setup
-        SEOTools::setTitle($berita->judul);
-        SEOTools::setDescription(Str::limit(strip_tags($berita->konten_berita), 160));
-        SEOTools::opengraph()->setUrl(url()->current());
-        SEOTools::opengraph()->addImage(asset('storage/' . $berita->thumbnail_image));
-        SEOTools::setCanonical(url()->current());
+        $this->setSeoArticel($artikel);
+        return view($viewName, $data);
+    }
 
-        // Whatsapp, Instagram, Facebook, Linkedin
-        SEOTools::opengraph()->setType('article');
-        SEOTools::opengraph()->addProperty('locale', 'id_ID');
-        SEOTools::opengraph()->addProperty('article:published_time', $berita->tgl_berita);
-        SEOTools::opengraph()->addProperty('article:author', $berita->user->name ?? 'Administrator');
-        SEOTools::metatags()->addMeta('robots', 'index, follow');
-
-        // Twitter card
-        SEOTools::twitter()->setTitle($berita->judul);
-        SEOTools::twitter()->setDescription(Str::limit(strip_tags($berita->konten_berita), 160));
-        SEOTools::twitter()->setImage(asset('storage/' . $berita->thumbnail_image));
-
-        // JSON-LD
-        SEOTools::jsonLd()->setType('Article');
-        SEOTools::jsonLd()->setTitle($berita->judul);
-        SEOTools::jsonLd()->setDescription(Str::limit(strip_tags($berita->konten_berita), 160));
-        SEOTools::jsonLd()->setUrl(url()->current());
-        SEOTools::jsonLd()->addImage(asset('storage/' . $berita->thumbnail_image));
-        SEOTools::jsonLd()->addValue('author', $berita->user->name ?? 'Administrator');
-        SEOTools::jsonLd()->addValue('datePublished', $berita->tgl_berita);
-
-
-        return view('berita.detail-berita', $data);
+    public function detailBerita($slug)
+    {
+        return $this->detailArtikel($slug, 'Berita', 'berita.detail-berita');
     }
 
     public function beritaAdminIndex()
@@ -100,25 +113,25 @@ class BeritaController extends Controller
             if ($validation->fails()) {
                 return response()->json([
                     'uploaded' => false,
-                    'error' => $validation->errors()->first()
+                    'error'    => $validation->errors()->first()
                 ], 422);
             }
 
             // save file
-            $file = $request->file('upload');
+            $file     = $request->file('upload');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads/berita'), $filename);
-            $url = asset('uploads/berita/' . $filename);
+            $url      = asset('uploads/berita/' . $filename);
 
             return response()->json([
                 'uploaded' => true,
-                'url' => $url
+                'url'      => $url
             ]);
         } catch (\Throwable $e) {
             \Log::error('Terjadi kesalahan upload image: ' . $e->getMessage());
             return response()->json([
                 'uploaded' => false,
-                'message' => [
+                'message'  => [
                     'error' => $e->getMessage()
                 ],
             ], 500);

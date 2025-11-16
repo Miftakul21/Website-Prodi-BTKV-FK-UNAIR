@@ -16,7 +16,7 @@
             <p class="description-section">Berita terbaru seputar kegiatan dan informasi kami</p>
         </div>
         <!-- komponen live wire -->
-        <livewire:artikel-list />
+        <livewire:artikel-list category="Berita" />
     </div>
 </section>
 <!-- news & event section-->
