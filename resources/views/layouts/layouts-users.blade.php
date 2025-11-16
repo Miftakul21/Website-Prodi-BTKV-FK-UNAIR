@@ -21,7 +21,7 @@
     @livewireStyles
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Tombol Back to Top -->
     <button id="backToTop" class="btn btn-primary rounded-circle shadow"
         style="position: fixed; bottom: 20px; right: 20px; display: none; z-index: 99;">
@@ -33,8 +33,6 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="container-media-social d-flex align-items-center gap-2">
-                    <!-- <a href="#" class="text-white"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-white"><i class="bi bi-twitter-x"></i></a> -->
                     <a href="https://www.instagram.com/btkv.fkua?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="text-white"><i class="bi bi-instagram"></i></a>
                     <a href="https://www.youtube.com/@btkvfkua917" class="text-white"><i class="bi bi-youtube"></i></a>
                 </div>
@@ -54,7 +52,9 @@
 
     @include('components.navbar')
 
-    @yield('content')
+    <main class="flex-fill">
+        @yield('content')
+    </main>
 
     @livewireScripts
 

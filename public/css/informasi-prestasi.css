@@ -1,6 +1,6 @@
 /* prestasi-section */
 .prestasi-section,
-.prestasi-detail-section {
+.prestasi-section {
     padding: 50px 0;
 }
 
@@ -12,27 +12,27 @@
 }
 
 /* detail section */
-.prestasi-detail-section .container-informasi {
+.prestasi-section .container-informasi {
     width: 250px;
     margin-bottom: 10px;
 }
 
-.prestasi-detail-section .container-informasi div {
+.prestasi-section .container-informasi div {
     font-size: 12px;
     color: #555;
     font-weight: 400;
     line-height: 1.8;
 }
 
-.prestasi-detail-section .title-prestasi {
+.prestasi-section .title-prestasi {
     font-weight: 600;
 }
 
-.prestasi-detail-section .category {
+.prestasi-section .category {
     display: inline-block;
     padding: 2px 22px;
     background: transparent;
-    color: 12px;
+    color: #0d6efd;
     font-size: 12px;
     font-weight: 500;
     border: 1px solid #0d6efd;
@@ -55,7 +55,7 @@
     color: #fff;
 }
 
-.prestasi-detail-section .container-thubmnail-image {
+.prestasi-section .container-thubmnail-image {
     overflow: hidden;
     border-radius: 4px;
 }

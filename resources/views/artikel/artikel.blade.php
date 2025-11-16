@@ -15,9 +15,8 @@
         <div class="d-flex justify-content-center align-items-center">
             <p class="description-section">Berita terbaru seputar kegiatan dan informasi kami</p>
         </div>
-
         <!-- komponen live wire -->
-        <livewire:berita-list />
+        <livewire:artikel-list />
     </div>
 </section>
 <!-- news & event section-->

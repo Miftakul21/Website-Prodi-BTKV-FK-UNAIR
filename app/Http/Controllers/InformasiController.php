@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artikel;
+use Illuminate\Support\Facades\Session;
+use Artesaos\SEOTools\Facades\SEOTools;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class InformasiController extends Controller

@@ -30,6 +30,7 @@ Route::get('/akademik/tugas-akhir', [AkademikController::class, 'tugasAkhirAkade
 Route::get('/akademik/yudsium', [AkademikController::class, 'yudisiumAkademik'])->name('yudisium');
 // informasi
 Route::get('/informasi/prestasi', [InformasiController::class, 'prestasiInformasi'])->name('prestasi');
+Route::get('/detail-prestasi/{slug}', [InformasiController::class, 'detailPrestasi']);
 // Halaman login (GET) — beri nama 'login' supaya middleware bisa redirect ke sini
 Route::get('/login-btkv-fk-unair', [AuthController::class, 'index'])->name('login');
 Route::post('/login-authentication', [AuthController::class, 'authentication'])->name('login.process');
