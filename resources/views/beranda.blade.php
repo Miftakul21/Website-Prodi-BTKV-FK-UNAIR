@@ -134,7 +134,11 @@
                     <div class="card shadow-sm border-0 mb-3" style="min-height: 480px;">
                         <!-- Foto Dokter -->
                         <div class="container-image-pengajar">
+                            @if($data->pengajar_image)
                             <img src="{{ asset('storage/'. $data->pengajar_image) }}" class="card-img-top" alt="Profile Image">
+                            @else
+                            <img src="{{ asset('img/galeri.png') }}" alt="galeri.png" style="">
+                            @endif
                         </div>
                         <div class="card-body shadow-sm">
                             <!-- Nama & Jabatan -->
@@ -202,7 +206,7 @@
                 data-image_utama="{{ $data->galeri_thumbnail ? asset('storage/'.$data->galeri_thumbnail) : '' }}"
                 data-image_first="{{ $data->image_first ? asset('storage/'.$data->image_first) : ''  }}"
                 data-image_second="{{ $data->image_second ? asset('storage/'.$data->image_second) : ''}}"
-                data-image_third="{{ $data->image_third ? asset('storage/'.$data->image_thrid) : '' }}"
+                data-image_third="{{ $data->image_third ? asset('storage/'.$data->image_third) : '' }}"
                 data-image_fourth="{{ $data->image_fourth ? asset('storage/'.$data->image_fourth) : '' }}">
                 <div class="card h-100 shadow-sm">
                     <img src="{{asset('storage/'.$data->galeri_thumbnail)}}" alt="">

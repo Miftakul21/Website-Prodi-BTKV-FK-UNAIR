@@ -79,7 +79,6 @@
                     <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Profil
                     </a>
-
                     <ul class="dropdown-menu">
                         <li><a href="#" class="dropdown-item">Sejarah</a></li>
                         <li><a href="{{route('visi-misi')}}" class="dropdown-item">Visi Misi</a></li>

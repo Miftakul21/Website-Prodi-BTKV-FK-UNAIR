@@ -93,7 +93,7 @@
 
     <!-- Modal -->
     @if($isOpen)
-    <div class="modal fade show d-block" tabindex="-1" style="background-color: rbga(0,0,0,0.5);">
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
         <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <form wire:submit.prevent="{{ $id_galeri ? 'update' : 'store'}}" enctype="multipart/form-data">
@@ -186,7 +186,7 @@
                         <label class="fw-bold mt-2">Image Galeri Lainnya 3</label>
                         <input type="file" class="form-control" wire:model="image_third">
                         <!-- indikator  -->
-                        <div wire:loading wire:target="image_thrid" class="text-info">
+                        <div wire:loading wire:target="image_third" class="text-info">
                             Sedang upload image galeri lainnya 3
                         </div>
                         <!-- preview file baru -->
@@ -194,7 +194,7 @@
                         <div class="mt-2">
                             <span class="text-success">File terpilih: {{$image_third->getClientOriginalName()}}</span>
                             <br>
-                            <img src="{{$image_thrid->temporaryUrl()}}" class="img-thumbnail mt-2" width="150">
+                            <img src="{{$image_third->temporaryUrl()}}" class="img-thumbnail mt-2" width="150">
                         </div>
                         @endif
                         <!-- pesan kalau edit tapi belum pilih gambar -->

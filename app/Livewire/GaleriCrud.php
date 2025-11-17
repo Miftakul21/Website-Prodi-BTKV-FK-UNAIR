@@ -171,6 +171,7 @@ class GaleriCrud extends Component
                 'image_utama'  => 'nullable|mimes:jpg,jpeg,png|max:5120',
                 'image_first'  => 'nullable|mimes:jpg,jpeg,png|max:5120',
                 'image_second' => 'nullable|mimes:jpg,jpeg,png|max:5120',
+                'image_third'  => 'nullable|mimes:jpg,jpeg,png|max:5120',
                 'image_fourth' => 'nullable|mimes:jpg,jpeg,png|max:5120',
             ]);
 

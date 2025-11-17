@@ -115,14 +115,6 @@
                             </a>
                         </li>
 
-                        <li
-                            class="sidebar-item">
-                            <a href="index.html" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Media</span>
-                            </a>
-                        </li>
-
                         <li class="sidebar-item has-sub">
                             <a href="#" class="sidebar-link">
                                 <i class="bi bi-grid-fill"></i>

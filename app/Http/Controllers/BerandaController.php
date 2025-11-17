@@ -20,7 +20,7 @@ class BerandaController extends Controller
                     'tgl_artikel     as artikel_date',
                     'kategori        as artikel_category',
                     'thumbnail_image as artikel_thumbnail',
-                    'konten_artikel   as artikel_content',
+                    'konten_artikel  as artikel_content',
                     'viewers         as views_count',
                     'slug            as artikel_slug'
                 )
