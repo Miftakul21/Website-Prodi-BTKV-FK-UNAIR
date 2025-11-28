@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="{{ asset('css/berita.css') }}">
 @endpush
 @section('content')
-<!-- news & event section -->
-<section class="news-section">
+<!-- artikel & event section -->
+<section class="artikel-section">
     <div class="container">
         <a href="{{ url()->previous() }}" class="text-muted button-back"><i class="bi bi-arrow-left me-2"></i> Kembali</a>
 
@@ -19,5 +19,5 @@
         <livewire:artikel-list category="Berita" />
     </div>
 </section>
-<!-- news & event section-->
+<!-- artikel & event section-->
 @endsection

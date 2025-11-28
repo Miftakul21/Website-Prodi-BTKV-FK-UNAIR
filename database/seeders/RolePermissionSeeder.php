@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -25,7 +25,7 @@ class RolePermissionSeeder extends Seeder
 
         // create role
         $administrator = Role::firstOrCreate(['name' => 'Administrator']);
-        $editor = Role::firstOrCreate(['name' => 'Editor']);
+        $editor        = Role::firstOrCreate(['name' => 'Editor']);
 
         // asssign perrmission ke role
         $administrator->givePermissionTo(Permission::all());

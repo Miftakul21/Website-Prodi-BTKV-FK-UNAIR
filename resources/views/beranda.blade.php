@@ -11,7 +11,7 @@
     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active" data-bs-interval="5000">
-                <img src="{{ asset('img/hero-banner1.jpg') }}" class="d-block w-100 hero-img" alt="...">
+                <img src="{{ asset('img/btkv-fk-unair.jpg') }}" class="d-block w-100 hero-img" alt="...">
                 <div class="carousel-caption">
                     <h5>Selamat Datang</h5>
                     <p>Program Studi Dokter Spesialis <br> Bedah Toraks Kardaik Dan Vaskular</p>
@@ -19,7 +19,7 @@
                 <div class="overlay-full"></div>
             </div>
             <div class="carousel-item" data-bs-interval="5000">
-                <img src="{{ asset('img/hero-banner2.jpg') }}" class="d-block w-100 hero-img" alt="...">
+                <img src="{{ asset('img/btkv-fk-unair2.jpg') }}" class="d-block w-100 hero-img" alt="...">
                 <div class="carousel-caption">
                     <h5>Selamat Datang</h5>
                     <p>Program Studi Dokter Spesialis <br> Bedah Toraks Kardaik Dan Vaskular</p>
@@ -52,21 +52,24 @@
 <section class="prodi-section">
     <div class="container">
         <div class="d-flex justify-content-center align-items-center mb-2">
-            <span class="info-section">Program Studi Spesialis</span>
+            <span class="info-section">Program Studi</span>
         </div>
         <div class="d-flex justify-content-center align-items-center">
-            <p class="title-section">Bedah Toraks, Kardiak, Dan Vaskular</p>
+            <p class="title-section">Bedah Toraks Kardiak Dan Vaskular <br> FK UNAIR</p>
         </div>
         <div class="row my-md-5">
             <div class="col-md-6">
-                <p class="description-section">Program Studi Dokter Spesialis Bedah Toraks, Kardiak, dan Vaskular
+                <p class="description-section">
+                    Program Studi Dokter Spesialis Bedah Toraks, Kardiak, dan Vaskular
                     (BTKV) Fakultas Kedokteran Universitas Airlangga Surabaya merupakan program pendidikan dokter
                     spesialis yang berdiri pada tahun 2007. Program Studi BTKV FK UNAIR telah terakreditasi "A"
                     oleh LAM-PTKes berdasarkan Surat Keputusan Nomor: 001/LAM-PTKes/Akr/VI/2021, berlaku sejak
-                    tanggal 30 Juni 2021 sampai dengan 30 Juni 2026.</p>
+                    tanggal 30 Juni 2021 sampai dengan 30 Juni 2026.
+                </p>
+                <a href="" class="btn btn-primary">Selengkapnya</a>
             </div>
             <div class="col-md-6">
-                <img src="{{ asset('img/hero-banner1.jpg') }}" alt="gedung-prodi" class="img-fluid rounded">
+                <img src="{{ asset('img/btkv-fk-unair.jpg') }}" alt="gedung-prodi" class="img-fluid rounded">
             </div>
         </div>
     </div>
@@ -85,14 +88,33 @@
         <div class="row g-4">
             @forelse($artikel as $data)
             <div class="col-12 col-md-6 col-lg-3">
-                <a href="/detail-berita/{{$data->artikel_slug}}">
+                @php
+                $url = '';
+                switch($data->artikel_category) {
+                case 'Berita':
+                $url = '/detail-berita/'.$data->artikel_slug;
+                break;
+                case 'Prestasi':
+                $url = '/detail-prestasi/'.$data->artikel_slug;
+                break;
+                case 'Event':
+                $url = '/detail-event/'.$data->artikel_slug;
+                break;
+                case 'Hasil Karya':
+                $url = '/detail-event/'.$data->artikel_slug;
+                break;
+                default:
+                break;
+                }
+                @endphp
+                <a href="{{$url}}">
                     <div class="card h-100 shadow-sm border-0">
                         <div class="overflow-hidden">
                             <img src="{{ asset('storage/'.$data->artikel_thumbnail) }}" class="card-img-top img-zoom" alt="Berita 1">
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between text-muted small mb-2">
-                                <span><i class="bi bi-calendar"></i> {{\Carbon\Carbon::parse($data->artikel_date)->format('M d')}}</span>
+                                <span><i class="bi bi-calendar"></i> {{\Carbon\Carbon::parse($data->artikel_date)->format('M, d Y')}}</span>
                                 <span><i class="bi bi-eye"></i> {{$data->views_count}}</span>
                             </div>
                             <h5 class="card-title fw-bold text-dark">{{Str::limit($data->artikel_title, 90)}}</h5>
@@ -118,13 +140,13 @@
 <section class="pengajar-section">
     <div class="container">
         <div class="d-flex justify-content-center align-items-center mb-2">
-            <span class="title-section">Tenaga Pengajar Spesialis Kami</span>
+            <span class="title-section">Dosen Pengajar Kami</span>
         </div>
-        <div class="d-flex justify-content-center align-items-center mb-2">
+        <!-- <div class="d-flex justify-content-center align-items-center mb-2">
             <p class="description-section" style="text-align: center;">
                 Pengajar ahli kami merupakan dokter spesialis dengan pengalaman klinis dan akademis yang luas, yang membimbing <br> Program Pendidikan Dokter Spesialis Bedah Toraks, Kardiak, dan Vaskular
             </p>
-        </div>
+        </div> -->
 
         <!-- list pengajar -->
         <div class="row py-3">
@@ -175,7 +197,7 @@
             <span class="info-section">Galeri</span>
         </div>
         <div class="d-flex justify-content-center align-items-center">
-            <p class="title-section">Fasilitas dan Kegiatan Prodi</p>
+            <p class="title-section">Galeri Kami</p>
         </div>
 
         <!-- Filter Tombol -->

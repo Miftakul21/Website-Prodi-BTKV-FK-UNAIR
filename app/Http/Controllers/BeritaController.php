@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Berita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -44,11 +43,11 @@ class BeritaController extends Controller
         SEOTools::jsonLd()->addValue('datePublished', $artikel->tgl_artikel);
     }
 
-    public function detailArtikel($slug, $kategori, $viewName)
+    public function detailArtikel($slug, $viewName)
     {
         $artikel = Artikel::with('user')
             ->where('slug', $slug)
-            ->where('kategori', $kategori)
+            // ->where('kategori', $kategori)
             ->firstOrFail();
 
         // hitung viewer
@@ -61,7 +60,6 @@ class BeritaController extends Controller
 
         // artikel lainnya
         $artikel_lainnya = Artikel::where('id_artikel', '!=', $artikel->id_artikel)
-            ->where('kategori', $kategori)
             ->select(
                 'id_artikel  as artikel_id',
                 'judul       as artikel_title',
@@ -80,7 +78,7 @@ class BeritaController extends Controller
             'artikel_thumbnail' => $artikel->thumbnail_image,
             'artikel_content'   => $artikel->konten_artikel,
             'artikel_editor'    => $artikel->user->name ?? '',
-            'artikel_lainnya'   => $artikel->lainnya
+            'artikel_lainnya'   => $artikel_lainnya
         ];
 
         $this->setSeoArticel($artikel);
@@ -89,7 +87,7 @@ class BeritaController extends Controller
 
     public function detailBerita($slug)
     {
-        return $this->detailArtikel($slug, 'Berita', 'berita.detail-berita');
+        return $this->detailArtikel($slug, 'berita.detail-berita');
     }
 
     public function beritaAdminIndex()

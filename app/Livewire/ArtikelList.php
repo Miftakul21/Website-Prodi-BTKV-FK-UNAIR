@@ -14,7 +14,7 @@ class ArtikelList extends Component
     protected $listeners = [
         'loadMoreBerita',
         'loadMorePrestasi',
-        'loadMoreHasiKarya',
+        'loadMoreHasilKarya',
     ];
 
     public function loadMoreArtikel()
@@ -30,6 +30,12 @@ class ArtikelList extends Component
     }
 
     public function loadMoreBerita()
+    {
+        $this->loadMore();
+        $this->limit += 8;
+    }
+
+    public function loadMoreHasilKarya()
     {
         $this->loadMore();
         $this->limit += 8;

@@ -12,14 +12,45 @@
 </script>
 @endif
 
+<style>
+    #auth-reight {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    #auth-right .image-wrap {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    #auth-right .image-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    #auth-right .image-wrap::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+</style>
+
 <div class="row h-100">
     <div class="col-lg-5 col-12">
         <div id="auth-left">
             <div class="auth-logo">
-                <a href="index.html"><img src="{{ asset('img/lg-prodi-dark.png') }}" alt="Logo" style="width: 300px; height: auto;"></a>
+                <a href="index.html"><img src="{{ asset('img/lg-prodi-2.png') }}" alt="Logo" style="width: 300px; height: auto;"></a>
             </div>
             <h1 class=" auth-title">Sign In.</h1>
-            <p class="auth-subtitle mb-5">Silahkan login dengan akun yang sudah registrasi untuk mengakses Admin Panel.</p>
+            <p class="auth-subtitle mb-5">Silahkan sign in dengan akun yang sudah registrasi untuk mengakses Dashboard Admin</p>
             <form action="/login-authentication" method="POST">
                 @csrf
                 <div class="form-group position-relative has-icon-left mb-2">
@@ -40,7 +71,9 @@
     </div>
     <div class="col-lg-7 d-none d-lg-block">
         <div id="auth-right" style="width: 100%; height: 100%; overflow: hidden;">
-            <img src="{{asset('img/bg-fk-unair.webp')}}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="image-wrap">
+                <img src="{{asset('img/bg-fk-unair.webp')}}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
         </div>
     </div>
 </div>

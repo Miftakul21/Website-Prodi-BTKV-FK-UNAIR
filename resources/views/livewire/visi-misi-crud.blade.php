@@ -105,7 +105,8 @@
 
     @push('js')
     <!-- ckeditor -->
-    <script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@39.0.2/build/ckeditor.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@39.0.2/build/ckeditor.js"></script> -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
         document.addEventListener('livewire:init', () => {
             let editorInstance;
@@ -119,15 +120,43 @@
 
                     ClassicEditor
                         .create(el, {
+                            removePlugins: [
+                                'RealTimeCollaborativeEditing',
+                                'RealTimeCollaborativeComments',
+                                'RealTimeCollaborativeTrackChanges',
+                                'RealTimeCollaborativeRevisionHistory',
+                                'PresenceList',
+                                'Comments',
+                                'TrackChanges',
+                                'TrackChangesData',
+                                'RevisionHistory',
+                                'Pagination',
+                                'WebSocketGateway'
+                            ],
                             toolbar: [
                                 'heading',
                                 '|', 'bold', 'italic', 'underline', 'link',
                                 '|', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
-                                '|', 'alignment:left', 'alignment:center', 'alignment:right', 'alignment:justify',
                                 '|', 'bulletedList', 'numberedList',
                                 '|', 'blockQuote', 'insertTable',
+                                '|', 'imageUpload', 'imageStyle:block', 'imageStyle:side', 'resizeImage',
                                 '|', 'undo', 'redo'
                             ],
+                            fontSize: {
+                                options: [
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    24,
+                                    30,
+                                    36
+                                ],
+                                supportAllValues: true
+                            },
                             heading: {
                                 options: [{
                                         model: 'paragraph',
@@ -168,10 +197,6 @@
                             },
                             alignment: {
                                 options: ['left', 'center', 'right', 'justify']
-                            },
-                            fontSize: {
-                                options: [8, 10, 12, 14, 'default', 18, 24, 36],
-                                supportAllValues: true
                             },
                             fontFamily: {
                                 options: [

@@ -2,7 +2,26 @@
     <div class="row g-4">
         @forelse($artikel as $data)
         <div class="col-12 col-md-6 col-lg-3">
-            <a href="/detail-artikel/{{$data->artikel_slug}}">
+            @php
+            $url = '';
+            switch($data->artikel_category){
+            case 'Berita':
+            $url = '/detail-artikel/'.$data->artikel_slug;
+            break;
+            case 'Prestasi':
+            $url = '/detail-prestasi/'.$data->artikel_slug;
+            break;
+            case 'Hasil Karya':
+            $url = '/detail-hasil-karya/'.$data->artikel_slug;
+            break;
+            case 'Event':
+            $url = '/detail-event/'.$data->artikel_slug;
+            break;
+            default:
+            break;
+            }
+            @endphp
+            <a href="{{ $url }}">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="overflow-hidden">
                         <img src="{{asset('storage/'. $data->artikel_thumbnail)}}" alt="" class="card-img-top img-zoom" alt="{{$data->artikel_title}}">

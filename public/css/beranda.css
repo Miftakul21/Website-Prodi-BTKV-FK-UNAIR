@@ -2,6 +2,7 @@
 .prodi-section {
     padding-top: 100px;
     padding-bottom: 50px;
+    background: #f0f0f0;
 }
 
 .prodi-section .info-section,
@@ -30,8 +31,8 @@
 .news-section .description-section,
 .pengajar-section .description-section {
     font-size: 20px !important;
-    font-weight: 400;
-    color: #555;
+    font-weight: 500;
+    color: #7b7b7b;
     text-align: justify;
     margin-bottom: 20px;
 }
@@ -66,6 +67,7 @@
 /* pengajar section */
 .pengajar-section {
     padding: 50px 0;
+    background: #f0f0f0;
 }
 
 .container-image-pengajar {
@@ -94,16 +96,42 @@
     object-position: center;
 }
 
+.pengajar-section .card-title {
+    font-size: 18px;
+}
+
 /* news section */
 .news-section {
     padding: 50px 0;
 }
 
+.news-section .card {
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.news-section .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
 .news-section .card img {
+    height: 350px;
+    background-size: cover;
     transition: transform 0.5s ease;
 }
+
 .news-section .card:hover img {
     transform: scale(1.1);
+}
+
+.news-section .card-title {
+    font-size: 16px;
+}
+
+.news-section .card-text {
+    font-size: 14px;
 }
 
 /* galeri section */
@@ -164,7 +192,8 @@
 /* rs jejaring section */
 .rs-section {
     padding-top: 60px;
-    padding-bottom: 30px;
+    padding-bottom: 60px;
+    background: #f0f0f0;
 }
 
 .rs-section .description-section {

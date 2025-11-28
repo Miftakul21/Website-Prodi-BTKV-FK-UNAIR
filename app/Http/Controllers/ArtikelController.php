@@ -28,7 +28,7 @@ class ArtikelController extends Controller
         }
 
         // pagination artikel
-        $artikel_lainnya = Artkel::where('id_artikel', '!=', $artikel->id_artikel)
+        $artikel_lainnya = Artikel::where('id_artikel', '!=', $artikel->id_artikel)
             ->select('id_artikel as artikel_id', 'judul as artikel_title', 'tgl_artikel as artikel_date')
             ->where('kategori', $artikel->kategori)
             ->orderByDesc('tgl_artikel')
@@ -36,15 +36,15 @@ class ArtikelController extends Controller
             ->get();
 
         $data = [
-            'artikel_id'         => $artikel->id_artikel,
-            'artikel_title'      => $artikel->judul,
-            'artikel_date'       => $artikel->tgl_artikel,
-            'artikel_category'   => $artikel->kategori,
-            'artikel_thumbnail'  => $artikel->thumbnail_image,
-            'artikel_content'    => $artikel->konten_artikel,
+            'artikel_id'        => $artikel->id_artikel,
+            'artikel_title'     => $artikel->judul,
+            'artikel_date'      => $artikel->tgl_artikel,
+            'artikel_category'  => $artikel->kategori,
+            'artikel_thumbnail' => $artikel->thumbnail_image,
+            'artikel_content'   => $artikel->konten_artikel,
             'views_count'       => $artikel->viewers,
-            'artikel_editor'     => $artikel->user->name ?? '',
-            'artikel_lainnya'    => $artikel_lainnya,
+            'artikel_editor'    => $artikel->user->name ?? '',
+            'artikel_lainnya'   => $artikel_lainnya,
         ];
 
         // SEO setup

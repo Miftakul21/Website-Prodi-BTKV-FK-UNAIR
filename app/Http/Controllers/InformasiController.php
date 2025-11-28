@@ -6,7 +6,6 @@ use App\Models\Artikel;
 use Illuminate\Support\Facades\Session;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 
 class InformasiController extends Controller
 {
@@ -24,9 +23,9 @@ class InformasiController extends Controller
     private function setSeoArticel($artikel)
     {
         SEOTools::setTitle($artikel->judul);
-        SEOTOols::setDescription(Str::limit(strip_tags($artikel->konten_artikel), 100));
+        SEOTools::setDescription(Str::limit(strip_tags($artikel->konten_artikel), 100));
         SEOTools::opengraph()->setUrl(url()->current());
-        SEOTOols::opengraph()->addImage(asset('storage/' . $artikel->thumbnail_image));
+        SEOTools::opengraph()->addImage(asset('storage/' . $artikel->thumbnail_image));
         SEOTools::setCanonical(url()->current());
 
         SEOTools::opengraph()->setType('article');
@@ -36,10 +35,10 @@ class InformasiController extends Controller
         SEOTools::metatags()->addMeta('robots', 'index, follow');
 
         SEOTools::twitter()->setTitle($artikel->judul);
-        SEOTOols::twitter()->setDescription(Str::limit(strip_tags($artikel->konten_artikel), 100));
+        SEOTools::twitter()->setDescription(Str::limit(strip_tags($artikel->konten_artikel), 100));
         SEOTools::twitter()->setImage(asset('storage/' . $artikel->thumbnail_image));
 
-        SEOTools::jsonLd()->setTYpe('Article');
+        SEOTools::jsonLd()->setType('Article');
         SEOTools::jsonLd()->setTitle($artikel->judul);
 
         SEOTools::jsonLd()->setDescription(Str::limit(strip_tags($artikel->konten_artikel), 160));
@@ -61,7 +60,7 @@ class InformasiController extends Controller
         if (!Session::has($sessionKey)) {
             Artikel::where('id_artikel', $artikel->id_artikel)
                 ->increment('viewers');
-            Session::put($ssesionKey, true);
+            Session::put($sessionKey, true);
         }
 
         // artikel lainnya
@@ -85,7 +84,8 @@ class InformasiController extends Controller
             'artikel_thumbnail' => $artikel->thumbnail_image,
             'artikel_content'   => $artikel->konten_artikel,
             'artikel_editor'    => $artikel->user->name ?? '',
-            'artikel_lainnya'   => $artikel->lainnya
+            'artikel_lainnya'   => $artikel_lainnya,
+            'views_count'       => $artikel->viewers
         ];
 
         $this->setSeoArticel($artikel);

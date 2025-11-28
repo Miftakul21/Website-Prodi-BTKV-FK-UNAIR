@@ -11,6 +11,16 @@
                     </div>
                     <div class="card-body">
                         <div>
+                            <div class="mb-3">
+                                <label for="fw-bold">Filter Kategori</label>
+                                <select class="w-25 form-select" wire:model.live="filterKategori">
+                                    <option value="">Semua Kategori</option>
+                                    <option value="Berita">Berita</option>
+                                    <option value="Event">Event</option>
+                                    <option value="Hasil Karya">Hasil Karya</option>
+                                    <option value="Prestasi">Prestasi</option>
+                                </select>
+                            </div>
                             <div class="table table-responsive-sm">
                                 <table class="table table-hover">
                                     <thead>
@@ -102,10 +112,11 @@
             </div>
         </div>
     </div>
+
     <!-- Modal -->
     @if($isOpen)
     <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <form wire:submit.prevent="{{ $id_artikel ? 'update' : 'store' }}" enctype="multipart/form-data">
                     @csrf
@@ -152,10 +163,15 @@
 
                         <!-- pesan kalau edit tapi belum pilih gambar -->
                         @if($id_artikel && $thumbnail_image == null)
-                        <small class="text-muted">
+                        <small class="text-muted d-block">
                             <span class="text-danger">*</span>Kosongkan jika tidak mengganti thumbnail image
                         </small>
                         @endif
+
+                        <div class="mt-2">
+                            <label for="" class="fw-bold mt-2">Sumber Thumbnail Image</label>
+                            <input type="text" class="form-control" wire:model="resource_image">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-secondary" wire:click="closeModal">
@@ -173,51 +189,104 @@
 
     @push('js')
     <!-- ckeditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
-
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
         document.addEventListener('livewire:init', () => {
             let editorInstance;
-
             Livewire.on('initEditor', () => {
                 // kasih delay biar modal keburu render
                 setTimeout(() => {
                     if (editorInstance) return;
-
                     const el = document.getElementById('konten_artikel');
                     if (!el) {
                         console.warn("CKEditor target tidak ditemukan!");
                         return;
                     }
-
                     ClassicEditor.create(el, {
+                            removePlugins: [
+                                'RealTimeCollaborativeEditing',
+                                'RealTimeCollaborativeComments',
+                                'RealTimeCollaborativeTrackChanges',
+                                'RealTimeCollaborativeRevisionHistory',
+                                'PresenceList',
+                                'Comments',
+                                'TrackChanges',
+                                'TrackChangesData',
+                                'RevisionHistory',
+                                'Pagination',
+                                'WebSocketGateway'
+                            ],
                             toolbar: [
-                                'heading', '|',
-                                'bold', 'italic', 'underline', 'link',
+                                'heading',
+                                '|', 'bold', 'italic', 'underline', 'link',
+                                '|', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
                                 '|', 'bulletedList', 'numberedList',
                                 '|', 'blockQuote', 'insertTable',
-                                '|', 'imageUpload',
+                                '|', 'imageUpload', 'imageStyle:block', 'imageStyle:side', 'resizeImage',
                                 '|', 'undo', 'redo'
                             ],
+                            fontSize: {
+                                options: [
+                                    8,
+                                    10,
+                                    12,
+                                    14,
+                                    16,
+                                    18,
+                                    20,
+                                    24,
+                                    30,
+                                    36
+                                ],
+                                supportAllValues: true
+                            },
                             ckfinder: {
                                 uploadUrl: "{{ route('ckeditor.upload') }}?_token={{ csrf_token() }}"
-                            }
+                            },
+                            image: {
+                                resizeUnit: "px",
+                                resizeOptions: [{
+                                        name: 'resizeImage:original',
+                                        label: 'Original',
+                                        value: null
+                                    },
+                                    {
+                                        name: 'resizeImage:25',
+                                        label: '25%',
+                                        value: '25'
+                                    },
+                                    {
+                                        name: 'resizeImage:50',
+                                        label: '50%',
+                                        value: '50'
+                                    },
+                                    {
+                                        name: 'resizeImage:75',
+                                        label: '75%',
+                                        value: '75'
+                                    }
+                                ],
+                                toolbar: [
+                                    'imageStyle:block',
+                                    'imageStyle:side',
+                                    '|',
+                                    'resizeImage',
+                                    "imageResize"
+                                ]
+                            },
                         })
                         .then(editor => {
                             editorInstance = editor;
-
                             // update Livewire tiap ada perubahan
                             editor.model.document.on('change:data', () => {
                                 Livewire.dispatch('updateKonten', {
                                     value: editor.getData()
                                 });
                             });
-
                             // load data ke editor
                             Livewire.on('loadKonten', konten => {
                                 editor.setData(konten || '');
                             });
-
                             // listen error upload
                             editor.plugins.get('FileRepository').on('uploadComplete', (evt, data) => {
                                 if (data.error) {
@@ -230,10 +299,9 @@
                                 }
                             })
                         })
-                        .catch(error => console.error('Something wrong!'));
+                        .catch(error => console.error(error));
                 }, 100); // delay 100ms
             });
-
             // reset editor kalau modal ditutup
             Livewire.on('resetEditor', () => {
                 if (editorInstance) {

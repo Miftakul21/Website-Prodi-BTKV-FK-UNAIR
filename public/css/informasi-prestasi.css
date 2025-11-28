@@ -13,15 +13,16 @@
 
 /* detail section */
 .prestasi-section .container-informasi {
-    width: 250px;
+    width: 300px;
     margin-bottom: 10px;
 }
 
 .prestasi-section .container-informasi div {
-    font-size: 12px;
+    font-size: 14px;
     color: #555;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1.8;
+    font-weight: "Monserrat", sans-serif;
 }
 
 .prestasi-section .title-prestasi {

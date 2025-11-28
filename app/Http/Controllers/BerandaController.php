@@ -24,7 +24,7 @@ class BerandaController extends Controller
                     'viewers         as views_count',
                     'slug            as artikel_slug'
                 )
-                ->where('kategori', 'Berita')
+                // ->where('kategori', 'Berita')
                 ->latest()
                 ->get(4);
         });

@@ -1,5 +1,5 @@
 @extends('layouts.layouts-users')
-@section('title', $prestasi_title)
+@section('title', $artikel_title)
 @push('css')
 <!-- link css -->
 {!! SEO::generate() !!}
@@ -18,17 +18,17 @@
                         <div class="container-informasi">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <div><i class="bi bi-person"></i> {{$prestasi_editor }}</div>
-                                    <div><i class="bi bi-calendar"></i> {{\Carbon\Carbon::parse($prestasi_date)->format('M, d Y')}}</div>
+                                    <div class="artikel-editor"><i class="bi bi-person"></i> {{$artikel_editor }}</div>
+                                    <div class="artikel-date"><i class="bi bi-calendar"></i> {{\Carbon\Carbon::parse($artikel_date)->format('M, d Y')}}</div>
                                 </div>
                                 <div>
-                                    <div><i class="bi bi-eye"></i> {{$views_count}} dibaca</div>
+                                    <div class="artikel-views"><i class="bi bi-eye"></i> {{$views_count}} dibaca</div>
                                 </div>
                             </div>
                         </div>
-                        <h1 class="title-news">{{$prestasi_title}}</h1>
+                        <h1 class="title-prestasi">{{$artikel_title}}</h1>
                         <div class="d-flex justify-content-between align-items-center gap-2" style="width: 160px;">
-                            <span class="category">{{$prestasi_category}}</span>
+                            <span class="category">{{$artikel_category}}</span>
                             <!-- Share Button Horizontal -->
                             <div class="dropdown d-inline-block">
                                 <button class="btn btn-capsule btn-outline-primary btn-sm dropdown-toggle no-caret" type="button" id="shareDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -61,14 +61,14 @@
                     <!-- thubmnail -->
                     <div class="col-md-6 order-2 col-12 mt-md-none mt-xl-none">
                         <div class="container-thubmnail-image">
-                            <img src="{{ asset('storage/'.$prestasi_thumbnail) }}" alt="gambar-artikel" class="image-news img-fluid">
+                            <img src="{{ asset('storage/'.$artikel_thumbnail) }}" alt="gambar-artikel" class="image-pretasi img-fluid">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="content-news col-12">
-            {!! $prestasi_content !!}
+        <div class="content-prestasi col-12">
+            {!! $artikel_content !!}
         </div>
     </div>
 </section>
@@ -80,12 +80,12 @@
             <span class="text-muted text-center fw-bold" style="font-size: 12px;">Artikel Prestasi Lainnya</span>
         </div>
         <div class="d-flex flex-column flex-md-row justify-content-center flex-wrap gap-1">
-            @forelse($prestasi_lainnya as $artikel)
+            @forelse($artikel_lainnya as $artikel)
             <div class="card card-hover">
                 <div class="card-body p-3">
-                    <h6 class="date-artikel-pagination">{{\Carbon\Carbon::parse($artkel->prestasi_date)->format('M, d Y')}} September, 22 2025</h6>
+                    <h6 class="date-artikel-pagination">{{\Carbon\Carbon::parse($artkel->artikel_date)->format('M, d Y')}}</h6>
                     <h3 class="title-artikel-pagination">
-                        {{Str::limit($artikel->prestasi_title), 90}}
+                        {{Str::limit($artikel->artikel_title), 90}}
                     </h3>
                 </div>
             </div>

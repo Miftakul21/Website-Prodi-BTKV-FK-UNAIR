@@ -276,7 +276,6 @@
                                 value: editor.getData()
                             });
                         });
-
                         // load data ke editor
                         Livewire.on('loadDeskripsi', deskripsi => {
                             editor.setData(deskripsi || '');

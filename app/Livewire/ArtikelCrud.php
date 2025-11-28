@@ -25,20 +25,26 @@ class ArtikelCrud extends Component
         $tgl_artikel,
         $kategori = 'Artikel',
         $konten_artikel,
-        $thumbnail_image;
+        $thumbnail_image,
+        $resource_image;
 
-    public $isOpen = false;
+    public $isOpen         = false;
+    public $filterKategori = '';
 
     protected $listeners = [
         'deleteArtikel' => 'delete',
-        'updateKonten' => 'updateKonten', // menerima payload dari JS
+        'updateKonten'  => 'updateKonten', // menerima payload dari JS
     ];
 
     public function render()
     {
-        $page = $this->getPage();
-        $artikels = Cache::remember("artikels_page_{$page}", 100, function () {
+        $page     = $this->getPage();
+        $filter   = $this->filterKategori;
+        $artikels = Cache::remember("artikels_page_{$page}_filter_{$filter}", 100, function () use ($filter) {
             return Artikel::with('user:id_user,name')
+                ->when($filter !== '', function ($query) use ($filter) {
+                    $query->where('kategori', $filter);
+                })
                 ->select(
                     'id_artikel',
                     'user_id',
@@ -60,18 +66,23 @@ class ArtikelCrud extends Component
 
     protected function clearArtikelCache()
     {
-        $total = Artikel::count();
+        $filters  = ['', 'Berita', 'Event', 'Hasil Karya', 'Prestasi'];
+        $total    = Artikel::count();
         $lastPage = ceil($total / 10);
-        foreach (range(1, $lastPage) as $i) {
-            Cache::forget("artikels_page_{$i}");
+
+        foreach ($filters as $filter) {
+            foreach (range(1, $lastPage) as $i) {
+                Cache::forget("artikels_page_{$i}_filter_{$filter}");
+            }
         }
     }
 
     public function create()
     {
         $this->resetFields();
-        $this->tgl_artikel = now()->format('Y-m-d');
+        $this->tgl_artikel     = now()->format('Y-m-d');
         $this->thumbnail_image = null;
+        $this->resource_image  = null;
         $this->isOpen = true;
         $this->dispatch('initEditor');
     }
@@ -85,6 +96,7 @@ class ArtikelCrud extends Component
         $this->kategori        = $artikel->kategori;
         $this->konten_artikel  = $artikel->konten_artikel;
         $this->thumbnail_image = null;
+        $this->resource_image  = $artikel->resource_iamge;
         $this->isOpen          = true;
         $this->dispatch('initEditor');
         $this->dispatch('loadKonten', $this->konten_artikel);
@@ -105,7 +117,8 @@ class ArtikelCrud extends Component
                 'tgl_artikel'     => 'required|date',
                 'kategori'        => 'required|string|max:50',
                 'konten_artikel'  => 'required|string',
-                'thumbnail_image' => 'required|mimes:jpg,jpeg,png|max:5120'
+                'thumbnail_image' => 'required|mimes:jpg,jpeg,png|max:5120',
+                'resource_image'  => 'nullable|string',
             ]);
 
             $artikel = Artikel::create([
@@ -114,6 +127,7 @@ class ArtikelCrud extends Component
                 'tgl_artikel'     => Purifier::clean($this->tgl_artikel, 'custom'),
                 'kategori'        => Purifier::clean($this->kategori, 'custom'),
                 'thumbnail_image' => null,
+                'resource_image'  => Purifier::clean($this->resource_image, 'custom'),
                 'konten_artikel'  => Purifier::clean($this->konten_artikel, 'custom'),
                 'viewers'         => 0,
             ]);
@@ -151,6 +165,7 @@ class ArtikelCrud extends Component
                 'kategori'        => 'required|string|max:50',
                 'konten_artikel'  => 'required|string',
                 'thumbnail_image' => 'nullable|mimes:jpg,jpeg,png|max:5120',
+                'resource_image'  => 'nullable|string'
             ]);
 
             $artikel = Artikel::findOrFail($this->id_artikel);
@@ -160,6 +175,7 @@ class ArtikelCrud extends Component
                 'tgl_artikel'    => Purifier::clean($this->tgl_artikel, 'custom'),
                 'kategori'       => Purifier::clean($this->kategori, 'custom'),
                 'konten_artikel' => Purifier::clean($this->konten_artikel, 'custom'),
+                'resource_image' => Purifier::clean($this->resource_image, 'custom'),
             ]);
 
             if ($this->thumbnail_image) {

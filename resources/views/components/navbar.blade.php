@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg bg-primary">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <img src="{{ asset('img/lg-prodi.png') }}" alt="logo-prodi" class="image-logo">
+            <img src="{{ asset('img/lg-prodi-1.png') }}" alt="logo-prodi" class="image-logo">
         </a>
         <!-- Hanya tampil di mobile (<= lg) -->
         <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
@@ -39,11 +39,12 @@
                             Akademik
                         </a>
                         <ul class="dropdown-menu">
+                            <li><a href="#"></a>Kode Etik Mahasiswa</li>
                             <li><a href="{{route('alumni')}}" class="dropdown-item">Alumni</a></li>
                             <li><a href="https://unairsatu.unair.ac.id/site/login" class="dropdown-item">Cyber Campus</a></li>
                             <li><a href="{{route('kalender')}}" class="dropdown-item">Kalender Akademik</a></li>
                             <li><a href="#" class="dropdown-item">Kurikulum</a></li>
-                            <li><a href="{{route('tugas-akhir')}}" class="dropdown-item">Tugas Akhir</a></li>
+                            <!-- <li><a href="{{route('tugas-akhir')}}" class="dropdown-item">Tugas Akhir</a></li> -->
                         </ul>
                     </li>
 
@@ -57,7 +58,7 @@
                             <li><a href="#" class="dropdown-item">Pengumuman</a></li>
                             <li><a href="{{route('prestasi')}}" class="dropdown-item">Prestasi</a></li>
                             <li><a href="#" class="dropdown-item">Tenaga Pengajar</a></li>
-                            <li><a href="" class="dropdown-item">Publikasi</a></li>
+                            <li><a href="#" class="dropdown-item">Publikasi</a></li>
                             <li><a href="{{route('hasil-karya')}}" class="dropdown-item">Hasil Karya</a></li>
                         </ul>
                     </li>
@@ -106,11 +107,11 @@
                         Informasi
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" class="dropdown-item">Penerimaan PPDS BTKV</a></li>
+                        <li><a href="https://ppmb.unair.ac.id/id/syarat-khusus-ilmu-bedah-toraks-dan-kardiovaskular" class="dropdown-item">Penerimaan PPDS BTKV</a></li>
                         <li><a href="{{route('berita')}}" class="dropdown-item">Berita</a></li>
                         <li><a href="#" class="dropdown-item">Pengumuman</a></li>
                         <li><a href="{{route('prestasi')}}" class="dropdown-item">Prestasi</a></li>
-                        <li><a href="#" class="dropdown-item">Site Staf dan Tenaga Pengajar</a></li>
+                        <li><a href="#" class="dropdown-item">Tenaga Pengajar</a></li>
                         <li><a href="#" class="dropdown-item">Publikasi</a></li>
                         <li><a href="#" class="dropdown-item">Hasil Karya</a></li>
                     </ul>
